@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-17",
+  "scope": "03_SW desktop application only. No FPGA/firmware changes. Offline checks and real UART RTL simulation; not tested against a physical COM device.",
+  "executable": "03_SW/UsMimoTestBench/bin/Release/UsMimoTestBench.exe",
+  "exe_sha256": "fd2d6574967c4763057deeef804ee60a845164a51cb0c9ffeb35427038b302d8",
+  "debug_exe_sha256": "96951b92767f83d3f13cc5d5e750f26f5a17865110edfd35426dac0258fbaaf5",
+  "source_sha256": {
+    "03_SW\\UsMimoTestBench\\MainFrm.cs": "9adfd984b40c0defd2c89564969a145c50b68eef45303813f07b8b1a3a515cb9",
+    "03_SW\\UsMimoTestBench\\MainFrm.Designer.cs": "6f70087c036b06af2f0863cd114cd9c6aef3410920a03d5aa1b6f6167fc67e93",
+    "03_SW\\UsMimoTestBench\\MainProtocol.cs": "dae2e9666caf221e440b0659e460fd8de54fed3e73c6ae0f91c95afaf66b119f",
+    "03_SW\\UsMimoTestBench\\MPFloatValidationTextBox.cs": "d924b6661d628f56c82896c6d79310fd94807951a706d8ee0c1834ec6336a24e",
+    "03_SW\\UsMimoTestBench\\MPFloatValidationTextBox.Designer.cs": "401de3bacc871cfba3d7f2fb61ae065226166e7a9031f82c641b12dd1611c866",
+    "03_SW\\UsMimoTestBench\\MPIntValidationTextBox.cs": "62fce1b9fa68633e13ad08b0950d06baf8a8b0c4b0c0aad1ee7d2ffa5b4df2fd",
+    "03_SW\\UsMimoTestBench\\MPIntValidationTextBox.Designer.cs": "9f5e1def745e18ac7952348baea12d78ee317e053af080d0f16f60ff09aa43e5",
+    "03_SW\\UsMimoTestBench\\MPLog.cs": "b2dfdc1ae565b1e8e08cbae626cf233c7441293e02ad6d820bf22d72353ebc99",
+    "03_SW\\UsMimoTestBench\\MPLog.Designer.cs": "1230554c7dc10fe868fd039352de5f17f71f3562d0b67ebeb348fc7b43331f75",
+    "03_SW\\UsMimoTestBench\\Program.cs": "569123f7eb0745f836e7c603a70a1bee10ef7fd9351f53344822b782610b5138",
+    "03_SW\\UsMimoTestBench\\ScopeDisplayBox.cs": "ee62c438850d5a5aed6cf24d546e8ebdfb46e85cab9d638aa25d871c85fa48c0",
+    "03_SW\\UsMimoTestBench\\ScopeDisplayBox.Designer.cs": "d32e31ab1b42f1818a381ec1fe166cb7bf7090514dfe92ecc093465dc92ba5e9",
+    "03_SW\\UsMimoTestBench\\SoftwareChecks.cs": "4e99651e09ee0b5a17fcead08b5186f0c4786e31cbffece510b6136273fc8c38",
+    "03_SW\\UsMimoTestBench\\Types.cs": "080f226a3ab3fa14ebe88d21eafccdd626fc027b30ab8b2bf5e63441e0f23495",
+    "03_SW\\UsMimoTestBench\\USSensor.cs": "94d1f3dec4dea35b6facd982133b4777ae6b1d13f47f9052ed21c4fab99baea0",
+    "03_SW\\UsMimoTestBench\\WaveformView.cs": "ec6f8130b47229c0692f2ed6181edabe20f47247094ecd16b8cf43968e24d9aa",
+    "03_SW\\UsMimoTestBench\\UsMimoTestBench.csproj": "ccb0c7faf980ab4492f716cf369e3f7e79f5aed6cb31aae4225594a2fba1fe31",
+    "03_SW\\UsMimoTestBench\\App.config": "f82338e8e9c746b5d95cd2ccc7bf94dd5de2b9b8982fffddf2118e475de50e15"
+  },
+  "preserved_fpga_files": 253,
+  "original_backup_files": 1161,
+  "fpga_sof_sha256": "9a631451f678124e408c4deb01c0280b264be348777920ea97189918b86933db",
+  "defaults": {
+    "center_hz": 40000,
+    "bandwidth_hz": 4000,
+    "duration_ms": 20,
+    "amplitude": 0.25,
+    "rx_ms": 250,
+    "rx_delay_ms": 1,
+    "raw_downsample": 3,
+    "fft_size": 8192,
+    "fft_range_hz": [
+      25,
+      500
+    ]
+  },
+  "tests": {
+    "settings_golden_bytes": true,
+    "custom_tx_fixed_rx": true,
+    "real_uart_rtl_bytes": 144,
+    "settings_packets": 2,
+    "triggers": 2,
+    "archived_raw_samples": 71614,
+    "max_frame_samples": 131072,
+    "fragmentation": true,
+    "corruption_recovery": true,
+    "status_flags": true,
+    "csv_export": true,
+    "ui_views": [
+      "normal",
+      "compact",
+      "detail"
+    ]
+  },
+  "legacy_build_warnings": "Four existing warnings in legacy MPFloatValidationTextBox and setting-struct equality; no errors. .NET Framework 4.8 reference SDK used."
+}

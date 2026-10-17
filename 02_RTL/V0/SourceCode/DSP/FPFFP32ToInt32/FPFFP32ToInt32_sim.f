@@ -1,0 +1,3 @@
+FPFFP32ToInt32_sim/dspba_library_package.vhd
+FPFFP32ToInt32_sim/dspba_library.vhd
+FPFFP32ToInt32_sim/FPFFP32ToInt32.vhd

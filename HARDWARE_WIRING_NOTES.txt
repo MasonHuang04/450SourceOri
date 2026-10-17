@@ -1,0 +1,32 @@
+A0 主板 / 前端板实际连接说明（2026-10-15）
+
+适用：已有焊接完成的主板和前端板。未核对实物针脚方向、器件装配和调试飞线。
+
+图示调试方案：
+1. 电脑用带数据功能的 USB-C 线接主板 J1。J1 提供 USB 数据和 5 V；主板已有 CH343G USB-UART，不需要再接一个 USB-TTL 模块。S1 为总电源开关。
+2. 前端板 P1 接独立稳压 5 V 电源：P1-1 = +5 V，P1-2 = GND。主板 P1 的 +5 V 在此方案不接。
+3. 主板 P4 (TX_OUT) -> 前端 P3 (Tx_In)，使用 BNC 信号线。
+4. 前端 P5 (Rx_Out) -> 主板 P5 (RX_IN)，使用另一根 BNC 信号线。
+5. 发射换能器接前端 P2：1=Tx_Out_P，2=Tx_Out_N；这两端均由功放驱动，N 不是地。
+6. 接收换能器接前端 P6：1=Rx_In，2=GND。探头标称频率、带宽、额定驱动及接线需按具体型号确认。
+7. 两板保持共同参考地；BNC 外壳/屏蔽层连接两板 GND，独立前端电源负端接前端 GND。
+8. 只需改变运行参数且板上已有正确原版固件时，可不接下载器。需要配置 FPGA 时，USB-Blaster 经专用转接线接主板 P2 JTAG（6 针），不要误接前端 P2 TX 输出。
+   JTAG 不是整板电源；转接按 TCK/TMS/TDI/TDO/GND/Vref 和原理图确认，不按常见 10 针排线直接插。
+
+替代供电方式：主板 P1-1 -> 前端 P1-1，主板 P1-2 -> 前端 P1-2。使用前须确认主板 USB 输入、线缆、保护及负载电流容量；这时撤掉独立前端 5 V 电源。
+主板 P1 在设计上标为 5V Out，不默认建议从这里外部反向供电、同时连接电脑 USB。
+前端 U1 TPS61175 由 5 V 升压产生 24 V；另有负压/稳压电路。不要把外部 24 V 接 P1。
+原理图中的 3A 芯片/电路文字不能直接当成整板连续输出额定电流，当前尚无整机功耗实测。
+
+当前如果采原始 190–210 kHz RX：前端 P4 跳线 2–3（Rx_Amp -> Rx_Out）；上位机 RX Filter 关闭。
+原版软件默认 RX Filter 开启，请手动核对。若使用模拟混频差频模式，则 P4 1–2 并按差频滤波需求配置；不要混淆两种模式。
+先检查供电和较小幅度的主板 P4 电输出，再逐段接前端功放和探头。前端 P2 的差分功放输出不能直接连到 RX 输入或 ADC。
+测 P2 两端电压使用额定范围适合的差分测量方式，普通接地示波器地夹不能接 Tx_Out_N。
+
+器件/连接依据：
+01_Elec/01_MainBoard/A0/01_Power.SchDoc：J1 USB-C、U1 CH343G、S1 开关、P1 5V Out、P2 JTAG。
+01_Elec/01_MainBoard/A0/02_Analog.SchDoc：主板 P4 TX_OUT 与 P5 RX_IN。
+01_Elec/02_FrontEnd/UsFrontEnd.SchDoc：前端 P1、P2、P3、P4、P5、P6 及板上升压/模拟电路。
+调试时的电路更改.txt：存在功放增益、运放和电容改动记录，实物可能不同于保存的 A0 图。
+TI TPS61175：https://www.ti.com/product/TPS61175
+Tektronix 浮地/差分测量：https://www.tek.com/en/documents/technical-brief/floating-oscilloscope-measurements-and-operator-protection

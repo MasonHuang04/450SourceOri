@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="wiringA0" name="板卡连接与供电">
+    <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="1680" pageHeight="1120" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="主板 + 前端板：实际搭接示意" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=29;fontColor=#0f172a;fontStyle=1;">
+          <mxGeometry as="geometry" x="40" y="25" width="1350" height="48" />
+        </mxCell>
+        <mxCell id="sub" value="按已有焊接好的 A0 板卡绘制｜图示方案：主板 USB 供电，前端独立 5 V 供电｜2026-10-15" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=15;fontColor=#64748b;fontStyle=0;">
+          <mxGeometry as="geometry" x="40" y="80" width="1500" height="32" />
+        </mxCell>
+        <mxCell id="legend" value="蓝色：USB 数据与供电　　红色：5 V 电源线　　深灰：模拟信号线　　紫色虚线：声学传播 / 可选下载连接" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=14;fontColor=#64748b;fontStyle=0;">
+          <mxGeometry as="geometry" x="40" y="125" width="1600" height="30" />
+        </mxCell>
+        <mxCell id="main_bg" value="" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="370" y="210" width="450" height="560" />
+        </mxCell>
+        <mxCell id="front_bg" value="" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="900" y="210" width="460" height="560" />
+        </mxCell>
+        <mxCell id="main_title" value="主板 MainBoard" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=22;fontColor=#065f46;fontStyle=1;">
+          <mxGeometry as="geometry" x="395" y="220" width="390" height="38" />
+        </mxCell>
+        <mxCell id="front_title" value="前端板 FrontEnd" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=22;fontColor=#9a3412;fontStyle=1;">
+          <mxGeometry as="geometry" x="925" y="220" width="390" height="38" />
+        </mxCell>
+        <mxCell id="pc" value="&lt;b&gt;电脑&lt;/b&gt;&lt;br&gt;原版上位机 / COM&lt;br&gt;USB 数据线" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=18;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e3a8a;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="40" y="280" width="210" height="95" />
+        </mxCell>
+        <mxCell id="main_usb" value="&lt;b&gt;主板 J1：USB-C&lt;/b&gt;&lt;br&gt;5 V 输入 + USB 通信&lt;br&gt;板上 CH343G 转 UART&lt;br&gt;S1 为总电源开关" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e3a8a;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="400" y="280" width="190" height="95" />
+        </mxCell>
+        <mxCell id="main_tx" value="&lt;b&gt;主板 P4：TX_OUT&lt;/b&gt;&lt;br&gt;BNC 模拟输出" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=16;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="630" y="365" width="160" height="70" />
+        </mxCell>
+        <mxCell id="main_rx" value="&lt;b&gt;主板 P5：RX_IN&lt;/b&gt;&lt;br&gt;BNC 模拟输入" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=16;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="630" y="590" width="160" height="70" />
+        </mxCell>
+        <mxCell id="main_inside" value="板内已有 FPGA、DAC、ADC、模拟调理和稳压电路。&lt;br&gt;这些器件由 PCB 走线连接，无需逐个接杜邦线。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=15;fontColor=#065f46;fontStyle=0;">
+          <mxGeometry as="geometry" x="405" y="460" width="380" height="85" />
+        </mxCell>
+        <mxCell id="main_jtag" value="&lt;b&gt;主板 P2：JTAG&lt;/b&gt;&lt;br&gt;专用 6 针接口&lt;br&gt;按信号名制作转接线" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="400" y="570" width="190" height="90" />
+        </mxCell>
+        <mxCell id="main_power_out" value="&lt;b&gt;主板 P1：5 V 输出&lt;/b&gt;&lt;br&gt;本图采用独立前端电源&lt;br&gt;此处的 +5 V 不接" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=14;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="400" y="675" width="190" height="75" />
+        </mxCell>
+        <mxCell id="programmer" value="&lt;b&gt;USB-Blaster / II&lt;/b&gt;&lt;br&gt;仅烧录 / 调试时连接&lt;br&gt;不作为板卡主电源" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=16;fillColor=#faf5ff;strokeColor=#9333ea;fontColor=#6b21a8;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="40" y="570" width="210" height="90" />
+        </mxCell>
+        <mxCell id="usb_main" source="pc" target="main_usb" edge="1" parent="1" value="USB：数据 + 5 V" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#2563eb;fontColor=#2563eb;fontSize=13;labelBackgroundColor=#ffffff;dashed=0;startArrow=block;startFill=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="usb_prog" source="pc" target="programmer" edge="1" parent="1" value="USB（可选）" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#7c3aed;fontColor=#7c3aed;fontSize=13;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="prog_jtag" source="programmer" target="main_jtag" edge="1" parent="1" value="JTAG 转接" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#7c3aed;fontColor=#7c3aed;fontSize=13;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="psu" value="&lt;b&gt;独立稳压 5 V 电源&lt;/b&gt;&lt;br&gt;使用可限流电源调试&lt;br&gt;电流容量按实际负载核定" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#fff1f2;strokeColor=#e11d48;fontColor=#9f1239;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="1400" y="25" width="240" height="90" />
+        </mxCell>
+        <mxCell id="front_power" value="&lt;b&gt;前端 P1：5 V 输入&lt;/b&gt;&lt;br&gt;1 脚 = +5 V；2 脚 = GND" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#fff1f2;strokeColor=#e11d48;fontColor=#9f1239;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="1030" y="275" width="290" height="65" />
+        </mxCell>
+        <mxCell id="power_front" source="psu" target="front_power" edge="1" parent="1" value="+5 V / GND" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#e11d48;fontColor=#e11d48;fontSize=13;labelBackgroundColor=#ffffff;dashed=0;exitX=0.5;exitY=1;entryX=1;entryY=0.5;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="front_txin" value="&lt;b&gt;前端 P3：Tx_In&lt;/b&gt;&lt;br&gt;BNC 输入" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=16;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="930" y="365" width="160" height="70" />
+        </mxCell>
+        <mxCell id="front_txout" value="&lt;b&gt;前端 P2：TX 驱动&lt;/b&gt;&lt;br&gt;1 脚 P；2 脚 N&lt;br&gt;两端均非 GND" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="1180" y="365" width="160" height="85" />
+        </mxCell>
+        <mxCell id="tx_bnc" source="main_tx" target="front_txin" edge="1" parent="1" value="BNC 线 ①" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#475569;fontColor=#475569;fontSize=13;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="front_tx_path" source="front_txin" target="front_txout" edge="1" parent="1" value="板内功放" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#ea580c;fontColor=#ea580c;fontSize=13;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="front_rxin" value="&lt;b&gt;前端 P6：RX 输入&lt;/b&gt;&lt;br&gt;1 脚信号；2 脚 GND" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=14;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="1180" y="590" width="160" height="75" />
+        </mxCell>
+        <mxCell id="front_rxout" value="&lt;b&gt;前端 P5：Rx_Out&lt;/b&gt;&lt;br&gt;BNC 输出" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=16;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="930" y="590" width="160" height="70" />
+        </mxCell>
+        <mxCell id="front_select" value="&lt;b&gt;前端 P4：混频选择跳线&lt;/b&gt;&lt;br&gt;2–3：原始 RX；1–2：混频 RX&lt;br&gt;接收缓冲 / 放大也在这块板上" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="965" y="480" width="350" height="80" />
+        </mxCell>
+        <mxCell id="rx_internal" source="front_rxin" target="front_select" edge="1" parent="1" value="" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#ea580c;fontColor=#ea580c;fontSize=13;labelBackgroundColor=#ffffff;dashed=0;exitX=0.5;exitY=0;entryX=1;entryY=0.5;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="rx_select_out" source="front_select" target="front_rxout" edge="1" parent="1" value="" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#ea580c;fontColor=#ea580c;fontSize=13;labelBackgroundColor=#ffffff;dashed=0;exitX=0;exitY=0.5;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="rx_bnc" source="front_rxout" target="main_rx" edge="1" parent="1" value="BNC 线 ②" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#475569;fontColor=#475569;fontSize=13;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="front_rails" value="前端由 5 V 自行产生 24 V、±4.5 V 等电压。&lt;br&gt;不要把外部 24 V 接到 P1 的 5 V 输入。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=14;fontColor=#9a3412;fontStyle=0;">
+          <mxGeometry as="geometry" x="930" y="690" width="400" height="55" />
+        </mxCell>
+        <mxCell id="tx_probe" value="&lt;b&gt;外接 TX 换能器&lt;/b&gt;&lt;br&gt;接前端 P2 的 P / N 两端&lt;br&gt;200 kHz 频响需确认" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#faf5ff;strokeColor=#9333ea;fontColor=#6b21a8;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="1430" y="365" width="210" height="85" />
+        </mxCell>
+        <mxCell id="channel" value="&lt;b&gt;空气 / 目标&lt;/b&gt;&lt;br&gt;这里是声学传播&lt;br&gt;不是电线连接" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#faf5ff;strokeColor=#9333ea;fontColor=#6b21a8;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="1430" y="480" width="210" height="80" />
+        </mxCell>
+        <mxCell id="rx_probe" value="&lt;b&gt;外接 RX 换能器&lt;/b&gt;&lt;br&gt;接前端 P6&lt;br&gt;型号及接法需核对" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=center;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#faf5ff;strokeColor=#9333ea;fontColor=#6b21a8;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="1430" y="590" width="210" height="75" />
+        </mxCell>
+        <mxCell id="tx_wire" source="front_txout" target="tx_probe" edge="1" parent="1" value="两根线" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#475569;fontColor=#475569;fontSize=13;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="sound_1" source="tx_probe" target="channel" edge="1" parent="1" value="声波" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#9333ea;fontColor=#9333ea;fontSize=13;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="sound_2" source="channel" target="rx_probe" edge="1" parent="1" value="声波" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#9333ea;fontColor=#9333ea;fontSize=13;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="rx_wire" source="rx_probe" target="front_rxin" edge="1" parent="1" value="两根线" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2.3;strokeColor=#475569;fontColor=#475569;fontSize=13;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="ground" value="&lt;b&gt;共地：&lt;/b&gt;独立 5 V 电源负端接前端 GND；确认两板 GND 相连。两根模拟 BNC 的外壳 / 屏蔽层接板地。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=left;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="370" y="790" width="990" height="48" />
+        </mxCell>
+        <mxCell id="option" value="&lt;b&gt;另一种供电方式：主板 P1 → 前端 P1&lt;/b&gt;&lt;br&gt;&lt;br&gt;供电容量足够时，可接：1 → 1（+5 V），2 → 2（GND）。&lt;br&gt;此时撤掉前端的独立 5 V 电源，避免两路 5 V 并联回灌。&lt;br&gt;主板 USB、线缆及整套电路的电流预算仍需确认。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=left;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e3a8a;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="40" y="875" width="760" height="150" />
+        </mxCell>
+        <mxCell id="bringup" value="&lt;b&gt;首次测试建议&lt;/b&gt;&lt;br&gt;&lt;br&gt;先用较小幅度测主板 P4，再逐段接入前端与换能器。&lt;br&gt;要采原始 200 kHz：前端 P4 选 2–3，软件 RX Filter 关闭。&lt;br&gt;测前端 P2 的 P–N 电压用差分探头；普通地夹不要夹到 N 端。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=12;whiteSpace=wrap;align=left;verticalAlign=middle;spacing=10;fontSize=15;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="830" y="875" width="810" height="150" />
+        </mxCell>
+        <mxCell id="foot" value="连接器编号来自原理图，不代表实物左右方向。上电前核对针 1、极性及已有飞线 / 改件；这张图不是实物接线确认。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=14;fontColor=#64748b;fontStyle=0;">
+          <mxGeometry as="geometry" x="40" y="1050" width="1600" height="32" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

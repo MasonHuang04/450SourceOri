@@ -1,0 +1,17 @@
+# VHDL LS navigation setup. Open 02_RTL as the VS Code workspace root.
+# This indexes handwritten RTL and IP interfaces; Quartus QSF/QIP remain
+# authoritative for synthesis libraries and generated IP implementations.
+standard = "2008"
+
+[libraries]
+rtl.files = [
+    "V0/SourceCode/*.vhd",
+    "V0/SourceCode/DSP/FIFO*.vhd",
+    "V0/SourceCode/DSP/*/*.vhd",
+    "V0/SourceCode/MainPLL/MainPLL.vhd",
+    "V0/SourceCode/WaveFIFO/WaveFIFO.vhd",
+]
+rtl.exclude = [
+    "V0/SourceCode/**/*_sim/**",
+    "V0/SourceCode/**/*.bak",
+]

@@ -1,0 +1,12 @@
+{
+  "type": "Numerical floating-point sweep, separate from RTL cases",
+  "cases": 3804,
+  "max_error_hz": 2.1941019694010393,
+  "worst_case": [
+    59.0,
+    1.5707963267948966,
+    14,
+    61.19410196940104
+  ],
+  "bin_hz": 4.3710072835286455
+}

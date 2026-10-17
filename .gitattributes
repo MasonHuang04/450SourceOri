@@ -1,0 +1,10 @@
+# Preserve exact source/fixture bytes and verification hashes across platforms.
+* -text
+*.PcbDoc binary
+*.SchDoc binary
+*.png binary
+*.jpg binary
+*.zip binary
+*.sof binary
+*.exe binary
+*.xlsx binary

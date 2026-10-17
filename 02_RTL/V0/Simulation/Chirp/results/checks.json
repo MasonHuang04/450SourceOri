@@ -1,0 +1,16 @@
+{
+  "pass_all": true,
+  "points": 22918,
+  "maximum_dac_error_codes": 2,
+  "settings": {
+    "start_hz": 38000,
+    "end_hz": 42000,
+    "duration_ms": 20,
+    "amplitude": 0.25,
+    "repeat_ms": 200,
+    "boot_ms": 100,
+    "plot_sample_stride": 144,
+    "max_dac_error_codes": 32
+  },
+  "scope": "Real Intel Chirp core at sampled indices, plus accelerated auto-trigger controller test. Not continuous full-top or analog simulation."
+}

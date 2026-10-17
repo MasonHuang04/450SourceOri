@@ -1,0 +1,62 @@
+# Local editor/OS caches and backups
+.DS_Store
+tags
+__pycache__/
+*.pyc
+*.bak
+*.bkp
+*.suo
+*.user
+*.vshost.*
+*.PrjPcbStructure
+__Previews/
+History/
+__MACOSX/
+.env
+.env.*
+*.lic
+*.pem
+*.key
+
+# Quartus rebuildable databases
+/02_RTL/V0/db/
+/02_RTL/V0/incremental_db/
+/02_RTL/V0/qdb/
+/02_RTL/V0/.qsys_edit/
+/02_RTL/V0/UsMimoTestBench_nativelink_simulation.rpt
+/02_RTL/V0/c5_pin_model_dump.txt
+
+# Keep the three current SOFs and useful sign-off summaries, not stale JIC/CDF/cache outputs.
+/02_RTL/V0/output_*/*
+!/02_RTL/V0/output_*/*.sof
+!/02_RTL/V0/output_*/*.sta.summary
+!/02_RTL/V0/output_*/*.sta.rpt
+!/02_RTL/V0/output_*/*.fit.summary
+!/02_RTL/V0/output_*/build_checks.json
+
+# Simulation runs regenerate their inputs and working libraries.
+/02_RTL/V0/Simulation/Chirp/results/run/
+/02_RTL/V0/Simulation/FFT/results/run/
+/02_RTL/V0/Simulation/FFT/results/main/*
+# These two recorded fixtures are consumed by the current desktop self-test.
+!/02_RTL/V0/Simulation/FFT/results/main/system/
+/02_RTL/V0/Simulation/FFT/results/main/system/*
+!/02_RTL/V0/Simulation/FFT/results/main/system/stream.hex
+!/02_RTL/V0/Simulation/FFT/results/main/io/
+/02_RTL/V0/Simulation/FFT/results/main/io/*
+!/02_RTL/V0/Simulation/FFT/results/main/io/uart.txt
+
+# Current desktop Release is included so RunMain.cmd works after clone.
+/03_SW/**/obj/
+/03_SW/UsMimoTestBench/bin/*
+!/03_SW/UsMimoTestBench/bin/Release/
+/03_SW/UsMimoTestBench/bin/Release/*
+!/03_SW/UsMimoTestBench/bin/Release/UsMimoTestBench.exe
+!/03_SW/UsMimoTestBench/bin/Release/UsMimoTestBench.exe.config
+DataSessions/
+DataRecording/
+*.pdb
+
+# Large local rollback archives and cleanup audit records are kept locally.
+/verification/Archive/*
+!/verification/Archive/README.md

@@ -1,0 +1,196 @@
+Reading pref.tcl
+
+# 2025.2
+
+# do {C:\Users\admin\.codex\visualizations\2026\10\09\01a120ee-8376-76a1-b902-05acd791be04\rx_fft_lowfreq_20261016\run_full_top\run.do}
+# ** Warning: (vlib-34) Library already exists at "work".
+# Errors: 0, Warnings: 1
+# Questa Altera Starter FPGA Edition-64 vmap 2025.2 Lib Mapping Utility 2025.05 May 31 2025
+# vmap work work 
+# ** Note: (vmap-220) 'modelsim.ini' is used as the ini file.
+# Modifying modelsim.ini
+# Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+# Start time: 20:53:14 on Oct 16,2026
+# vlog -sv "+define+FFT_USE_INTEL_RAM" E:/Document_HH/Course/26FA/450code/15_UsMimoTestBench/02_RTL/V0/SourceCode/KaiserFFT/fft_tdp_store.sv E:/Document_HH/Course/26FA/450code/15_UsMimoTestBench/02_RTL/V0/SourceCode/KaiserFFT/kaiser4_rfft.sv E:/Document_HH/Course/26FA/450code/15_UsMimoTestBench/02_RTL/V0/SourceCode/KaiserFFT/fft_power_peak.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/rx_fft_lowfreq_20261016/project/SourceCode/BoardTests/RxFftLowFreq/RxFftLowFreq50to100Hz.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/rx_fft_lowfreq_20261016/project/SourceCode/BoardTests/RxFftLowFreq/ScopeAdc27m5.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/rx_fft_lowfreq_20261016/project/SourceCode/BoardTests/RxFftLowFreq/ScopeCic128.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/rx_fft_lowfreq_20261016/project/SourceCode/BoardTests/RxFftLowFreq/ScopeFrameRam.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/rx_fft_lowfreq_20261016/project/SourceCode/BoardTests/RxFftLowFreq/ScopeRxFft.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/rx_fft_lowfreq_20261016/project/SourceCode/BoardTests/RxFftLowFreq/ScopeUartReport.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/rx_fft_lowfreq_20261016/tb_full_top.sv 
+# ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
+# -- Compiling module fft_tdp_store
+# -- Compiling module kaiser4_rfft
+# -- Compiling module fft_power_peak
+# -- Compiling module RxFftLowFreq50to100Hz
+# -- Compiling module ScopeAdc27m5
+# -- Compiling module ScopeCic128
+# -- Compiling module ScopeFrameRam
+# -- Compiling module ScopeRxFft
+# -- Compiling module ScopeUartReport
+# -- Compiling module MainPLL
+# -- Compiling module tb_rx_fft_board
+# 
+# Top level modules:
+# 	tb_rx_fft_board
+# End time: 20:53:14 on Oct 16,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
+# vsim -t 1ps -L altera_mf work.tb_rx_fft_board 
+# Start time: 20:53:14 on Oct 16,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 win64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.tb_rx_fft_board(fast)
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading altera_mf.altera_common_conversion(body)
+# Loading altera_mf.altera_device_families(body)
+# Loading altera_mf.altsyncram(translated)#1
+# Loading altera_mf.altsyncram(translated)#2
+# Loading altera_mf.altsyncram(translated)#3
+# Loading altera_mf.altsyncram(translated)#4
+# ** Warning: (vsim-8822) [TFMPC] - Missing Verilog connection for formal VHDL port 'clock1'.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage File: E:/Document_HH/Course/26FA/450code/15_UsMimoTestBench/02_RTL/V0/SourceCode/KaiserFFT/fft_tdp_store.sv Line: 38
+# ** Warning: (vsim-8822) [TFMPC] - Missing Verilog connection for formal VHDL port 'clock1'.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage File: E:/Document_HH/Course/26FA/450code/15_UsMimoTestBench/02_RTL/V0/SourceCode/KaiserFFT/fft_tdp_store.sv Line: 38
+# ** Warning: (vsim-8822) [TFMPC] - Missing Verilog connection for formal VHDL port 'clock1'.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_rx_fft_board/dut/engine/fft/window_rom/storage File: E:/Document_HH/Course/26FA/450code/15_UsMimoTestBench/02_RTL/V0/SourceCode/KaiserFFT/fft_tdp_store.sv Line: 38
+# ** Warning: (vsim-8822) [TFMPC] - Missing Verilog connection for formal VHDL port 'clock1'.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage File: E:/Document_HH/Course/26FA/450code/15_UsMimoTestBench/02_RTL/V0/SourceCode/KaiserFFT/fft_tdp_store.sv Line: 38
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/frame/mem
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/frame/mem
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/frame/mem
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/frame/mem
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/window_rom/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/window_rom/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/window_rom/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/window_rom/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/window_rom/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/window_rom/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/window_rom/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/window_rom/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 4  Instance: /tb_rx_fft_board/dut/engine/frame/mem
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 4  Instance: /tb_rx_fft_board/dut/engine/frame/mem
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 4  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 4  Instance: /tb_rx_fft_board/dut/engine/fft/ram_real/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 4  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 4  Instance: /tb_rx_fft_board/dut/engine/fft/ram_imag/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 5 ns  Iteration: 4  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 5 ns  Iteration: 4  Instance: /tb_rx_fft_board/dut/engine/fft/twiddle_rom/storage
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 25 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/frame/mem
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 25 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/frame/mem
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 45 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/frame/mem
+# ** Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+#    Time: 45 ns  Iteration: 3  Instance: /tb_rx_fft_board/dut/engine/frame/mem
+# PASS frame 0 capture=2048 fft=1025 peak=23
+# PASS FULL LOWFREQ TOP: full 228.78ms acquisition, ADC SPI pins, CIC, CDC, FFT, UART
+# ** Note: $finish    : C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/rx_fft_lowfreq_20261016/tb_full_top.sv(134)
+#    Time: 231077945 ns  Iteration: 0  Instance: /tb_rx_fft_board
+# End time: 21:00:59 on Oct 16,2026, Elapsed time: 0:07:45
+# Errors: 0, Warnings: 64

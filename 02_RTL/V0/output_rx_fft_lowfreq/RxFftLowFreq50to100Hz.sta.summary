@@ -1,0 +1,277 @@
+------------------------------------------------------------
+Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1100mV 100C Model Setup 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'
+Slack : 0.513
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Setup 'adc_clk'
+Slack : 2.536
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Setup 'board_clk'
+Slack : 3.203
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Setup 'adc_pin'
+Slack : 5.791
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Setup 'fft_clk'
+Slack : 8.284
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Setup 'adc_spi'
+Slack : 10.489
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Hold 'adc_clk'
+Slack : 0.258
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Hold 'fft_clk'
+Slack : 0.258
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Hold 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'
+Slack : 0.358
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Hold 'board_clk'
+Slack : 2.580
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Hold 'adc_spi'
+Slack : 6.369
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Hold 'adc_pin'
+Slack : 8.083
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'
+Slack : 0.757
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'
+Slack : 2.308
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Minimum Pulse Width 'board_clk'
+Slack : 4.230
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Minimum Pulse Width 'fft_clk'
+Slack : 8.675
+TNS   : 0.000
+
+Type  : Slow 1100mV 100C Model Minimum Pulse Width 'adc_clk'
+Slack : 16.798
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Setup 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'
+Slack : 0.489
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Setup 'adc_clk'
+Slack : 2.851
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Setup 'board_clk'
+Slack : 3.296
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Setup 'adc_pin'
+Slack : 6.139
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Setup 'fft_clk'
+Slack : 7.864
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Setup 'adc_spi'
+Slack : 10.571
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Hold 'adc_clk'
+Slack : 0.250
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Hold 'fft_clk'
+Slack : 0.250
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Hold 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'
+Slack : 0.343
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Hold 'board_clk'
+Slack : 2.622
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Hold 'adc_spi'
+Slack : 6.466
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Hold 'adc_pin'
+Slack : 7.916
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'
+Slack : 0.757
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'
+Slack : 2.218
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Minimum Pulse Width 'board_clk'
+Slack : 4.230
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Minimum Pulse Width 'fft_clk'
+Slack : 8.669
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Minimum Pulse Width 'adc_clk'
+Slack : 16.746
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Setup 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'
+Slack : 3.394
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Setup 'board_clk'
+Slack : 6.456
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Setup 'adc_clk'
+Slack : 7.229
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Setup 'adc_pin'
+Slack : 7.396
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Setup 'adc_spi'
+Slack : 12.040
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Setup 'fft_clk'
+Slack : 13.222
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Hold 'fft_clk'
+Slack : 0.135
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Hold 'adc_clk'
+Slack : 0.137
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Hold 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'
+Slack : 0.184
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Hold 'board_clk'
+Slack : 1.289
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Hold 'adc_spi'
+Slack : 7.078
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Hold 'adc_pin'
+Slack : 8.531
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'
+Slack : 0.757
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'
+Slack : 2.595
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Minimum Pulse Width 'board_clk'
+Slack : 4.635
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Minimum Pulse Width 'fft_clk'
+Slack : 8.986
+TNS   : 0.000
+
+Type  : Fast 1100mV 100C Model Minimum Pulse Width 'adc_clk'
+Slack : 17.088
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Setup 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'
+Slack : 3.514
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Setup 'board_clk'
+Slack : 6.708
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Setup 'adc_pin'
+Slack : 7.584
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Setup 'adc_clk'
+Slack : 7.759
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Setup 'adc_spi'
+Slack : 12.261
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Setup 'fft_clk'
+Slack : 14.190
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Hold 'adc_clk'
+Slack : 0.120
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Hold 'fft_clk'
+Slack : 0.122
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Hold 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'
+Slack : 0.160
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Hold 'board_clk'
+Slack : 1.133
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Hold 'adc_spi'
+Slack : 7.115
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Hold 'adc_pin'
+Slack : 8.443
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'
+Slack : 0.757
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'
+Slack : 2.580
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Minimum Pulse Width 'board_clk'
+Slack : 4.636
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Minimum Pulse Width 'fft_clk'
+Slack : 8.993
+TNS   : 0.000
+
+Type  : Fast 1100mV -40C Model Minimum Pulse Width 'adc_clk'
+Slack : 17.091
+TNS   : 0.000
+
+------------------------------------------------------------

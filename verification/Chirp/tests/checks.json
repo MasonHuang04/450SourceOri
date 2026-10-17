@@ -1,0 +1,9 @@
+{
+  "control_pass": true,
+  "amplitude_profile_pass": true,
+  "max_dac_error_codes": 2,
+  "dac_min": 6144,
+  "dac_max": 10240,
+  "points": 2001,
+  "scope": "Controller with accelerated boot/repeat counters; original Intel chirp core at 10-us waveform checkpoints over 20ms, amplitude0.25; no board measurement."
+}

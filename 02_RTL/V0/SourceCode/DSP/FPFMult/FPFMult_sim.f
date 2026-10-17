@@ -1,0 +1,3 @@
+FPFMult_sim/dspba_library_package.vhd
+FPFMult_sim/dspba_library.vhd
+FPFMult_sim/FPFMult.vhd

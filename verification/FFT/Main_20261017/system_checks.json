@@ -1,0 +1,59 @@
+{
+  "test_short": {
+    "raw_samples": 286,
+    "bytes": 700,
+    "raw_packet_mismatches": 0,
+    "fft_count": 33,
+    "peak_bin": 0,
+    "peak_power_q6": 0,
+    "flags": 1,
+    "span": 147456
+  },
+  "test_system": {
+    "raw_samples": 71614,
+    "bytes": 143356,
+    "raw_packet_mismatches": 0,
+    "fft_count": 8192,
+    "peak_bin": 23,
+    "peak_power_q6": 277994098,
+    "flags": 0,
+    "span": 262112,
+    "peak_hz": 100.53316752115884,
+    "power_code_squared": 4343657.78125,
+    "scope": "Whole main with complete 250ms-equivalent ADC words and raw packet; ADC cadence, TX numeric payload, FP parameter latency and UART bit timing modeled. Does not claim full 250ms physical-cadence simulation. Raw frame RAM uses the same-latency behavioral model; its Intel primitive interface is checked separately by the short pin test. FFT memory uses Intel altsyncram.",
+    "memory_models": {
+      "raw_frame_ram": "behavioral, same latency",
+      "fft_ram": "Intel altsyncram"
+    }
+  },
+  "io": {
+    "real_uart": true,
+    "adc_bridge_limits": true,
+    "buffer_words": 131072,
+    "buffer_bytes": 262144,
+    "consecutive_packets": 2,
+    "buffer_model": "behavioral, same read latency; short pin test checks Intel raw RAM"
+  },
+  "tx_parameters": {
+    "real_Intel_IP": true,
+    "duration_ticks": [
+      13200000,
+      3300000
+    ],
+    "start_frequency_hz": [
+      190000,
+      38000
+    ],
+    "slope_hz_per_s": [
+      250000,
+      200000
+    ],
+    "scope": "Parameter pipeline and startup only; full-duration waveform not repeated"
+  },
+  "rx_parameters": {
+    "real_Intel_IP": true,
+    "duration_ticks": 41250000,
+    "delay_ticks": 165000,
+    "raw_period_s": 3.490909090909091e-06
+  }
+}

@@ -1,0 +1,265 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 2017  Intel Corporation. All rights reserved.
+# Your use of Intel Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Intel Program License 
+# Subscription Agreement, the Intel Quartus Prime License Agreement,
+# the Intel FPGA IP License Agreement, or other applicable license
+# agreement, including, without limitation, that your use is for
+# the sole purpose of programming logic devices manufactured by
+# Intel and sold by Intel or its authorized distributors.  Please
+# refer to the applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus Prime
+# Version 17.1.0 Build 590 10/25/2017 SJ Standard Edition
+# Date created = 09:08:34  March 10, 2025
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		UsMimoTestBench_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus Prime software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CEFA7F23I7
+set_global_assignment -name TOP_LEVEL_ENTITY UsMimoTestBench
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 17.1.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "09:08:34  MARCH 10, 2025"
+set_global_assignment -name LAST_QUARTUS_VERSION "25.1std.0 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP "-40"
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 100
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 256
+# Obsolete assignment in <Version 21.4> "set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top"
+# Obsolete assignment in <Version 21.4> "set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top"
+# Obsolete assignment in <Version 21.4> "set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top"
+set_location_assignment PIN_U8 -to oLED_RX_DIV4
+set_location_assignment PIN_U7 -to oLED_RX_DIV2
+set_location_assignment PIN_W9 -to oLED_RX_DIV1
+set_location_assignment PIN_W8 -to oLED_RX_FLT
+set_location_assignment PIN_T7 -to oLED_RX_DIV8
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oLED_RX_DIV1
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oLED_RX_DIV2
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oLED_RX_DIV4
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oLED_RX_DIV8
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oLED_RX_FLT
+set_location_assignment PIN_AB5 -to oTMP_SCL
+set_location_assignment PIN_AB6 -to ioTMP_SDA
+set_instance_assignment -name IO_STANDARD "1.8 V" -to ioTMP_SDA
+set_instance_assignment -name IO_STANDARD "1.8 V" -to oTMP_SCL
+set_location_assignment PIN_A10 -to oLED_TX_DIV8
+set_location_assignment PIN_A9 -to oLED_TX_DIV4
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oLED_TX_DIV4
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oLED_TX_DIV8
+set_location_assignment PIN_B10 -to oLED_CHIRP
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oLED_CHIRP
+set_location_assignment PIN_C9 -to oLED_STATE
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oLED_STATE
+set_location_assignment PIN_A8 -to oLED_TX_DIV2
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oLED_TX_DIV2
+set_location_assignment PIN_A7 -to oLED_TX_DIV1
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oLED_TX_DIV1
+set_location_assignment PIN_B5 -to iUART_RXD
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to iUART_RXD
+set_location_assignment PIN_B6 -to oUART_TXD
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oUART_TXD
+set_location_assignment PIN_C6 -to oUART_CTS
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oUART_CTS
+set_location_assignment PIN_D6 -to iUART_RTS
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to iUART_RTS
+set_location_assignment PIN_U21 -to oAD_CS
+set_location_assignment PIN_AA22 -to iAD_DRDY
+set_instance_assignment -name IO_STANDARD "1.8 V" -to iAD_DRDY
+set_instance_assignment -name IO_STANDARD "1.8 V" -to oAD_CS
+set_location_assignment PIN_W16 -to iMAIN_CLK
+set_instance_assignment -name IO_STANDARD "1.8 V" -to iMAIN_CLK
+set_location_assignment PIN_AB22 -to oAD_START
+set_instance_assignment -name IO_STANDARD "1.8 V" -to oAD_START
+set_instance_assignment -name IO_STANDARD "1.8 V" -to oAD_RST
+set_instance_assignment -name IO_STANDARD "1.8 V" -to oAD_SDI
+set_location_assignment PIN_W22 -to oAD_SDI
+set_location_assignment PIN_Y22 -to iAD_SDO
+set_instance_assignment -name IO_STANDARD "1.8 V" -to iAD_SDO
+set_location_assignment PIN_U22 -to oAD_RST
+set_instance_assignment -name IO_STANDARD "2.5 V" -to oRX_MUX_A[0]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to oRX_MUX_A[1]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to oRX_MUX_A[2]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to oRX_MUX_EN
+set_instance_assignment -name IO_STANDARD "2.5 V" -to oTX_MUX_A[0]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to oTX_MUX_A[1]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to oTX_MUX_A[2]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to oTX_MUX_EN
+set_location_assignment PIN_T22 -to oRX_MUX_A[0]
+set_location_assignment PIN_R22 -to oRX_MUX_A[1]
+set_location_assignment PIN_P22 -to oRX_MUX_A[2]
+set_location_assignment PIN_R21 -to oRX_MUX_EN
+set_location_assignment PIN_L22 -to oTX_MUX_A[0]
+set_location_assignment PIN_K21 -to oTX_MUX_A[1]
+set_location_assignment PIN_K22 -to oTX_MUX_A[2]
+set_location_assignment PIN_M22 -to oTX_MUX_EN
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_CLK
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_D[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oDA_PD
+set_location_assignment PIN_A19 -to oDA_CLK
+set_location_assignment PIN_H21 -to oDA_D[0]
+set_location_assignment PIN_G22 -to oDA_D[1]
+set_location_assignment PIN_G21 -to oDA_D[2]
+set_location_assignment PIN_F22 -to oDA_D[3]
+set_location_assignment PIN_E22 -to oDA_D[4]
+set_location_assignment PIN_E21 -to oDA_D[5]
+set_location_assignment PIN_D22 -to oDA_D[6]
+set_location_assignment PIN_D21 -to oDA_D[7]
+set_location_assignment PIN_C21 -to oDA_D[8]
+set_location_assignment PIN_B22 -to oDA_D[9]
+set_location_assignment PIN_B21 -to oDA_D[10]
+set_location_assignment PIN_A22 -to oDA_D[11]
+set_location_assignment PIN_B20 -to oDA_D[12]
+set_location_assignment PIN_A20 -to oDA_D[13]
+set_location_assignment PIN_J22 -to oDA_PD
+set_location_assignment PIN_A5 -to oLED_TX_FLT
+set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to oLED_TX_FLT
+set_location_assignment PIN_AB21 -to oAD_CLK
+set_location_assignment PIN_Y21 -to oAD_SCLK
+set_instance_assignment -name IO_STANDARD "1.8 V" -to oAD_SCLK
+set_instance_assignment -name IO_STANDARD "1.8 V" -to oAD_CLK
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_CLK
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[13]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[12]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[11]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[10]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[9]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[8]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[7]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[6]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[5]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[4]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[3]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[2]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[1]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_PD
+set_global_assignment -name QIP_FILE SourceCode/DSP/FPFAdd/FPFAdd.qip
+set_global_assignment -name SIP_FILE SourceCode/DSP/FPFAdd/FPFAdd.sip
+set_global_assignment -name VHDL_FILE SourceCode/UsMimoTestBench.vhd
+set_global_assignment -name VHDL_FILE SourceCode/DSPLib.vhd
+set_global_assignment -name QIP_FILE SourceCode/DSP/FPFSub/FPFSub.qip
+set_global_assignment -name SIP_FILE SourceCode/DSP/FPFSub/FPFSub.sip
+set_global_assignment -name QIP_FILE SourceCode/DSP/FPFMult/FPFMult.qip
+set_global_assignment -name SIP_FILE SourceCode/DSP/FPFMult/FPFMult.sip
+set_global_assignment -name QIP_FILE SourceCode/DSP/FPFDiv/FPFDiv.qip
+set_global_assignment -name SIP_FILE SourceCode/DSP/FPFDiv/FPFDiv.sip
+set_global_assignment -name QIP_FILE SourceCode/DSP/FPFCos/FPFCos.qip
+set_global_assignment -name SIP_FILE SourceCode/DSP/FPFCos/FPFCos.sip
+set_global_assignment -name VHDL_FILE SourceCode/DSP/FIFO.vhd
+set_global_assignment -name VHDL_FILE SourceCode/DSP/FIFOInt.vhd
+set_global_assignment -name VHDL_FILE SourceCode/DSP/FIFOStdLogic.vhd
+set_global_assignment -name QIP_FILE SourceCode/DSP/FPFFP32ToInt32/FPFFP32ToInt32.qip
+set_global_assignment -name SIP_FILE SourceCode/DSP/FPFFP32ToInt32/FPFFP32ToInt32.sip
+set_global_assignment -name QIP_FILE SourceCode/DSP/FPFInt32ToFP32/FPFInt32ToFP32.qip
+set_global_assignment -name SIP_FILE SourceCode/DSP/FPFInt32ToFP32/FPFInt32ToFP32.sip
+set_global_assignment -name VHDL_FILE SourceCode/SysLib.vhd
+set_global_assignment -name VHDL_FILE SourceCode/ChirpWaveGen.vhd
+set_global_assignment -name QIP_FILE SourceCode/MainPLL/MainPLL.qip
+set_global_assignment -name SIP_FILE SourceCode/MainPLL/MainPLL.sip
+set_global_assignment -name VHDL_FILE SourceCode/MainTxController.vhd
+set_global_assignment -name VHDL_FILE SourceCode/UARTController.vhd
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name USE_SIGNALTAP_FILE AD.stp
+set_global_assignment -name SIGNALTAP_FILE AD.stp
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name VHDL_FILE SourceCode/MainRxController.vhd
+set_global_assignment -name SDC_FILE SourceCode/MainTiming.sdc
+set_global_assignment -name VHDL_FILE SourceCode/RxDepack.vhd
+set_global_assignment -name VHDL_FILE SourceCode/MainTxPack.vhd
+# Obsolete assignment in <Version 21.4> "set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top"
+
+# Obsolete assignment in <Version 20.4> "set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top"
+# Obsolete assignment in <Version 20.4> "set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top"
+# Obsolete assignment in <Version 20.4> "set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top"
+set_global_assignment -name VHDL_FILE SourceCode/MainTMP117Controller.vhd
+# Obsolete assignment in <Version 20.4> "set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top"
+
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/MainAdcBridge.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/MainFftProcessor.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/MainPeakReport.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/ScopeAdc27m5.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/MainCicDecimator.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/MainFrameRam.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/fft_tdp_store.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/kaiser4_rfft.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/fft_power_peak.sv
+set_global_assignment -name VHDL_FILE SourceCode/MainSettings.vhd
+set_global_assignment -name SEARCH_PATH SourceCode
+set_global_assignment -name VERILOG_MACRO "FFT_USE_INTEL_RAM=1"
+set_global_assignment -name MIF_FILE SourceCode/main_window_delta.mif
+set_global_assignment -name MIF_FILE SourceCode/main_cos_quarter.mif
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to "uTx|uCWG|cRst*"
+set_instance_assignment -name DUPLICATE_ATOM main_reset_u0 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFMult:u0|*"
+set_instance_assignment -name DUPLICATE_ATOM main_reset_u1 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFMult:u1|*"
+set_instance_assignment -name DUPLICATE_ATOM main_reset_u2 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFInt32ToFP32:u2|*"
+set_instance_assignment -name DUPLICATE_ATOM main_reset_u3 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFMult:u3|*"
+set_instance_assignment -name DUPLICATE_ATOM main_reset_u4 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFMult:u4|*"
+set_instance_assignment -name DUPLICATE_ATOM main_reset_u5 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFMult:u5|*"
+set_instance_assignment -name DUPLICATE_ATOM main_reset_u6 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFMult:u6|*"
+set_instance_assignment -name DUPLICATE_ATOM main_reset_u7 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFAdd:u7|*"
+set_instance_assignment -name DUPLICATE_ATOM main_reset_u8 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFMult:u8|*"
+set_instance_assignment -name DUPLICATE_ATOM main_reset_u9 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFCos:u9|*"
+set_instance_assignment -name DUPLICATE_ATOM main_reset_u10 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFMult:u10|*"
+set_instance_assignment -name DUPLICATE_ATOM main_reset_u11 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFAdd:u11|*"
+set_instance_assignment -name DUPLICATE_ATOM main_reset_u12 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFFP32ToInt32:u12|*"
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to "*main_reset*"
+
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/MainWaveFifo.sv
+
+set_instance_assignment -name DUPLICATE_ATOM main_reset_fft -from cRst -to "MainFftProcessor:uFFT|*"
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to "uTxPack|f1|banks*.we"
+
+# Cyclone V extra-effort timing settings from the installed Quartus DSE profile.
+set_global_assignment -name PLACEMENT_EFFORT_MULTIPLIER 3.0
+set_global_assignment -name FITTER_EFFORT "STANDARD FIT"
+set_global_assignment -name ROUTER_TIMING_OPTIMIZATION_LEVEL MAXIMUM
+set_global_assignment -name ROUTER_LCELL_INSERTION_AND_LOGIC_DUPLICATION ON
+
+set_global_assignment -name PHYSICAL_SYNTHESIS_COMBO_LOGIC ON
+set_global_assignment -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON
+set_global_assignment -name PHYSICAL_SYNTHESIS_REGISTER_RETIMING OFF
+set_global_assignment -name PHYSICAL_SYNTHESIS_EFFORT NORMAL
+set_global_assignment -name SEED 4
+
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to "*we_half*"

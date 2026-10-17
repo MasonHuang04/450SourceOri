@@ -1,0 +1,119 @@
+{
+  "pass_all": true,
+  "cic_exact_fir_equivalence": true,
+  "raw_clipping_detected": true,
+  "adc_timeout_pass": true,
+  "uart_pass": true,
+  "adc_sample_rate": 1145833.3333333333,
+  "fft_sample_rate": 8951.822916666666,
+  "decimation": 128,
+  "effective_samples": 2048,
+  "nfft": 2048,
+  "window_ms": 228.7802181818182,
+  "bin_hz": 4.3710072835286455,
+  "cases": [
+    {
+      "case": 0,
+      "input_hz": 50,
+      "peak_bin": 11,
+      "peak_hz": 48.0810801188151,
+      "error_hz": -1.9189198811848982,
+      "power_q6": 197326930,
+      "max_fft_error_codes": 0.36162372050670655,
+      "flags": 0
+    },
+    {
+      "case": 1,
+      "input_hz": 55,
+      "peak_bin": 13,
+      "peak_hz": 56.82309468587239,
+      "error_hz": 1.823094685872391,
+      "power_q6": 204877777,
+      "max_fft_error_codes": 0.4230547809534926,
+      "flags": 0
+    },
+    {
+      "case": 2,
+      "input_hz": 60,
+      "peak_bin": 14,
+      "peak_hz": 61.19410196940104,
+      "error_hz": 1.1941019694010393,
+      "power_q6": 248216337,
+      "max_fft_error_codes": 0.35904033502837507,
+      "flags": 0
+    },
+    {
+      "case": 3,
+      "input_hz": 70,
+      "peak_bin": 16,
+      "peak_hz": 69.93611653645833,
+      "error_hz": -0.0638834635416714,
+      "power_q6": 285064981,
+      "max_fft_error_codes": 0.30459688954602715,
+      "flags": 0
+    },
+    {
+      "case": 4,
+      "input_hz": 80,
+      "peak_bin": 18,
+      "peak_hz": 78.67813110351562,
+      "error_hz": -1.321868896484375,
+      "power_q6": 240045165,
+      "max_fft_error_codes": 0.3915843926910796,
+      "flags": 0
+    },
+    {
+      "case": 5,
+      "input_hz": 90,
+      "peak_bin": 21,
+      "peak_hz": 91.79115295410156,
+      "error_hz": 1.7911529541015625,
+      "power_q6": 207288306,
+      "max_fft_error_codes": 0.3787340067861962,
+      "flags": 0
+    },
+    {
+      "case": 6,
+      "input_hz": 100,
+      "peak_bin": 23,
+      "peak_hz": 100.53316752115884,
+      "error_hz": 0.5331675211588447,
+      "power_q6": 277572613,
+      "max_fft_error_codes": 0.32250170132378486,
+      "flags": 0
+    },
+    {
+      "case": 7,
+      "input_hz": 73.25,
+      "peak_bin": 17,
+      "peak_hz": 74.30712381998697,
+      "error_hz": 1.0571238199869697,
+      "power_q6": 255508889,
+      "max_fft_error_codes": 0.2971640970324927,
+      "flags": 0
+    },
+    {
+      "case": 8,
+      "input_hz": 99.6,
+      "peak_bin": 23,
+      "peak_hz": 100.53316752115884,
+      "error_hz": 0.9331675211588504,
+      "power_q6": 262099394,
+      "max_fft_error_codes": 0.40609314124635887,
+      "flags": 0
+    },
+    {
+      "case": 9,
+      "input_hz": 75,
+      "peak_bin": 17,
+      "peak_hz": 74.30712381998697,
+      "error_hz": -0.6928761800130303,
+      "power_q6": 7348822785,
+      "max_fft_error_codes": 0.34329443230838663,
+      "flags": 36
+    }
+  ],
+  "numerical_sweep_cases": 4008,
+  "numerical_sweep_max_error_hz": 2.1941019694009114,
+  "scope": "Production CIC/CDC/window/FFT/power/peak/UART RTL with every raw ADC word. Testbench compresses idle ADC cycles; separate full-pin top-level run checks hardware cadence. Analog front end not modeled."
+}

@@ -1,0 +1,6 @@
+# One project; choose Project > Revisions > Set Current.
+# First revision is the default. Each revision keeps its own .qsf and output directory.
+QUARTUS_VERSION = "25.1"
+PROJECT_REVISION = "ChirpTxScope40k20ms"
+PROJECT_REVISION = "RxFftLowFreq50to100Hz"
+PROJECT_REVISION = "UsMimoTestBench"

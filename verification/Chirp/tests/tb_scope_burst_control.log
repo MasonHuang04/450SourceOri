@@ -1,0 +1,33 @@
+Reading pref.tcl
+
+# 2025.2
+
+# ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
+# vsim -c -t 1fs -L real_ip work.tb_scope_burst_control -do "C:\Users\admin\.codex\visualizations\2026\10\09\01a120ee-8376-76a1-b902-05acd791be04\chirp_scope_firmware_20261016\verification\tb_scope_burst_control.do" 
+# Start time: 16:56:57 on Oct 16,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 win64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading std.env(body)
+# Loading ieee.numeric_std(body)
+# Loading work.tb_scope_burst_control(test)#1
+# do {C:\Users\admin\.codex\visualizations\2026\10\09\01a120ee-8376-76a1-b902-05acd791be04\chirp_scope_firmware_20261016\verification\tb_scope_burst_control.do}
+# ** Note: PASS SCOPE BURST CONTROL: startup, periodic trigger, busy suppression, lock loss/restart
+#    Time: 7555 ns  Iteration: 1  Instance: /tb_scope_burst_control
+# End time: 16:56:57 on Oct 16,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0

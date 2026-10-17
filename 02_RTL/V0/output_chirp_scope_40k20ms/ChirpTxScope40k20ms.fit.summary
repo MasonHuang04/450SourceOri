@@ -1,0 +1,20 @@
+Fitter Status : Successful - Sat Oct 17 00:53:00 2026
+Quartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+Revision Name : ChirpTxScope40k20ms
+Top-level Entity Name : ChirpTxScope40k20ms
+Family : Cyclone V
+Device : 5CEFA7F23I7
+Timing Models : Final
+Logic utilization (in ALMs) : 3,122 / 56,480 ( 6 % )
+Total registers : 7141
+Total pins : 51 / 240 ( 21 % )
+Total virtual pins : 0
+Total block memory bits : 40,424 / 7,024,640 ( < 1 % )
+Total RAM Blocks : 9 / 686 ( 1 % )
+Total DSP Blocks : 19 / 156 ( 12 % )
+Total HSSI RX PCSs : 0
+Total HSSI PMA RX Deserializers : 0
+Total HSSI TX PCSs : 0
+Total HSSI PMA TX Serializers : 0
+Total PLLs : 1 / 7 ( 14 % )
+Total DLLs : 0 / 4 ( 0 % )

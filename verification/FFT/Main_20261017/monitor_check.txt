@@ -1,0 +1,2 @@
+PASS MAIN MONITOR: mixed raw/M1 stream, fragmented reads, checksum and frequency
+PASS MAIN MONITOR: real 2-Mbaud UART record and physical cadence metadata

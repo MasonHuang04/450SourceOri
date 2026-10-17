@@ -1,0 +1,3 @@
+FPFInt32ToFP32_sim/dspba_library_package.vhd
+FPFInt32ToFP32_sim/dspba_library.vhd
+FPFInt32ToFP32_sim/FPFInt32ToFP32.vhd

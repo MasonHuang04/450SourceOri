@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simPackage>
+ <file path="FPFInt32ToFP32_sim/dspba_library_package.vhd" type="VHDL" />
+ <file path="FPFInt32ToFP32_sim/dspba_library.vhd" type="VHDL" />
+ <file path="FPFInt32ToFP32_sim/FPFInt32ToFP32.vhd" type="VHDL" />
+ <topLevel name="FPFInt32ToFP32" />
+ <deviceFamily name="cyclonev" />
+</simPackage>

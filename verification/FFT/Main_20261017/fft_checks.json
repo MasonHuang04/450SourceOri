@@ -1,0 +1,65 @@
+{
+  "pass_all": true,
+  "ram_model": "behavioral",
+  "cases": [
+    {
+      "case": 0,
+      "input_hz": 25,
+      "peak_hz": 26.226043701171875,
+      "peak_bin": 6,
+      "error_hz": 1.226043701171875,
+      "flags": 0,
+      "max_fft_error": 0.49826858212907155
+    },
+    {
+      "case": 1,
+      "input_hz": 100,
+      "peak_hz": 100.53316752115884,
+      "peak_bin": 23,
+      "error_hz": 0.5331675211588447,
+      "flags": 0,
+      "max_fft_error": 0.3667645230252238
+    },
+    {
+      "case": 2,
+      "input_hz": 500,
+      "peak_hz": 498.29483032226557,
+      "peak_bin": 114,
+      "error_hz": -1.7051696777344318,
+      "flags": 0,
+      "max_fft_error": 0.4367891379451265
+    },
+    {
+      "case": 3,
+      "input_hz": 250,
+      "peak_hz": 249.14741516113278,
+      "peak_bin": 57,
+      "error_hz": -0.8525848388672159,
+      "flags": 0,
+      "max_fft_error": 0.3430925745716866
+    },
+    {
+      "case": 4,
+      "input_hz": 99.6,
+      "peak_hz": 100.53316752115884,
+      "peak_bin": 23,
+      "error_hz": 0.9331675211588504,
+      "flags": 0,
+      "max_fft_error": 0.41007354416097286
+    },
+    {
+      "case": 5,
+      "input_hz": 75,
+      "peak_hz": 74.30712381998697,
+      "peak_bin": 17,
+      "error_hz": -0.6928761800130303,
+      "flags": 36,
+      "max_fft_error": 0.37684532812422
+    }
+  ],
+  "short_window_rejected": true,
+  "empty_window_rejected": true,
+  "consecutive_frames": true,
+  "telemetry_checksum": true,
+  "scope": "Production main FFT branch and byte-handshake report; complete input words, compressed idle clocks; not full main top."
+}

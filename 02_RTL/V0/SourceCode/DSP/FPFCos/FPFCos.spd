@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simPackage>
+ <file
+   path="FPFCos_sim/FPFCos_memoryC0_uid248_sinXTables_lutmem.hex"
+   type="HEX" />
+ <file
+   path="FPFCos_sim/FPFCos_memoryC1_uid251_sinXTables_lutmem.hex"
+   type="HEX" />
+ <file
+   path="FPFCos_sim/FPFCos_memoryC2_uid254_sinXTables_lutmem.hex"
+   type="HEX" />
+ <file
+   path="FPFCos_sim/FPFCos_rrTable_uid47_fpCosPiTest_lutmem.hex"
+   type="HEX" />
+ <file
+   path="FPFCos_sim/FPFCos_rrTable_uid48_fpCosPiTest_lutmem.hex"
+   type="HEX" />
+ <file path="FPFCos_sim/dspba_library_package.vhd" type="VHDL" />
+ <file path="FPFCos_sim/dspba_library.vhd" type="VHDL" />
+ <file path="FPFCos_sim/FPFCos.vhd" type="VHDL" />
+ <topLevel name="FPFCos" />
+ <deviceFamily name="cyclonev" />
+</simPackage>

@@ -1,0 +1,499 @@
+{
+  "compile_pass": true,
+  "timing_pass": true,
+  "timing_scenarios": [
+    {
+      "type": "Slow 1100mV 100C Model Setup 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.513,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Setup 'adc_clk'",
+      "slack_ns": 2.536,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Setup 'board_clk'",
+      "slack_ns": 3.203,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Setup 'adc_pin'",
+      "slack_ns": 5.791,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Setup 'fft_clk'",
+      "slack_ns": 8.284,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Setup 'adc_spi'",
+      "slack_ns": 10.489,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Hold 'adc_clk'",
+      "slack_ns": 0.258,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Hold 'fft_clk'",
+      "slack_ns": 0.258,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Hold 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.358,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Hold 'board_clk'",
+      "slack_ns": 2.58,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Hold 'adc_spi'",
+      "slack_ns": 6.369,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Hold 'adc_pin'",
+      "slack_ns": 8.083,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'",
+      "slack_ns": 0.757,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 2.308,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Minimum Pulse Width 'board_clk'",
+      "slack_ns": 4.23,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Minimum Pulse Width 'fft_clk'",
+      "slack_ns": 8.675,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Minimum Pulse Width 'adc_clk'",
+      "slack_ns": 16.798,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Setup 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.489,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Setup 'adc_clk'",
+      "slack_ns": 2.851,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Setup 'board_clk'",
+      "slack_ns": 3.296,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Setup 'adc_pin'",
+      "slack_ns": 6.139,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Setup 'fft_clk'",
+      "slack_ns": 7.864,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Setup 'adc_spi'",
+      "slack_ns": 10.571,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Hold 'adc_clk'",
+      "slack_ns": 0.25,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Hold 'fft_clk'",
+      "slack_ns": 0.25,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Hold 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.343,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Hold 'board_clk'",
+      "slack_ns": 2.622,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Hold 'adc_spi'",
+      "slack_ns": 6.466,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Hold 'adc_pin'",
+      "slack_ns": 7.916,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'",
+      "slack_ns": 0.757,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 2.218,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Minimum Pulse Width 'board_clk'",
+      "slack_ns": 4.23,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Minimum Pulse Width 'fft_clk'",
+      "slack_ns": 8.669,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Minimum Pulse Width 'adc_clk'",
+      "slack_ns": 16.746,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Setup 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 3.394,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Setup 'board_clk'",
+      "slack_ns": 6.456,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Setup 'adc_clk'",
+      "slack_ns": 7.229,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Setup 'adc_pin'",
+      "slack_ns": 7.396,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Setup 'adc_spi'",
+      "slack_ns": 12.04,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Setup 'fft_clk'",
+      "slack_ns": 13.222,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Hold 'fft_clk'",
+      "slack_ns": 0.135,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Hold 'adc_clk'",
+      "slack_ns": 0.137,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Hold 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.184,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Hold 'board_clk'",
+      "slack_ns": 1.289,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Hold 'adc_spi'",
+      "slack_ns": 7.078,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Hold 'adc_pin'",
+      "slack_ns": 8.531,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'",
+      "slack_ns": 0.757,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 2.595,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Minimum Pulse Width 'board_clk'",
+      "slack_ns": 4.635,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Minimum Pulse Width 'fft_clk'",
+      "slack_ns": 8.986,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Minimum Pulse Width 'adc_clk'",
+      "slack_ns": 17.088,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Setup 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 3.514,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Setup 'board_clk'",
+      "slack_ns": 6.708,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Setup 'adc_pin'",
+      "slack_ns": 7.584,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Setup 'adc_clk'",
+      "slack_ns": 7.759,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Setup 'adc_spi'",
+      "slack_ns": 12.261,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Setup 'fft_clk'",
+      "slack_ns": 14.19,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Hold 'adc_clk'",
+      "slack_ns": 0.12,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Hold 'fft_clk'",
+      "slack_ns": 0.122,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Hold 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.16,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Hold 'board_clk'",
+      "slack_ns": 1.133,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Hold 'adc_spi'",
+      "slack_ns": 7.115,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Hold 'adc_pin'",
+      "slack_ns": 8.443,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'",
+      "slack_ns": 0.757,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 2.58,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Minimum Pulse Width 'board_clk'",
+      "slack_ns": 4.636,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Minimum Pulse Width 'fft_clk'",
+      "slack_ns": 8.993,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Minimum Pulse Width 'adc_clk'",
+      "slack_ns": 17.091,
+      "tns_ns": 0.0
+    }
+  ],
+  "worst_slack_ns": 0.12,
+  "job_id": "f53b0b050e744d4d803ded7a5fc6539f",
+  "full_top_pass": true,
+  "full_top_samples": 2048,
+  "full_top_nominal_window_ms": 228.7802181818182,
+  "full_top_peak_hz": 100.53316752115884,
+  "numerical_sweep_cases": 4008,
+  "numerical_sweep_max_error_hz": 2.1941019694009114,
+  "rtl_cases": 9,
+  "rtl_max_error_hz": 1.9189198811848982,
+  "protected_files_unchanged": 265,
+  "original_files_unchanged": 1161,
+  "pin_map_matches_original": 51,
+  "sof_sha256": "14838989f81457d977d5bc88c4a83cf8bb15e3db6e35d7db7329a1dc403ab1cf",
+  "monitor_sha256": "904fcab1a1b181c8b51be7b4f588877a756378e291606f702adeb572cddc962d",
+  "hardware_measurement": "Pending user 50-100 Hz generator test",
+  "previous_build_job_id": "4a50f9aa11b74f68a37157221ea953a6",
+  "layout_reorganized": true,
+  "source_hashes": {
+    "SourceCode/MainPLL/MainPLL.qip": "ccfac475be7e7895f6894768fd0bf469e9f3af978bf8180d35fa5d9e2d24acbd",
+    "SourceCode/RxFftLowFreq50to100Hz.sdc": "35d5708f5ef2e6ba1c98bf139327f187e09137abec4546ee243062580ffcc8eb",
+    "SourceCode/fft_tdp_store.sv": "aa619751421aaa4cdb25c2a3c48463354fdfe585b4d70249723884d54cfb500d",
+    "SourceCode/kaiser4_rfft.sv": "76afaf8f7b192217eb8f69b63b38daa768339a9d5d6896a4aa53c1e66e597ee5",
+    "SourceCode/fft_power_peak.sv": "2551043b141e4b7fcd1787e62bc9dcb12dd5c31fe3d289e17b5b5428d18ff6bb",
+    "SourceCode/ScopeAdc27m5.sv": "83f065cc12d05d5123af9217a80c355bb4f83065f128e126d06804c0e70a8bfb",
+    "SourceCode/ScopeFrameRam.sv": "94e8d5d560c75f65204cb1a9e47dd03af285d8899a3073f09ffd33567a04b26c",
+    "SourceCode/ScopeUartReport.sv": "86eb0cb630848319c8181ec5c58c5d180c4b7e5ae75015fd3e85295574d262a1",
+    "SourceCode/ScopeRxFft.sv": "d3f11e42a72e5754c747ddee0f85ed0e4d15f5f4a399c09e05190cb377a86c6c",
+    "SourceCode/RxFftLowFreq50to100Hz.sv": "560c9787f416c412d2df6405aba610881ed52a15232d8d96db03b9c002c104c2",
+    "SourceCode/scopelf_window_delta.mif": "543925942f1ae74c8dec7ade3f6087ccfdbb20ecc72f67aad826fd824e499e41",
+    "SourceCode/scopelf_cos_quarter.mif": "57fa99bf8d7861bfad6761b43c6e7fa6948a004c1758e8a5a8c21b3dc99508b1",
+    "SourceCode/ScopeCic128.sv": "dca7f1e2394c53793c966e9a29deaf8885fec26d9c3d29f5f39646e817f2153d"
+  },
+  "reorganization_tests": {
+    "pass_all": true,
+    "cic_exact_fir_equivalence": true,
+    "raw_clipping_detected": true,
+    "adc_timeout_pass": true,
+    "uart_pass": true,
+    "adc_sample_rate": 1145833.3333333333,
+    "fft_sample_rate": 8951.822916666666,
+    "decimation": 128,
+    "effective_samples": 2048,
+    "nfft": 2048,
+    "window_ms": 228.7802181818182,
+    "bin_hz": 4.3710072835286455,
+    "cases": [
+      {
+        "case": 0,
+        "input_hz": 100,
+        "peak_bin": 23,
+        "peak_hz": 100.53316752115884,
+        "error_hz": 0.5331675211588447,
+        "power_q6": 277504277,
+        "max_fft_error_codes": 0.3147329197553006,
+        "flags": 0
+      },
+      {
+        "case": 1,
+        "input_hz": 50,
+        "peak_bin": 11,
+        "peak_hz": 48.0810801188151,
+        "error_hz": -1.9189198811848982,
+        "power_q6": 197894381,
+        "max_fft_error_codes": 0.29375576463581643,
+        "flags": 0
+      },
+      {
+        "case": 2,
+        "input_hz": 55,
+        "peak_bin": 13,
+        "peak_hz": 56.82309468587239,
+        "error_hz": 1.823094685872391,
+        "power_q6": 204699469,
+        "max_fft_error_codes": 0.3639900184570024,
+        "flags": 0
+      },
+      {
+        "case": 3,
+        "input_hz": 60,
+        "peak_bin": 14,
+        "peak_hz": 61.19410196940104,
+        "error_hz": 1.1941019694010393,
+        "power_q6": 248803600,
+        "max_fft_error_codes": 0.32119636736191753,
+        "flags": 0
+      },
+      {
+        "case": 4,
+        "input_hz": 70,
+        "peak_bin": 16,
+        "peak_hz": 69.93611653645833,
+        "error_hz": -0.0638834635416714,
+        "power_q6": 285051556,
+        "max_fft_error_codes": 0.34771777809230553,
+        "flags": 0
+      },
+      {
+        "case": 5,
+        "input_hz": 80,
+        "peak_bin": 18,
+        "peak_hz": 78.67813110351562,
+        "error_hz": -1.321868896484375,
+        "power_q6": 239907113,
+        "max_fft_error_codes": 0.35882363325866606,
+        "flags": 0
+      },
+      {
+        "case": 6,
+        "input_hz": 90,
+        "peak_bin": 21,
+        "peak_hz": 91.79115295410156,
+        "error_hz": 1.7911529541015625,
+        "power_q6": 207266512,
+        "max_fft_error_codes": 0.33477377200642167,
+        "flags": 0
+      },
+      {
+        "case": 7,
+        "input_hz": 73.25,
+        "peak_bin": 17,
+        "peak_hz": 74.30712381998697,
+        "error_hz": 1.0571238199869697,
+        "power_q6": 255508889,
+        "max_fft_error_codes": 0.2971640970324927,
+        "flags": 0
+      },
+      {
+        "case": 8,
+        "input_hz": 99.6,
+        "peak_bin": 23,
+        "peak_hz": 100.53316752115884,
+        "error_hz": 0.9331675211588504,
+        "power_q6": 262099394,
+        "max_fft_error_codes": 0.40609314124635887,
+        "flags": 0
+      },
+      {
+        "case": 9,
+        "input_hz": 75,
+        "peak_bin": 17,
+        "peak_hz": 74.30712381998697,
+        "error_hz": -0.6928761800130303,
+        "power_q6": 7348822785,
+        "max_fft_error_codes": 0.34329443230838663,
+        "flags": 36
+      }
+    ],
+    "numerical_sweep_cases": 4008,
+    "numerical_sweep_max_error_hz": 2.1941019694009114,
+    "scope": "CIC/CDC/window/FFT/power/peak/UART RTL with all raw ADC samples; idle ADC clocks compressed in this test. Optional --board checks physical cadence. No analog front-end model."
+  },
+  "full_top_rerun_during_reorganization": false
+}

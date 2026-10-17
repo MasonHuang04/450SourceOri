@@ -1,0 +1,9 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><title>MAIN 上位机验证</title>
+<style>body{max-width:1100px;margin:32px auto;padding:0 24px;font:16px/1.7 system-ui;color:#23394c}img{max-width:100%}a{color:#0876ad}.note{padding:16px;background:#edf5fa}</style>
+<h1>03_SW · MAIN 参数设置、RX 波形和峰值</h1>
+<p class="note">默认40 kHz / 4 kHz / 20 ms / 0.25。软件已编译并通过离线协议测试；144字节设置/触发命令通过实际UART RTL仿真。FPGA源码和SOF保持不变。尚未连接真实COM做硬件联调。</p>
+<img src="ui_normal.png" alt="上位机界面，离线合成100Hz数据，非实板">
+<p>上图是明确标识的离线合成演示，不作为实板测量结果。频谱峰值来自M1报文，PC仅换算频率与功率。</p>
+<ul><li>四个TX参数可在运行时发送，保留固定RX设置。</li><li>71,614点历史RTL波形逐点比对，支持二进制波形与M1混合流、碎片读取和连续帧。</li><li>131,072点上限、错误校验/包尾、超限长度、状态和CSV导出均已检查。</li><li>历史长帧压缩时钟数据正确提示BAD_CADENCE，真实UART仿真记录正常解析。</li></ul>
+<p><a href="checks.txt">软件自测</a> · <a href="settings_uart.log">UART RTL日志</a> · <a href="manifest.json">版本与哈希</a> · <a href="ui_compact.png">紧凑视图</a> · <a href="ui_detail.png">波形放大</a></p>
+<p><a href="../../../03_SW/README_main_2026-10-17.md">使用说明</a></p></html>

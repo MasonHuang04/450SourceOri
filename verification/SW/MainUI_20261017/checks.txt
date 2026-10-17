@@ -1,0 +1,4 @@
+﻿PASS settings: independent golden bytes, custom TX, RX profile unchanged, limits, complete settings before trigger
+PASS receive: full archived RTL stream (71,614 exact samples), fragmented reads, real UART record, compressed-clock fixture flagged
+PASS robustness: 131,072-word capacity, two frames, noise, corrupt checksum/trailer, partial reset, oversized header, flags and range
+PASS waveform CSV: signed centering and explicit synthetic/live source

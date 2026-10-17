@@ -1,0 +1,7 @@
+{
+  "job_id": "00f2fcefec5241baab116f3ddd41edd5",
+  "scenarios": 84,
+  "worst_slack_ns": 0.009,
+  "negative_slack_count": 0,
+  "io_constraints": "ADC and DAC constrained; asynchronous UART/I2C/status ports explicitly excepted"
+}

@@ -1,0 +1,20 @@
+Fitter Status : Successful - Sat Oct 17 00:08:15 2026
+Quartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+Revision Name : RxFftLowFreq50to100Hz
+Top-level Entity Name : RxFftLowFreq50to100Hz
+Family : Cyclone V
+Device : 5CEFA7F23I7
+Timing Models : Final
+Logic utilization (in ALMs) : 1,631 / 56,480 ( 3 % )
+Total registers : 2332
+Total pins : 51 / 240 ( 21 % )
+Total virtual pins : 0
+Total block memory bits : 91,154 / 7,024,640 ( 1 % )
+Total RAM Blocks : 11 / 686 ( 2 % )
+Total DSP Blocks : 7 / 156 ( 4 % )
+Total HSSI RX PCSs : 0
+Total HSSI PMA RX Deserializers : 0
+Total HSSI TX PCSs : 0
+Total HSSI PMA TX Serializers : 0
+Total PLLs : 1 / 7 ( 14 % )
+Total DLLs : 0 / 4 ( 0 % )

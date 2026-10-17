@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="draw.io workflow" version="26.0.0" type="device">
+  <diagram id="workflow200k" name="200kHz 收发与显示">
+    <mxGraphModel dx="1320" dy="1060" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1320" pageHeight="1060" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="200 kHz Chirp｜发射、采集与电脑显示" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=29;fontColor=#0f172a;fontStyle=1;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="26" width="1000" height="44" />
+        </mxCell>
+        <mxCell id="subtitle" value="当前工作流程 · 190–210 kHz · TX 80 ms / RX 84 ms · 2026-10-13" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=15;fontColor=#64748b;fontStyle=0;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="78" width="1000" height="25" />
+        </mxCell>
+        <mxCell id="legend_pc" value="● 电脑软件" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;fontColor=#2563eb;fontStyle=0;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="118" width="160" height="22" />
+        </mxCell>
+        <mxCell id="legend_fpga" value="● FPGA 数字逻辑" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;fontColor=#059669;fontStyle=0;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="220" y="118" width="180" height="22" />
+        </mxCell>
+        <mxCell id="legend_analog" value="● 板上模拟器件 / 声学链路" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;fontColor=#ea580c;fontStyle=0;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="430" y="118" width="320" height="22" />
+        </mxCell>
+        <mxCell id="legend_dash" value="虚线 = 控制；实线 = 数据 / 信号" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=right;verticalAlign=middle;fontSize=13;fontColor=#64748b;fontStyle=0;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="850" y="118" width="410" height="22" />
+        </mxCell>
+        <mxCell id="pc_config" value="&lt;b&gt;① 电脑配置 / 触发&lt;/b&gt;&lt;br&gt;200 kHz · 20 kHz 带宽&lt;br&gt;C# 上位机 / COM" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e3a8a;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="uart_down" value="&lt;b&gt;UART 下行&lt;/b&gt;&lt;br&gt;配置包 + 手动触发&lt;br&gt;2 Mbaud · 8N1" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="220" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="control" value="&lt;b&gt;② FPGA 统一控制&lt;/b&gt;&lt;br&gt;RxDepack 解析命令&lt;br&gt;顶层同时启动 TX / RX" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="400" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="tx_ctrl" value="&lt;b&gt;TX 控制&lt;/b&gt;&lt;br&gt;TxController&lt;br&gt;发射窗 80 ms" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="580" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="chirp" value="&lt;b&gt;③ Chirp 生成&lt;/b&gt;&lt;br&gt;ChirpWaveGen&lt;br&gt;190 → 210 kHz" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="760" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="dac" value="&lt;b&gt;DAC 转模拟电压&lt;/b&gt;&lt;br&gt;14 bit · 96 MS/s&lt;br&gt;DAC904" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="940" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="tx_probe" value="&lt;b&gt;发射驱动 + TX 探头&lt;/b&gt;&lt;br&gt;电压 → 超声波&lt;br&gt;需匹配 200 kHz" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1120" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="channel" value="&lt;b&gt;传播 / 目标反射&lt;/b&gt;&lt;br&gt;产生延迟与衰减&lt;br&gt;实物链路待测" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1120" y="280" width="140" height="60" />
+        </mxCell>
+        <mxCell id="rx_probe" value="&lt;b&gt;RX 接收探头&lt;/b&gt;&lt;br&gt;超声波 → 微弱电压&lt;br&gt;可能含噪声和多回波" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1120" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="frontend" value="&lt;b&gt;接收模拟前端&lt;/b&gt;&lt;br&gt;增益 / 电平调理&lt;br&gt;混频 / 15k 低通旁路" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="940" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="adc" value="&lt;b&gt;④ ADC 采样&lt;/b&gt;&lt;br&gt;ADS127L21 · 16 bit&lt;br&gt;1 MS/s；CLK 24 MHz" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="760" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="rx_rtl" value="&lt;b&gt;RX 控制 / SPI 读取&lt;/b&gt;&lt;br&gt;RxController&lt;br&gt;+ ADC SPI 驱动" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="580" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="fifo" value="&lt;b&gt;⑤ 缓存 / 打包&lt;/b&gt;&lt;br&gt;WaveFIFO + TxPack&lt;br&gt;先存样本，采完再回传" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="400" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="uart_up" value="&lt;b&gt;⑥ UART 回传&lt;/b&gt;&lt;br&gt;FPGA → 电脑 COM&lt;br&gt;2 Mbaud · 8N1" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="220" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="pc_show" value="&lt;b&gt;⑦ 电脑解析 / 显示&lt;/b&gt;&lt;br&gt;C# 拼完整帧 → RX 波形&lt;br&gt;可保存采样数据" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e3a8a;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="rx_window" value="&lt;b&gt;并行开启采集&lt;/b&gt;&lt;br&gt;RX 窗口 84 ms&lt;br&gt;配置启动延迟 = 0" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=16;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=12;spacing=5;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="400" y="280" width="140" height="60" />
+        </mxCell>
+        <mxCell id="e_pc_config_uart_down" value="" source="pc_config" target="uart_down" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#64748b;strokeWidth=2;fontSize=11;fontColor=#64748b;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e_uart_down_control" value="" source="uart_down" target="control" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#64748b;strokeWidth=2;fontSize=11;fontColor=#64748b;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e_control_tx_ctrl" value="" source="control" target="tx_ctrl" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#64748b;strokeWidth=2;fontSize=11;fontColor=#64748b;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e_tx_ctrl_chirp" value="" source="tx_ctrl" target="chirp" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=2;fontSize=11;fontColor=#475569;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e_chirp_dac" value="" source="chirp" target="dac" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=2;fontSize=11;fontColor=#475569;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e_dac_tx_probe" value="" source="dac" target="tx_probe" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#ea580c;strokeWidth=2;fontSize=11;fontColor=#ea580c;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e_tx_probe_channel" value="" source="tx_probe" target="channel" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#ea580c;strokeWidth=2;fontSize=11;fontColor=#ea580c;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e_channel_rx_probe" value="" source="channel" target="rx_probe" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#ea580c;strokeWidth=2;fontSize=11;fontColor=#ea580c;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e_rx_probe_frontend" value="" source="rx_probe" target="frontend" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#ea580c;strokeWidth=2;fontSize=11;fontColor=#ea580c;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e_frontend_adc" value="" source="frontend" target="adc" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#ea580c;strokeWidth=2;fontSize=11;fontColor=#ea580c;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e_adc_rx_rtl" value="" source="adc" target="rx_rtl" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=2;fontSize=11;fontColor=#475569;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e_rx_rtl_fifo" value="" source="rx_rtl" target="fifo" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=2;fontSize=11;fontColor=#475569;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e_fifo_uart_up" value="" source="fifo" target="uart_up" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=2;fontSize=11;fontColor=#475569;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e_uart_up_pc_show" value="" source="uart_up" target="pc_show" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=2;fontSize=11;fontColor=#475569;labelBackgroundColor=#ffffff;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="control_rx" value="" source="control" target="rx_window" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#059669;strokeWidth=2;fontSize=11;fontColor=#059669;labelBackgroundColor=#ffffff;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="window_rx" value="" source="rx_window" target="rx_rtl" parent="1" edge="1" style="fontFamily=Microsoft YaHei;edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#059669;strokeWidth=2;fontSize=11;fontColor=#059669;labelBackgroundColor=#ffffff;dashed=1;exitX=1;exitY=0.5;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="same_uart" value="&lt;b&gt;UART 是电脑与 FPGA 之间的通道&lt;/b&gt;&lt;br&gt;下发参数，回传采样数据；&lt;br&gt;声音的传播延迟由 RX 波形体现。" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e3a8a;fontSize=14;spacing=14;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="262" width="320" height="94" />
+        </mxCell>
+        <mxCell id="raw_mode" value="&lt;b&gt;当前采集的是原始 200 kHz RX 波形&lt;/b&gt;&lt;br&gt;TX 与 RX 在时间上重叠；ADC → FPGA 走 SPI。&lt;br&gt;模拟乘法器旁路，尚未接入去斜 / FFT / 测距。" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=13;spacing=14;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="760" y="260" width="320" height="98" />
+        </mxCell>
+        <mxCell id="rtn_note" value="← 回传顺序：ADC 样本 → FIFO → 完整数据包 → UART → 上位机曲线" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=14;fontColor=#475569;fontStyle=0;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="483" width="1220" height="24" />
+        </mxCell>
+        <mxCell id="timing_title" value="一次触发之后，时间如何安排？" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=21;fontColor=#0f172a;fontStyle=1;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="539" width="1100" height="30" />
+        </mxCell>
+        <mxCell id="tx_label" value="TX 发射" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=15;fontColor=#065f46;fontStyle=1;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="590" width="130" height="32" />
+        </mxCell>
+        <mxCell id="rx_label" value="RX 采集" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=15;fontColor=#065f46;fontStyle=1;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="637" width="130" height="32" />
+        </mxCell>
+        <mxCell id="uart_label" value="UART 回传" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=15;fontColor=#1e3a8a;fontStyle=1;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="684" width="130" height="32" />
+        </mxCell>
+        <mxCell id="tx_bar" value="190 → 210 kHz，持续 80 ms" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=12;html=1;fillColor=#d1fae5;strokeColor=#059669;fontColor=#065f46;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="190" y="590" width="400" height="32" />
+        </mxCell>
+        <mxCell id="rx_bar" value="84 ms；采样间隔 1 μs" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=12;html=1;fillColor=#d1fae5;strokeColor=#059669;fontColor=#065f46;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="190" y="637" width="420" height="32" />
+        </mxCell>
+        <mxCell id="uart_bar" value="采集结束后：理论线速约 0.84 s + 握手间隙" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=12;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontColor=#1e3a8a;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="630" y="684" width="630" height="32" />
+        </mxCell>
+        <mxCell id="tx_time" value="80 ms" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=12;fontColor=#64748b;fontStyle=0;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="598" y="590" width="100" height="32" />
+        </mxCell>
+        <mxCell id="rx_time" value="84 ms" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=12;fontColor=#64748b;fontStyle=0;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="618" y="637" width="100" height="32" />
+        </mxCell>
+        <mxCell id="timeline_explain" value="示意，UART 段压缩显示。TX / RX 实际起点含流水线与 ADC 启动延迟；每帧收到后才更新显示，约 1 秒量级。" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;fontColor=#64748b;fontStyle=0;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="736" width="1220" height="25" />
+        </mxCell>
+        <mxCell id="frame" value="&lt;b&gt;这一帧有什么？&lt;/b&gt;&lt;br&gt;&lt;br&gt;约 84,000 个 RX 样本；仿真实际为 83,994 点。&lt;br&gt;32 B 包头 + 2 × N B 采样数据 + 32 B 包尾。&lt;br&gt;包头记录实际点数与采样间隔，完整帧约 168 kB。" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e3a8a;fontSize=14;spacing=14;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="795" width="590" height="137" />
+        </mxCell>
+        <mxCell id="verified" value="&lt;b&gt;目前验证到哪里？&lt;/b&gt;&lt;br&gt;&lt;br&gt;已通过：80 ms TX、84 ms 采集、短 UART、长帧缓存 / 打包。&lt;br&gt;理想回波测试：延迟 2 ms、增益 0.5；实物链路仍待上板验证。&lt;br&gt;完整长帧 UART 逐位仿真已按要求停止，采用分层验证。" style="fontFamily=Microsoft YaHei;rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=14;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="650" y="795" width="610" height="137" />
+        </mxCell>
+        <mxCell id="files" value="代码定位：02_RTL / V0 / SourceCode → FPGA　｜　03_SW / UsMimoTestBench → C# 上位机　｜　verification → 验证证据" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;fontColor=#64748b;fontStyle=0;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="959" width="1220" height="28" />
+        </mxCell>
+        <mxCell id="pc_detail" value="上位机数据流：USSensor.cs 读串口 → SerialFrameParser.cs 拼帧 → MainFrm.cs 显示 / 录制。采样文件 t = 0 对应首个 ADC 样本。" style="fontFamily=Microsoft YaHei;text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=13;fontColor=#64748b;fontStyle=0;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="998" width="1220" height="24" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="boards200k" name="主板与前端 TX_RX 分工">
+    <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="1490" pageHeight="1030" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="TX / RX 穿过两块板：通道方向相同，承担的工作不同" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;strokeColor=none;fillColor=none;whiteSpace=wrap;align=left;fontSize=27;fontColor=#0f172a;fontStyle=1;">
+          <mxGeometry as="geometry" x="40" y="25" width="1400" height="48" />
+        </mxCell>
+        <mxCell id="sub" value="依据主板 02_Analog / 03_IO 与前端 UsFrontEnd 原理图核对 · 当前原始 RX 模式 · 2026-10-13" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;strokeColor=none;fillColor=none;whiteSpace=wrap;align=left;fontSize=15;fontColor=#64748b;fontStyle=0;">
+          <mxGeometry as="geometry" x="40" y="83" width="1400" height="30" />
+        </mxCell>
+        <mxCell id="main_group" value="" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=10;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=15;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;spacing=14;">
+          <mxGeometry as="geometry" x="205" y="125" width="530" height="370" />
+        </mxCell>
+        <mxCell id="front_group" value="" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=10;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=15;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;spacing=14;">
+          <mxGeometry as="geometry" x="745" y="125" width="530" height="370" />
+        </mxCell>
+        <mxCell id="pc_head" value="电脑" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;strokeColor=none;fillColor=none;whiteSpace=wrap;align=left;fontSize=16;fontColor=#2563eb;fontStyle=1;">
+          <mxGeometry as="geometry" x="40" y="120" width="140" height="28" />
+        </mxCell>
+        <mxCell id="main_head" value="主板 MainBoard｜FPGA + DAC / ADC + 模拟调理" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;strokeColor=none;fillColor=none;whiteSpace=wrap;align=left;fontSize=15;fontColor=#065f46;fontStyle=1;">
+          <mxGeometry as="geometry" x="225" y="120" width="500" height="28" />
+        </mxCell>
+        <mxCell id="front_head" value="前端 FrontEnd｜发射功放 + 接收放大 / 可选混频" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;strokeColor=none;fillColor=none;whiteSpace=wrap;align=left;fontSize=15;fontColor=#9a3412;fontStyle=1;">
+          <mxGeometry as="geometry" x="760" y="120" width="510" height="28" />
+        </mxCell>
+        <mxCell id="probe_head" value="外接换能器" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;strokeColor=none;fillColor=none;whiteSpace=wrap;align=left;fontSize=16;fontColor=#6b21a8;fontStyle=1;">
+          <mxGeometry as="geometry" x="1300" y="120" width="150" height="28" />
+        </mxCell>
+        <mxCell id="pc_tx" value="&lt;b&gt;电脑配置 / 触发&lt;/b&gt;&lt;br&gt;UART 下行&lt;br&gt;2 Mbaud · 8N1" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e3a8a;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="40" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="fpga_tx" value="&lt;b&gt;FPGA 发射逻辑&lt;/b&gt;&lt;br&gt;Chirp → DAC 数字码&lt;br&gt;190–210 kHz / 80 ms" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="220" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="main_tx" value="&lt;b&gt;DAC + TX 调理&lt;/b&gt;&lt;br&gt;U9 DAC904&lt;br&gt;选择衰减 / 滤波后缓冲" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="400" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="main_p4" value="&lt;b&gt;主板 P4：TX_OUT&lt;/b&gt;&lt;br&gt;BNC 模拟输出&lt;br&gt;送往前端板" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="580" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="front_p3" value="&lt;b&gt;前端 P3：Tx_In&lt;/b&gt;&lt;br&gt;BNC 模拟输入&lt;br&gt;U8 缓冲" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="760" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="front_amp" value="&lt;b&gt;前端 TX 功放&lt;/b&gt;&lt;br&gt;U10 / U6 调理&lt;br&gt;U9 / U5 OPA552" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="940" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="front_p2" value="&lt;b&gt;前端 P2：TX 输出&lt;/b&gt;&lt;br&gt;Tx_Out_P / Tx_Out_N&lt;br&gt;差分驱动换能器" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="1120" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="tx_probe" value="&lt;b&gt;TX 发射换能器&lt;/b&gt;&lt;br&gt;电压 → 声波" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#faf5ff;strokeColor=#9333ea;fontColor=#6b21a8;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="1300" y="160" width="140" height="60" />
+        </mxCell>
+        <mxCell id="air" value="&lt;b&gt;介质 / 目标&lt;/b&gt;&lt;br&gt;传播、延迟、衰减&lt;br&gt;可能有反射回波" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#faf5ff;strokeColor=#9333ea;fontColor=#6b21a8;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="1300" y="280" width="140" height="60" />
+        </mxCell>
+        <mxCell id="rx_probe" value="&lt;b&gt;RX 接收换能器&lt;/b&gt;&lt;br&gt;声波 → 微弱电压" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#faf5ff;strokeColor=#9333ea;fontColor=#6b21a8;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="1300" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="front_p6" value="&lt;b&gt;前端 P6：Rx_In&lt;/b&gt;&lt;br&gt;接收换能器输入&lt;br&gt;接入前端 RX 通道" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="1120" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="front_rx" value="&lt;b&gt;RX 缓冲 / 放大&lt;/b&gt;&lt;br&gt;U13 → U12&lt;br&gt;得到 Rx_Amp" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="940" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="front_p5" value="&lt;b&gt;前端 P4 选择 → P5&lt;/b&gt;&lt;br&gt;当前选择原始 Rx_Amp&lt;br&gt;P5 为 Rx_Out BNC" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="760" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="main_p5" value="&lt;b&gt;主板 P5：RX_IN&lt;/b&gt;&lt;br&gt;BNC 模拟输入&lt;br&gt;接收前端 P5 的输出" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="580" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="main_rx" value="&lt;b&gt;主板 RX 调理 + ADC&lt;/b&gt;&lt;br&gt;衰减 / 放大 / 差分转换&lt;br&gt;ADS127L21 采样" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="400" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="fpga_rx" value="&lt;b&gt;FPGA 接收逻辑&lt;/b&gt;&lt;br&gt;SPI 读 ADC → FIFO&lt;br&gt;1 MS/s · 16 bit · 84 ms" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="220" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="pc_rx" value="&lt;b&gt;UART → 电脑显示&lt;/b&gt;&lt;br&gt;C# 解析完整帧&lt;br&gt;画 RX 波形 / 保存" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=16;whiteSpace=wrap;fontSize=12;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e3a8a;spacing=4;strokeWidth=1.5;">
+          <mxGeometry as="geometry" x="40" y="400" width="140" height="60" />
+        </mxCell>
+        <mxCell id="e0" source="pc_tx" target="fpga_tx" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=1;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e1" source="fpga_tx" target="main_tx" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e2" source="main_tx" target="main_p4" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e3" source="main_p4" target="front_p3" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e4" source="front_p3" target="front_amp" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e5" source="front_amp" target="front_p2" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e6" source="front_p2" target="tx_probe" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e7" source="tx_probe" target="air" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#9333ea;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e8" source="air" target="rx_probe" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#9333ea;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e9" source="rx_probe" target="front_p6" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e10" source="front_p6" target="front_rx" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e11" source="front_rx" target="front_p5" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e12" source="front_p5" target="main_p5" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e13" source="main_p5" target="main_rx" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e14" source="main_rx" target="fpga_rx" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e15" source="fpga_rx" target="pc_rx" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;dashed=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="main_note" value="主板同时有 TX 和 RX。&lt;br&gt;TX 向前端输出模拟电压；RX 接收前端送回的模拟电压。&lt;br&gt;ADC / DAC 与电脑通信由同一颗 FPGA 控制。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;strokeColor=none;fillColor=none;whiteSpace=wrap;align=left;fontSize=14;fontColor=#065f46;fontStyle=0;">
+          <mxGeometry as="geometry" x="235" y="272" width="470" height="80" />
+        </mxCell>
+        <mxCell id="front_note" value="前端同时有 TX 和 RX。&lt;br&gt;TX 负责提高驱动能力；RX 负责小信号缓冲 / 放大。&lt;br&gt;P4 跳线决定送回原始 RX，还是 RX × TX 参考。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;strokeColor=none;fillColor=none;whiteSpace=wrap;align=left;fontSize=14;fontColor=#9a3412;fontStyle=0;">
+          <mxGeometry as="geometry" x="775" y="272" width="470" height="80" />
+        </mxCell>
+        <mxCell id="same_names" value="板间按通道连接：主板 TX → 前端 TX；前端 RX → 主板 RX。两条都是模拟链路，不按 UART 的 TX / RX 名字交叉接。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;strokeColor=none;fillColor=none;whiteSpace=wrap;align=left;fontSize=16;fontColor=#0f172a;fontStyle=1;">
+          <mxGeometry as="geometry" x="40" y="519" width="1400" height="32" />
+        </mxCell>
+        <mxCell id="mix_title" value="前端 P4 的两种选择，决定电脑最终收到什么" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;strokeColor=none;fillColor=none;whiteSpace=wrap;align=left;fontSize=21;fontColor=#0f172a;fontStyle=1;">
+          <mxGeometry as="geometry" x="40" y="579" width="1400" height="33" />
+        </mxCell>
+        <mxCell id="raw" value="&lt;b&gt;当前目标：采集原始 200 kHz RX&lt;/b&gt;&lt;br&gt;&lt;br&gt;P4 的 2–3 脚：Rx_Amp → Rx_Out → 前端 P5。&lt;br&gt;主板 RX Filter 关闭，旁路主板约 15 kHz 低通。&lt;br&gt;ADC 采到载频附近的原始波形；主板其余调理仍存在。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=10;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=15;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;spacing=14;">
+          <mxGeometry as="geometry" x="40" y="632" width="680" height="146" />
+        </mxCell>
+        <mxCell id="mixed" value="&lt;b&gt;原设计保留的选择：模拟混频&lt;/b&gt;&lt;br&gt;&lt;br&gt;Tx_Buff 与 Rx_Amp → U11 AD835 → Rx_Mix。&lt;br&gt;P4 的 1–2 脚：Rx_Mix → Rx_Out → 前端 P5。&lt;br&gt;配合主板低通，可采差频信号；这不是当前原始 RX 模式。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=10;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=15;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;spacing=14;">
+          <mxGeometry as="geometry" x="740" y="632" width="700" height="146" />
+        </mxCell>
+        <mxCell id="details" value="&lt;b&gt;此前流程图需要补充的地方&lt;/b&gt;&lt;br&gt;主板上也有模拟电路：TX 有衰减 / 滤波选择；RX 有 U14 选择、U17 放大、U22 THS4551 差分驱动，再到 U21 ADC。&lt;br&gt;界面“RX 0 dB”是原软件的档位名，不表示整条接收链路完全不放大。前端混频跳线也不受软件 RX Filter 按钮控制。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;rounded=1;arcSize=10;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=15;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;spacing=14;">
+          <mxGeometry as="geometry" x="40" y="803" width="1400" height="103" />
+        </mxCell>
+        <mxCell id="limits" value="核对范围：磁盘中 A0 原理图与项目调试记录；未确认实物跳线 / 飞线 / 焊接改动。P4 脚位须按实物丝印和导通确认后设置。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;strokeColor=none;fillColor=none;whiteSpace=wrap;align=left;fontSize=14;fontColor=#64748b;fontStyle=0;">
+          <mxGeometry as="geometry" x="40" y="935" width="1400" height="28" />
+        </mxCell>
+        <mxCell id="status" value="数字 RTL 验证已完成；200 kHz 经功放、换能器、模拟接收链路后的幅度与失真仍需实测。当前图不表示已完成实物验证。" vertex="1" parent="1" style="fontFamily=Microsoft YaHei;html=1;text;strokeColor=none;fillColor=none;whiteSpace=wrap;align=left;fontSize=14;fontColor=#64748b;fontStyle=0;">
+          <mxGeometry as="geometry" x="40" y="974" width="1400" height="28" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

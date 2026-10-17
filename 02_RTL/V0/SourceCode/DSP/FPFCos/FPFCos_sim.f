@@ -1,0 +1,8 @@
+FPFCos_sim/FPFCos_memoryC0_uid248_sinXTables_lutmem.hex
+FPFCos_sim/FPFCos_memoryC1_uid251_sinXTables_lutmem.hex
+FPFCos_sim/FPFCos_memoryC2_uid254_sinXTables_lutmem.hex
+FPFCos_sim/FPFCos_rrTable_uid47_fpCosPiTest_lutmem.hex
+FPFCos_sim/FPFCos_rrTable_uid48_fpCosPiTest_lutmem.hex
+FPFCos_sim/dspba_library_package.vhd
+FPFCos_sim/dspba_library.vhd
+FPFCos_sim/FPFCos.vhd

@@ -1,0 +1,226 @@
+{
+  "created": "2026-10-16T17:30:28.924079",
+  "job_id": "6af6ef378d3c4c28a03457a3b90dfa4b",
+  "target": "5CEFA7F23I7",
+  "clock_hz": 165000000,
+  "start_hz": 38000,
+  "end_hz": 42000,
+  "duration_ms": 20,
+  "repeat_ms": 200,
+  "amplitude_fraction": 0.25,
+  "full_compile_pass": true,
+  "timing_pass": true,
+  "scenario_count": 36,
+  "scenarios": [
+    {
+      "type": "Slow 1100mV 100C Model Setup 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.29,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Setup 'dac_capture'",
+      "slack_ns": 0.984,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Hold 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.238,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Hold 'dac_capture'",
+      "slack_ns": 1.19,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Recovery 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 2.415,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Removal 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.493,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'",
+      "slack_ns": 0.757,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 1.625,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV 100C Model Minimum Pulse Width 'board_clk'",
+      "slack_ns": 4.781,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Setup 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.241,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Setup 'dac_capture'",
+      "slack_ns": 0.868,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Hold 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.1,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Hold 'dac_capture'",
+      "slack_ns": 1.32,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Recovery 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 2.684,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Removal 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.373,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'",
+      "slack_ns": 0.757,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 1.602,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Slow 1100mV -40C Model Minimum Pulse Width 'board_clk'",
+      "slack_ns": 4.759,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Setup 'dac_capture'",
+      "slack_ns": 1.35,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Setup 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 2.974,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Hold 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.126,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Hold 'dac_capture'",
+      "slack_ns": 1.172,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Recovery 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 3.822,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Removal 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.249,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'",
+      "slack_ns": 0.757,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 1.923,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV 100C Model Minimum Pulse Width 'board_clk'",
+      "slack_ns": 4.919,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Setup 'dac_capture'",
+      "slack_ns": 1.325,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Setup 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 3.416,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Hold 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.053,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Hold 'dac_capture'",
+      "slack_ns": 1.183,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Recovery 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 4.245,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Removal 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.17,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'",
+      "slack_ns": 0.757,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Minimum Pulse Width 'pll|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 1.92,
+      "tns_ns": 0.0
+    },
+    {
+      "type": "Fast 1100mV -40C Model Minimum Pulse Width 'board_clk'",
+      "slack_ns": 4.931,
+      "tns_ns": 0.0
+    }
+  ],
+  "worst_slack_ns": 0.053,
+  "pin_map_matches_original": 51,
+  "protected_production_files_unchanged": 230,
+  "original_backup_files_unchanged": 1161,
+  "concurrent_existing_file_changes_preserved": [
+    "02_RTL\\V0\\UsMimoTestBench.qsf"
+  ],
+  "numerical_and_control_tests": {
+    "control_pass": true,
+    "amplitude_profile_pass": true,
+    "max_dac_error_codes": 2,
+    "dac_min": 6144,
+    "dac_max": 10240,
+    "points": 2001,
+    "scope": "Controller with accelerated boot/repeat counters; original Intel chirp core at 10-us waveform checkpoints over 20ms, amplitude0.25; no board measurement."
+  },
+  "hardware_measurement": "pending user oscilloscope test",
+  "external_DAC_timing_assumptions": {
+    "setup_ns": 1.0,
+    "hold_ns": 1.5,
+    "relative_trace_skew_allowance_ns": 0.25
+  },
+  "source_hashes": {
+    "ChirpTxScope40k20ms.qpf": "bffe3194badbd296469a7790c120393cb8dba999f98060728ccedbe9133ea5ee",
+    "ChirpTxScope40k20ms.qsf": "98840377279f424ea33c41d1df111968918d9239e3c87e5f94e8d57e2f1cdf81",
+    "SourceCode\\BoardTests\\ChirpTxScope40k20ms.sdc": "a439ead76ff11cbda35916dd6e186c77782ffa403a8c28e4d08dd18d223afdcf",
+    "SourceCode\\BoardTests\\ChirpTxScope40k20ms.vhd": "ea0b67cb2ac9debc1726203e8b74794739c85c230512cc88b5813502104ca0cd",
+    "SourceCode\\BoardTests\\ScopeBurstControl.vhd": "0ec3cc369b94c7c049e9654093b41a1a589738bb914c82051cdd005ee152cca5"
+  },
+  "sof_sha256": "68fc1ec9ed22a06b72de54dda873059b59b5f8a21ee25439447ed1dfd95ab10e"
+}

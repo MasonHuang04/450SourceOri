@@ -1,0 +1,7 @@
+{
+  "rx_capture_ms": 250,
+  "rx_raw_downsample": 3,
+  "fft_valid_samples": 8192,
+  "search_min_hz": 25,
+  "search_max_hz": 500
+}

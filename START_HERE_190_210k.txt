@@ -1,0 +1,26 @@
+旧190–210kHz验证材料已集中到verification/Archive/history_20261017.zip，查阅方法见verification/Archive/README.md。当前仿真入口仍在02_RTL/V0/Simulation。
+
+2026-10-17入口更新：UsMimoTestBench.qpf现在为统一工程。本文对应原主系统时，应在Project -> Revisions选择UsMimoTestBench；默认ChirpTxScope40k20ms是独立示波器实验。当前两个实验操作见02_RTL/V0/Simulation/README.md。
+
+当前活动版本：最小参数修改，恢复原版 165 MHz 架构（2026-10-14）
+
+相对 15_UsMimoTestBench_original，只修改两个生产文件、8 行默认参数：
+1. 02_RTL/V0/SourceCode/UsMimoTestBench.vhd：顶层 Fc=200 kHz、BW=20 kHz、TX=80 ms、RX=84 ms。
+2. 03_SW/UsMimoTestBench/MainFrm.Designer.cs：同样四项上位机默认参数。
+
+其余生产逻辑恢复原版，包括 MainPLL、SysLib、ChirpWaveGen、TxController、RxController、ADC 驱动、UART、TxPack、SDC 和 C# 解析。
+系统/DAC=165 MHz；ADC CLK=27.5 MHz；标称 ADC 采样率=1.145833333 MS/s；UART=2 Mbaud；RX 启动延迟=1 ms。
+原版 RX Filter 默认开启（顶层 RX mux=100）；没有擅自改为原始波形旁路。数字仿真不包含该模拟低通及实际探头响应。
+
+本版本验证目录：verification/minimal_165m_20261014。
+之前的 96 MHz 源码/测试脚本/构建包已归档为该目录 previous_96m_version.zip。
+原 96 MHz .sof 已移入 previous_96m_artifacts；旧 C# exe 已归档副本，但运行中的 exe 受系统锁定，仍可能留在旧 bin/Chirp200k 路径。
+当前打开的旧上位机窗口仍对应旧构建，不能视为当前源码构建产物。
+本轮尚未生成 165 MHz / 新默认参数的 .sof 或上位机 exe；不要使用历史 output_files、bin 中的文件冒充本版本。
+
+verification 下早前的 run_checks.py、run_system_test.py 等，以及 workflow/报告图，记录的是旧 96 MHz 实验版本。
+本轮的运行方法、结果与覆盖边界见 minimal_165m_20261014 中的新报告；未完成测试不可标为通过。
+原始备份目录不修改。未连接 JTAG/串口，未烧录或测量实物。
+
+本轮验证已完成：详见 verification/minimal_165m_20261014/results/MINIMAL_CHANGE_REPORT.txt。
+数字数据检查=True；严格边界/时序检查全部满足=False。保留的原版现象见报告。

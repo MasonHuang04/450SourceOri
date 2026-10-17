@@ -1,0 +1,17 @@
+{
+  "profile": "CIC128_FFT2048",
+  "input_hz": 100,
+  "additional_test_frequencies_hz": [
+    50,
+    55,
+    60,
+    70,
+    80,
+    90,
+    73.25,
+    99.6
+  ],
+  "search_min_hz": 50,
+  "search_max_hz": 100,
+  "maximum_error_hz": 3
+}

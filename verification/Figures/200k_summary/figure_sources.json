@@ -1,0 +1,17 @@
+{
+  "source_sha256": {
+    "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench\\verification\\rtl_200k_results\\evidence\\chirp80_samples.csv": "1dafa9659ae34b894e02868a16b9e8c9482aa6103c9edbc888e6f575b0998af2",
+    "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench\\verification\\rx_echo_results\\evidence\\rx_packets.hex": "fba7b4dadc7c5e69fde0931dfa0dc115db433c8607729f8f773abb5293c1af90",
+    "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench\\verification\\rx_echo_results\\evidence\\tx_dac_codes.txt": "b771c7abed206bc9817751dd14b06409a127e10edaaf604b6d9f96d65f6ecd75"
+  },
+  "rx_samples": 83994,
+  "configured_delay_us": 2000,
+  "configured_gain": 0.5,
+  "max_adc_code_mismatch": 0,
+  "rx_plot_window_us": [
+    0,
+    40
+  ],
+  "tx_source_export_rate_hz": 1000000,
+  "scope": "Replots of existing RTL simulation evidence. RX delay/gain are imposed by an ideal model. No new simulation or hardware measurement."
+}
