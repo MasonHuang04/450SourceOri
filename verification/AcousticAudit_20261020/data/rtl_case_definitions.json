@@ -1,0 +1,13 @@
+{
+  "scope": "Synthetic diagnostic inputs through unchanged production RTL; no hardware measurement or production code changes.",
+  "cases": {
+    "0": "Ideal pure beat for 5 cm reflector, 58.309 Hz",
+    "1": "Ideal pure beat for 7.5 cm reflector, 87.464 Hz",
+    "2": "Ideal pure beat for 12.5 cm reflector, 145.773 Hz",
+    "3": "100 Hz amplitude 7000 plus 380 Hz amplitude 6300, fixed phases",
+    "4": "100 Hz amplitude 6300 plus 380 Hz amplitude 7000, same phases",
+    "5": "Existing clipping test",
+    "6": "Existing short-frame test",
+    "7": "Existing empty-frame test"
+  }
+}

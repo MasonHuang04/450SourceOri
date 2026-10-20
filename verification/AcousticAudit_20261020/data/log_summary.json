@@ -1,0 +1,154 @@
+[
+  {
+    "file": "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench\\03_SW\\UsMimoTestBench\\bin\\Release\\DataSessions\\20261020_165208_ed7a25\\peaks.csv",
+    "rows": 249,
+    "bin_counts": {
+      "2": 49,
+      "1": 200
+    },
+    "status_counts": {
+      "OK": 210,
+      "NO_STRONG_PEAK": 39
+    },
+    "tx_profiles": [
+      [
+        "40000",
+        "2000",
+        "0.02",
+        "0.5"
+      ],
+      [
+        "40000",
+        "4000",
+        "0.02",
+        "0.25"
+      ]
+    ],
+    "jump_count": 0,
+    "examples": []
+  },
+  {
+    "file": "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench\\03_SW\\UsMimoTestBench\\bin\\Release\\DataSessions\\20261020_170453_7fee98\\peaks.csv",
+    "rows": 1576,
+    "bin_counts": {
+      "5": 74,
+      "6": 69,
+      "8": 20,
+      "4": 77,
+      "3": 24,
+      "12": 122,
+      "9": 59,
+      "11": 36,
+      "14": 330,
+      "7": 207,
+      "13": 13,
+      "10": 545
+    },
+    "status_counts": {
+      "ADC_CLIPPED": 32,
+      "OK": 1543,
+      "CENTERING_CLIPPED": 1
+    },
+    "tx_profiles": [
+      [
+        "40000",
+        "4000",
+        "0.02",
+        "0.25"
+      ]
+    ],
+    "jump_count": 20,
+    "examples": [
+      [
+        {
+          "time": "2026-10-20T17:05:58.4304999+08:00",
+          "sequence": "50",
+          "status": "OK",
+          "peak_hz": "196.25353161245585",
+          "bin": "6",
+          "raw_bin_hz": "209.808349609375",
+          "delta_q16": "-25404",
+          "power_code_squared": "2021832.265625",
+          "tx_center_hz": "40000",
+          "tx_bandwidth_hz": "4000",
+          "tx_duration_s": "0.02",
+          "fft_length": "1024"
+        },
+        {
+          "time": "2026-10-20T17:05:59.6880795+08:00",
+          "sequence": "51",
+          "status": "OK",
+          "peak_hz": "404.99847576332587",
+          "bin": "12",
+          "raw_bin_hz": "419.61669921875",
+          "delta_q16": "-27397",
+          "power_code_squared": "200277.265625",
+          "tx_center_hz": "40000",
+          "tx_bandwidth_hz": "4000",
+          "tx_duration_s": "0.02",
+          "fft_length": "1024"
+        }
+      ],
+      [
+        {
+          "time": "2026-10-20T17:07:00.0191155+08:00",
+          "sequence": "98",
+          "status": "OK",
+          "peak_hz": "411.35436428400374",
+          "bin": "12",
+          "raw_bin_hz": "419.61669921875",
+          "delta_q16": "-15485",
+          "power_code_squared": "134143.53125",
+          "tx_center_hz": "40000",
+          "tx_bandwidth_hz": "4000",
+          "tx_duration_s": "0.02",
+          "fft_length": "1024"
+        },
+        {
+          "time": "2026-10-20T17:07:01.5302720+08:00",
+          "sequence": "99",
+          "status": "OK",
+          "peak_hz": "213.67246517911551",
+          "bin": "6",
+          "raw_bin_hz": "209.808349609375",
+          "delta_q16": "7242",
+          "power_code_squared": "1075753.265625",
+          "tx_center_hz": "40000",
+          "tx_bandwidth_hz": "4000",
+          "tx_duration_s": "0.02",
+          "fft_length": "1024"
+        }
+      ],
+      [
+        {
+          "time": "2026-10-20T17:07:21.8072617+08:00",
+          "sequence": "115",
+          "status": "OK",
+          "peak_hz": "143.1312800074617",
+          "bin": "4",
+          "raw_bin_hz": "139.87223307291666",
+          "delta_q16": "6108",
+          "power_code_squared": "2204225.140625",
+          "tx_center_hz": "40000",
+          "tx_bandwidth_hz": "4000",
+          "tx_duration_s": "0.02",
+          "fft_length": "1024"
+        },
+        {
+          "time": "2026-10-20T17:07:23.2301534+08:00",
+          "sequence": "116",
+          "status": "OK",
+          "peak_hz": "307.644319642956",
+          "bin": "9",
+          "raw_bin_hz": "314.7125244140625",
+          "delta_q16": "-13247",
+          "power_code_squared": "379475.40625",
+          "tx_center_hz": "40000",
+          "tx_bandwidth_hz": "4000",
+          "tx_duration_s": "0.02",
+          "fft_length": "1024"
+        }
+      ]
+    ]
+  }
+]

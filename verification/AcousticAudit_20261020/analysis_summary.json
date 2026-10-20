@@ -1,0 +1,51 @@
+{
+  "corrected_distances_cm": [
+    5,
+    7.5,
+    12.5
+  ],
+  "pure_tone_cases": [
+    {
+      "distance_cm": 5,
+      "ideal_beat_hz": 58.309037900874635,
+      "observed_cycles": 1.0942931354359926,
+      "synthetic_rtl_hz": 56.649684362734355,
+      "error_hz": -1.6593535381402802
+    },
+    {
+      "distance_cm": 7.5,
+      "ideal_beat_hz": 87.46355685131195,
+      "observed_cycles": 1.641439703153989,
+      "synthetic_rtl_hz": 86.16518850127855,
+      "error_hz": -1.2983683500333996
+    },
+    {
+      "distance_cm": 12.5,
+      "ideal_beat_hz": 145.7725947521866,
+      "observed_cycles": 2.7357328385899815,
+      "synthetic_rtl_hz": 146.3033549953252,
+      "error_hz": 0.5307602431386158
+    }
+  ],
+  "production_rtl_changed": false,
+  "actual_log_rows": 1576,
+  "jumps_over_150_hz": 20,
+  "all_jumps_change_raw_bin": true,
+  "interpolation_limit_hz": 17.484029134114582,
+  "physical_root_cause_confirmed": false,
+  "diagnostic_ram_model": "behavioral",
+  "diagnostic_full_top": false,
+  "competing_tone_outputs_hz": [
+    99.80217631285389,
+    379.78248049815494
+  ],
+  "envelope_model": {
+    "model": "Illustrative quasi-static RF Gaussian gain with 0.2 floor; unknown actual transducer model",
+    "assumptions": "No noise, ringing, phase dispersion, clipping, multi-path or time-varying offset; common shaped TX reference",
+    "before_envelope_max_min_ratio": 3.872402741790837,
+    "after_envelope_max_min_ratio": 1.1561389656329752,
+    "maximum_normalized_drive": 1.0,
+    "minimum_normalized_drive": 0.5002215722330454,
+    "real_hardware_improvement_verified": false
+  }
+}

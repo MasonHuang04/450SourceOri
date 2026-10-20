@@ -1,0 +1,60 @@
+Reading pref.tcl
+
+# 2025.2
+
+# do {C:\Users\admin\.codex\visualizations\2026\10\09\01a120ee-8376-76a1-b902-05acd791be04\acoustic_audit_20261020\rtl_diagnostic\Simulation\FFT\results\main\fft\run.do}
+# Questa Altera Starter FPGA Edition-64 vmap 2025.2 Lib Mapping Utility 2025.05 May 31 2025
+# vmap work work 
+# ** Note: (vmap-220) 'E:/Downloads/Questa/questa_fse/win64/../modelsim.ini' is used as the ini file.
+# Copying E:/Downloads/Questa/questa_fse/win64/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+# Start time: 20:11:01 on Oct 20,2026
+# vlog -sv "+define+MAIN_FFT_TEST" "+define+MF_LOGN=10" "+define+MF_VALID=672" "+define+MF_DW=9" "+define+MF_MIN=1" "+define+MF_MAX=14" "+define+MF_RAW=21770" C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/acoustic_audit_20261020/rtl_diagnostic/Simulation/FFT/results/main/fft/units/MainFftProcessor.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/acoustic_audit_20261020/rtl_diagnostic/Simulation/FFT/results/main/fft/units/MainPeakReport.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/acoustic_audit_20261020/rtl_diagnostic/Simulation/FFT/results/main/fft/units/MainCicDecimator.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/acoustic_audit_20261020/rtl_diagnostic/Simulation/FFT/results/main/fft/units/MainFrameRam.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/acoustic_audit_20261020/rtl_diagnostic/Simulation/FFT/results/main/fft/units/kaiser4_rfft.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/acoustic_audit_20261020/rtl_diagnostic/Simulation/FFT/results/main/fft/units/fft_tdp_store.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/acoustic_audit_20261020/rtl_diagnostic/Simulation/FFT/results/main/fft/units/fft_power_peak.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/acoustic_audit_20261020/rtl_diagnostic/Simulation/FFT/results/main/fft/units/main_peak_interpolator.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/acoustic_audit_20261020/rtl_diagnostic/Simulation/FFT/tb_fft_plot.sv 
+# ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
+# -- Compiling module MainFftProcessor
+# -- Compiling module MainPeakReport
+# -- Compiling module MainCicDecimator
+# -- Compiling module MainFrameRam
+# -- Compiling module kaiser4_rfft
+# -- Compiling module fft_tdp_store
+# -- Compiling module fft_power_peak
+# -- Compiling module main_peak_interpolator
+# -- Compiling module tb_main_fft
+# 
+# Top level modules:
+# 	tb_main_fft
+# End time: 20:11:02 on Oct 20,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
+# vsim -t 1ps -L altera_mf work.tb_main_fft 
+# Start time: 20:11:03 on Oct 20,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Note: (vopt-220) 'modelsim.ini' is used as the ini file.
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 win64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.tb_main_fft(fast)
+# PASS MAIN FFT case=0 count=672 bin=2 flags=00
+# PASS MAIN FFT case=1 count=672 bin=2 flags=00
+# PASS MAIN FFT case=2 count=672 bin=4 flags=00
+# PASS MAIN FFT case=3 count=672 bin=3 flags=00
+# PASS MAIN FFT case=4 count=672 bin=11 flags=00
+# PASS MAIN FFT case=5 count=672 bin=2 flags=24
+# PASS MAIN FFT case=6 count=337 bin=0 flags=01
+# PASS MAIN FFT case=7 count=0 bin=0 flags=01
+# PASS MAIN FFT PIPELINE
+# End time: 20:11:13 on Oct 20,2026, Elapsed time: 0:00:10
+# Errors: 0, Warnings: 0

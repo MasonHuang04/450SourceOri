@@ -1,0 +1,9 @@
+{
+  "model": "Illustrative quasi-static RF Gaussian gain with 0.2 floor; unknown actual transducer model",
+  "assumptions": "No noise, ringing, phase dispersion, clipping, multi-path or time-varying offset; common shaped TX reference",
+  "before_envelope_max_min_ratio": 3.872402741790837,
+  "after_envelope_max_min_ratio": 1.1561389656329752,
+  "maximum_normalized_drive": 1.0,
+  "minimum_normalized_drive": 0.5002215722330454,
+  "real_hardware_improvement_verified": false
+}

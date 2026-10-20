@@ -6,6 +6,7 @@
 
 | 内容 | 入口 |
 |---|---|
+| 5 / 7.5 / 12.5 cm 声学跳峰排查、频响包络与 Git/备份核查 | [核查报告](AcousticAudit_20261020/report.html) · [诊断 workflow](AcousticAudit_20261020/DIAGNOSTIC_WORKFLOW.drawio) |
 | 当前Main：19ms RX、672有效点/1024 FFT、FPGA插值 | [短窗报告](FFT/Short20ms_20261020/report.html) · [用户确认](FFT/Short20ms_20261020/user_confirmation.json) |
 | Main长窗插值基线 | [报告](FFT/Interpolation_20261020/report.html) |
 | 初版main：8192点FFT、25–500Hz峰值 | [报告](FFT/Main_20261017/report.html) |

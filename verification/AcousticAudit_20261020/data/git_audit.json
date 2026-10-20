@@ -1,0 +1,52 @@
+[
+  {
+    "path": "02_RTL/V0/SourceCode/FftPipeline.sv",
+    "remote_exists": true,
+    "working_tree_matches_remote": true
+  },
+  {
+    "path": "02_RTL/V0/SourceCode/UsMimoTestBench.vhd",
+    "remote_exists": true,
+    "working_tree_matches_remote": true
+  },
+  {
+    "path": "02_RTL/V0/Simulation/FFT/main_settings.json",
+    "remote_exists": true,
+    "working_tree_matches_remote": true
+  },
+  {
+    "path": "03_SW/UsMimoTestBench/MainProtocol.cs",
+    "remote_exists": true,
+    "working_tree_matches_remote": true
+  },
+  {
+    "path": "03_SW/UsMimoTestBench/MainFrm.cs",
+    "remote_exists": true,
+    "working_tree_matches_remote": true
+  },
+  {
+    "path": "verification/FFT/Interpolation_20261020/checks.json",
+    "remote_exists": true,
+    "working_tree_matches_remote": true
+  },
+  {
+    "path": "verification/FFT/Short20ms_20261020/checks.json",
+    "remote_exists": true,
+    "working_tree_matches_remote": true
+  },
+  {
+    "path": "verification/FFT/Short20ms_20261020/evidence.zip",
+    "remote_exists": true,
+    "working_tree_matches_remote": true
+  },
+  {
+    "path": "WORKFLOW_Demo.drawio",
+    "remote_exists": true,
+    "working_tree_matches_remote": true
+  },
+  {
+    "path": "readme_2026-10-20.md",
+    "remote_exists": true,
+    "working_tree_matches_remote": false
+  }
+]

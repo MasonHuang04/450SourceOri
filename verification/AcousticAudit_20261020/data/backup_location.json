@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-20",
+  "source": "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench",
+  "destination": "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench_backup_20261020",
+  "git_head": "3ee6a8282ae6aaa0b73db41b842865f610f0cf4d",
+  "file_count": 366,
+  "total_bytes": 63180139,
+  "excluded": "Git metadata, rebuildable compiler caches, old historical rollback archives; original sibling is not modified.",
+  "included": "All current Git-visible working files including uncommitted source/docs, electronics design, reports and current SOF/EXE; plus timestamped runtime peak-log snapshots."
+}
