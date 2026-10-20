@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-20",
+  "source": "user_confirmation_in_conversation",
+  "user_feedback": "现在全部正常了",
+  "current_artifact_files": {
+    "02_RTL/V0/output_files/UsMimoTestBench.sof": "9946270df8e13ae60e751a7cd27acd4d2b243d237c1af5af47421a4ba6b8529f",
+    "03_SW/UsMimoTestBench/bin/Release/UsMimoTestBench.exe": "9c5e22c66a556731f5fcfe8454d6fe7882a7f63c59d5e37fd7c83bd6678137df"
+  },
+  "quantitative_measurements_added": false,
+  "scope": "用户对当前运行状态的确认；保留已有RTL/数值测试结论与短窗低频限制，不推断新的定量测距精度或故障根因。"
+}

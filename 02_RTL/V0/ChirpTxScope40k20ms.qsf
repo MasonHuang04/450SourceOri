@@ -5,7 +5,7 @@ set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_chirp_scope_40k20ms
 set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
 set_global_assignment -name VHDL_INPUT_VERSION VHDL_2008
 set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
-set_global_assignment -name MIN_CORE_JUNCTION_TEMP -40
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP "-40"
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 100
 set_global_assignment -name SDC_FILE SourceCode/ChirpTxScope40k20ms.sdc
 set_location_assignment PIN_U8 -to oLED_RX_DIV4
@@ -126,12 +126,9 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[2
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[1]
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[0]
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_PD
-set_global_assignment -name VHDL_FILE SourceCode/SysLib.vhd
-set_global_assignment -name VHDL_FILE SourceCode/DSPLib.vhd
+set_global_assignment -name VHDL_FILE SourceCode/CommonPackages.vhd
 set_global_assignment -name VHDL_FILE SourceCode/DSP/FIFO.vhd
-set_global_assignment -name VHDL_FILE SourceCode/ChirpWaveGen.vhd
-set_global_assignment -name VHDL_FILE SourceCode/TxController.vhd
-set_global_assignment -name VHDL_FILE SourceCode/ScopeBurstControl.vhd
+set_global_assignment -name VHDL_FILE SourceCode/ChirpModules.vhd
 set_global_assignment -name VHDL_FILE SourceCode/ChirpTxScope40k20ms.vhd
 set_global_assignment -name QIP_FILE SourceCode/DSP/FPFAdd/FPFAdd.qip
 set_global_assignment -name QIP_FILE SourceCode/DSP/FPFSub/FPFSub.qip
@@ -141,11 +138,11 @@ set_global_assignment -name QIP_FILE SourceCode/DSP/FPFCos/FPFCos.qip
 set_global_assignment -name QIP_FILE SourceCode/DSP/FPFFP32ToInt32/FPFFP32ToInt32.qip
 set_global_assignment -name QIP_FILE SourceCode/DSP/FPFInt32ToFP32/FPFInt32ToFP32.qip
 set_global_assignment -name QIP_FILE SourceCode/MainPLL/MainPLL.qip
-set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to "oDA_D[*]"
+set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to oDA_D[*]
 # Local replication of the synchronous reset source avoids one long global
 # reset route to thousands of asynchronous-clear inputs. Recovery stays timed.
-set_instance_assignment -name ADV_NETLIST_OPT_ALLOWED ALWAYS_ALLOW -to "tx|uCWG|cRst"
-set_instance_assignment -name GLOBAL_SIGNAL OFF -to "tx|uCWG|cRst*"
+set_instance_assignment -name ADV_NETLIST_OPT_ALLOWED ALWAYS_ALLOW -to tx|uCWG|cRst
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to tx|uCWG|cRst*
 set_global_assignment -name FITTER_EFFORT "AUTO FIT"
 set_instance_assignment -name DUPLICATE_ATOM scope_reset_u0 -from "TxController:tx|ChirpWaveGen:uCWG|cRst" -to "TxController:tx|ChirpWaveGen:uCWG|FPFMult:u0|*"
 set_instance_assignment -name DUPLICATE_ATOM scope_reset_u1 -from "TxController:tx|ChirpWaveGen:uCWG|cRst" -to "TxController:tx|ChirpWaveGen:uCWG|FPFMult:u1|*"
@@ -160,7 +157,7 @@ set_instance_assignment -name DUPLICATE_ATOM scope_reset_u9 -from "TxController:
 set_instance_assignment -name DUPLICATE_ATOM scope_reset_u10 -from "TxController:tx|ChirpWaveGen:uCWG|cRst" -to "TxController:tx|ChirpWaveGen:uCWG|FPFMult:u10|*"
 set_instance_assignment -name DUPLICATE_ATOM scope_reset_u11 -from "TxController:tx|ChirpWaveGen:uCWG|cRst" -to "TxController:tx|ChirpWaveGen:uCWG|FPFAdd:u11|*"
 set_instance_assignment -name DUPLICATE_ATOM scope_reset_u12 -from "TxController:tx|ChirpWaveGen:uCWG|cRst" -to "TxController:tx|ChirpWaveGen:uCWG|FPFFP32ToInt32:u12|*"
-set_instance_assignment -name GLOBAL_SIGNAL OFF -to "*scope_reset*"
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to *scope_reset*
 
 set_global_assignment -name VHDL_FILE SourceCode/ChirpSettings.vhd
 
@@ -170,3 +167,10 @@ set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name SEARCH_PATH SourceCode
+set_global_assignment -name SEARCH_PATH SourceCode/ROM
+
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -entity UsMimoTestBench -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -entity UsMimoTestBench -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -entity UsMimoTestBench -section_id Top
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -entity UsMimoTestBench -section_id Top

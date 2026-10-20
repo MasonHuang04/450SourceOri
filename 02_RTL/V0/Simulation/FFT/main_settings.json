@@ -1,7 +1,8 @@
 {
-  "rx_capture_ms": 250,
+  "rx_capture_ms": 19,
   "rx_raw_downsample": 3,
-  "fft_valid_samples": 8192,
+  "fft_length": 1024,
+  "fft_valid_samples": 672,
   "search_min_hz": 25,
   "search_max_hz": 500
 }

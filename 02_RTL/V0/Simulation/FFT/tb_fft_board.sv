@@ -8,7 +8,7 @@ module tb_main_tx_parameters;
  MainTxController dut(.iClk(clk),.iRst(rst),.iStart(start),.oBusy(busy),.iSQWaveEn(1'b0),.iDownSampleRate(0),.iDataResolution(14),
  .iFc(fc),.iBW(bw),.iTc(tc),.iA(amp),.iMuxSel(mux),.oDA_D(data),.oTX_MUX_A(mux_out));
  wire [31:0] rx_period;
- MainRxController rx(.iClk(clk),.iRst(rst),.iStart(start),.iTc(32'h3e800000),.iTd(32'h3a83126f),.iDownSampleRate(3),.iDataResolution(16),.iMuxSel(3'b100),.iAD_SDO(1'b0),.iAD_DRDY(1'b1),.oSamplingPeriod(rx_period));
+ MainRxController rx(.iClk(clk),.iRst(rst),.iStart(start),.iTc(32'h3c9ba5e3),.iTd(32'h3a83126f),.iDownSampleRate(3),.iDataResolution(16),.iMuxSel(3'b100),.iAD_SDO(1'b0),.iAD_DRDY(1'b1),.oSamplingPeriod(rx_period));
  real period_error;integer c,n,changes;reg [13:0] prev;
  initial begin
   for(c=0;c<2;c++)begin
@@ -21,7 +21,7 @@ module tb_main_tx_parameters;
    if(dut.ck!==(c==0 ? 32'h48742400 : 32'h48435000))$fatal(1,"Chirp slope %h",dut.ck);
    if(mux_out!==mux)$fatal(1,"TX filter/gain selection");
    if(dut.ca!==amp)$fatal(1,"TX amplitude latch");
-   if(rx.cn!=41250000||rx.ctdn!=165000)$fatal(1,"RX duration/delay pipeline");
+   if(rx.cn!=3135000||rx.ctdn!=165000)$fatal(1,"RX duration/delay pipeline");
    period_error=$bitstoshortreal(rx_period)-576.0/165000000;if(period_error<0)period_error=-period_error;
    if($isunknown(rx_period)||period_error>1e-12)$fatal(1,"RX sample-period metadata");
    changes=0;prev=data;
@@ -33,7 +33,7 @@ module tb_main_tx_parameters;
    if(!busy||changes<100)$fatal(1,"Chirp output did not start");
    $display("PASS MAIN REAL TX PARAMS: case=%0d duration_ticks=%0d f0=%h slope=%h changing_DAC=%0d",c,dut.cn,dut.cf0,dut.ck,changes);
   end
-  $display("PASS MAIN RX REAL PARAMETERS: 250ms=41250000 ticks, delay=165000 ticks, raw period=%h",rx_period);
+  $display("PASS MAIN RX REAL PARAMETERS: 19ms=3135000 ticks, delay=165000 ticks, raw period=%h",rx_period);
   $display("PASS MAIN TX PARAMETERS AND STARTUP (not full duration waveform)");$finish;
  end
  initial begin #100000;$fatal(1,"TX parameter test timeout");end
@@ -48,7 +48,7 @@ module FPFMult(input clk,areset,input [31:0] a,b,output reg [31:0] q);
  always @(a,b,areset) q=areset ? 0 : $shortrealtobits($bitstoshortreal(a)*$bitstoshortreal(b));
 endmodule
 module FPFFP32ToInt32(input clk,areset,input [31:0] a,output reg [31:0] q);
- always @(a,areset) q=areset ? 0 : (($rtoi($bitstoshortreal(a))==41250000)?165000:$rtoi($bitstoshortreal(a)));
+ always @(a,areset) q=areset ? 0 : (($rtoi($bitstoshortreal(a))==3135000)?165000:$rtoi($bitstoshortreal(a)));
 endmodule
 module FPFInt32ToFP32(input clk,areset,input [31:0] a,output reg [31:0] q);
  always @(a,areset) q=areset ? 0 : $shortrealtobits(shortreal'($signed(a)));
@@ -199,8 +199,8 @@ module tb_main_top;
   if(dut.cfftsenddone)begin
    if(raw_count!=full_count/4||dut.crx_datacnt!=raw_count)$fatal(1,"Raw count mismatch");
    if(dut.cfftcount!=fft_count||!dut.creportflags[0]||dut.cfftbin!=0||dut.cfftpower!=0)$fatal(1,"Short window must reject FFT");
-   if(byte_count!=raw_count*2+128)$fatal(1,"Raw+FFT record length mismatch");
-   $display("PASS MAIN SHORT TOP: ADC SPI/raw FIFO/full short packet/short-FFT rejection/M1; raw=%0d full=%0d bytes=%0d peak=%0d power=%0d",raw_count,full_count,byte_count,dut.cfftbin,dut.cfftpower);
+   if(byte_count!=raw_count*2+145)$fatal(1,"Raw+FFT record length mismatch");
+   $display("PASS MAIN SHORT TOP: ADC SPI/raw FIFO/full short packet/short-FFT rejection/M3; raw=%0d full=%0d bytes=%0d peak=%0d power=%0d",raw_count,full_count,byte_count,dut.cfftbin,dut.cfftpower);
    $fclose(rf);$fclose(ff);$fclose(bf);#100;$finish;
   end
  end
@@ -216,7 +216,7 @@ module FPFMult(input clk,areset,input [31:0] a,b,output reg [31:0] q);
  always @(a,b,areset) q=areset ? 0 : $shortrealtobits($bitstoshortreal(a)*$bitstoshortreal(b));
 endmodule
 module FPFFP32ToInt32(input clk,areset,input [31:0] a,output reg [31:0] q);
- always @(a,areset) q=areset ? 0 : (($rtoi($bitstoshortreal(a))==41250000)?286490:$rtoi($bitstoshortreal(a)));
+ always @(a,areset) q=areset ? 0 : (($rtoi($bitstoshortreal(a))==3135000)?21802:$rtoi($bitstoshortreal(a)));
 endmodule
 module FPFInt32ToFP32(input clk,areset,input [31:0] a,output reg [31:0] q);
  always @(a,areset) q=areset ? 0 : $shortrealtobits(shortreal'($signed(a)));
@@ -235,7 +235,7 @@ module UARTController(input iClk,iRst,iRx,output oTx,output oRxDataValid,output 
  end
 endmodule
 
-// Accelerated ADC WORD model: all 286458 words representing 250 ms are kept.
+// Accelerated ADC WORD model: all 21770 words representing 19 ms are kept.
 // Conversion/SPI idle time is compressed. SPI is tested in the separate pin test.
 module MainAdcBridge #(parameter RAW_CAPACITY=131072)(
  input iClk,iRst,iSamplingEn,input [15:0] iDownSampleRate,input iADSDO,iADDRdy,
@@ -247,7 +247,7 @@ module MainAdcBridge #(parameter RAW_CAPACITY=131072)(
  always @(posedge iClk)begin
   oFftValid<=0;oNewData<=0;
   if(iRst)begin n<=0;oDataCnt<=0;skip<=0;end
-  else if(iSamplingEn&&n<286458)begin
+  else if(iSamplingEn&&n<21770)begin
    sample=$rtoi(7000.0*$sin(6.283185307179586*100.0*n/(165000000.0/144))+111);
    oFftValue<=sample;oFftValid<=1;n<=n+1;
    if(skip==iDownSampleRate)begin skip<=0;oNewData<=1;oValue<=sample[15:0]^16'h8000;oDataCnt<=oDataCnt+1;end
@@ -279,7 +279,7 @@ module tb_main_top;
   tick++;
   if(dut.ccaptureactive&&!cap_last)cap_begin=tick;
   if(!dut.ccaptureactive&&cap_last)begin
-   cap_end=tick;if(cap_end-cap_begin!=286491)$fatal(1,"Accelerated long frame duration incorrect: %0d",cap_end-cap_begin);
+   cap_end=tick;if(cap_end-cap_begin!=21803)$fatal(1,"Accelerated long frame duration incorrect: %0d",cap_end-cap_begin);
    $display("PASS MAIN capture window ticks=%0d full_words=%0d raw_words=%0d",cap_end-cap_begin,full_count,raw_count);
   end
   cap_last=dut.ccaptureactive;
@@ -302,10 +302,10 @@ module tb_main_top;
   end
   if(dut.cfftsenddone)begin
    if(raw_count!=full_count/4||dut.crx_datacnt!=raw_count)$fatal(1,"Raw count mismatch");
-   if(fft_count!=8192||dut.cfftcount!=8192||dut.cfftspan!=262112)$fatal(1,"FFT count/span");
-   if(dut.cfftbin!=23||dut.creportflags!=0)$fatal(1,"FFT result bin=%0d flags=%h",dut.cfftbin,dut.creportflags);
-   if(byte_count!=raw_count*2+128)$fatal(1,"Raw+FFT record length mismatch");
-   $display("PASS MAIN LONG FRAME: 250ms-equivalent word count, compressed ADC timing, full raw buffer/8192FFT/packet/M1; raw=%0d full=%0d bytes=%0d peak=%0d power=%0d",raw_count,full_count,byte_count,dut.cfftbin,dut.cfftpower);
+   if(fft_count!=672||dut.cfftcount!=672||dut.cfftspan!=21472)$fatal(1,"FFT count/span");
+   if(dut.cfftbin!=3||dut.creportflags!=0)$fatal(1,"FFT result bin=%0d flags=%h",dut.cfftbin,dut.creportflags);
+   if(byte_count!=raw_count*2+145)$fatal(1,"Raw+FFT record length mismatch");
+   $display("PASS MAIN LONG FRAME: 19ms-equivalent word count, compressed ADC timing, full raw buffer/672samples/1024FFT/packet/M3; raw=%0d full=%0d bytes=%0d peak=%0d power=%0d",raw_count,full_count,byte_count,dut.cfftbin,dut.cfftpower);
    $fclose(rf);$fclose(ff);$fclose(bf);#100;$finish;
   end
  end
@@ -350,9 +350,9 @@ module tb_main_io;
  UARTController uart(.iClk(clk),.iRst(rst),.iRx(rx),.oTx(tx),.oRxDataValid(rv),.oRxData(rb),.oTxBusy(txbusy),.iTxDataValid(tv),.iTxData(txdata));
  wire trig;
  RxDepack depack(.iClk(clk),.iRst(rst),.iRxDataValid(rv),.iRxData(rb),.oTrigger(trig));
- MainPeakReport report(.clk(clk),.rst(rst),.i_start(send),.i_tx_busy(txbusy),.i_seq(32'd1),.i_count(32'd8192),.i_span(32'd37744128),
- .i_bin(15'd23),.i_power(41'd123456789),.i_min(16'hff00),.i_max(16'h0100),.i_flags(8'd0),.o_data(txdata),.o_valid(tv),.o_busy(busy),.o_done(done));
- reg [7:0] txexpected[0:63];integer pushed=0,received=0,triggers=0,outfile;
+ MainPeakReport report(.clk(clk),.rst(rst),.i_start(send),.i_tx_busy(txbusy),.i_seq(32'd1),.i_count(32'd672),.i_span(32'd3091968),
+ .i_bin(15'd3),.i_power(41'd123456789),.i_delta_q16(-32'sd9548),.i_fft_length(16'd1024),.i_interp_status(8'd0),.i_min(16'hff00),.i_max(16'h0100),.i_flags(8'd0),.o_data(txdata),.o_valid(tv),.o_busy(busy),.o_done(done));
+ reg [7:0] txexpected[0:80];integer pushed=0,received=0,triggers=0,outfile;
  always @(posedge clk)begin if(tv)begin txexpected[pushed]=txdata;pushed++;end if(trig)triggers++;end
  task automatic sendbyte(input [7:0] b);
   rx=0;#500;for(integer j=0;j<8;j++)begin rx=b[j];#500;end rx=1;#500;
@@ -362,8 +362,8 @@ module tb_main_io;
   sendbyte(8'ha5);sendbyte(8'hff);sendbyte(8'ha5);sendbyte(8'hff);#1000;
   if(triggers!=1)$fatal(1,"Trigger UART decode");
   @(negedge clk);send=1;wait(busy);@(negedge clk);send=0;wait(done);#1000;
-  if(received!=64||pushed!=64)$fatal(1,"64-byte real UART record length");
-  uart_pass=1;$display("PASS MAIN real UART: incoming trigger + 64 outgoing M1 bytes at 2 Mbaud");
+  if(received!=81||pushed!=81)$fatal(1,"81-byte real UART record length");
+  uart_pass=1;$display("PASS MAIN real UART: incoming trigger + 81 outgoing M3 bytes at 2 Mbaud");
  end
  reg [7:0] ch;integer bitno;
  initial begin outfile=$fopen("uart.txt","w");forever begin

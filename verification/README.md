@@ -6,7 +6,9 @@
 
 | 内容 | 入口 |
 |---|---|
-| main：8192点FFT、25–500Hz峰值 | [报告](FFT/Main_20261017/report.html) |
+| 当前Main：19ms RX、672有效点/1024 FFT、FPGA插值 | [短窗报告](FFT/Short20ms_20261020/report.html) · [用户确认](FFT/Short20ms_20261020/user_confirmation.json) |
+| Main长窗插值基线 | [报告](FFT/Interpolation_20261020/report.html) |
+| 初版main：8192点FFT、25–500Hz峰值 | [报告](FFT/Main_20261017/report.html) |
 | main：40kHz / 4kHz / 20ms / 幅度0.25默认值更新 | [修改和版本记录](FFT/Main_20261017/chirp40_update.json) · [最新时序](FFT/Main_20261017/chirp40_timing.json) |
 | 新上位机：参数设置、波形和峰值 | [报告与界面](SW/MainUI_20261017/report.html) · [使用说明](../03_SW/README_main_2026-10-17.md) |
 | 独立Chirp实验 | [Chirp索引](Chirp/README.md) |

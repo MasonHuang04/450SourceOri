@@ -2,6 +2,9 @@ from pathlib import Path
 import numpy as np
 import subprocess,json,hashlib,shutil,sys,time
 A=Path(__file__).resolve().parent;S=A.parents[1]/'SourceCode';O=A/'results/run';O.mkdir(parents=True,exist_ok=True)
+sys.path.insert(0,str(A.parent))
+from source_units import SourceTree
+tree=SourceTree(S,O)
 R=S
 if '--analyze' in sys.argv:sys.argv.append('--analyze-only')
 fs=165e6/144;lowfs=fs/128;df=lowfs/2048
@@ -33,9 +36,9 @@ if '--analyze-only' not in sys.argv:
   expected=((z[127::128]+(1<<20))>>21)
   np.savetxt(O/f'input_{case}.mem',x&65535,fmt='%04x')
   np.savetxt(O/f'expected_{case}.mem',expected&65535,fmt='%04x')
- for p in list(S.glob('*.mif'))+list(S.glob('*.mem')):shutil.copy2(p,O/p.name)
- files=[R/n for n in ['fft_tdp_store.sv','kaiser4_rfft.sv','fft_power_peak.sv']]+[S/n for n in ['ScopeCic128.sv','ScopeFrameRam.sv','ScopeUartReport.sv','ScopeRxFft.sv']]+[A/'tb_fft_plot.sv']
- (O/'source_sha256.json').write_text(json.dumps({str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in files+[S/'FftSettings.svh']+list(S.glob('*.mif'))+list(S.glob('*.mem'))},indent=2))
+ for p in list((S/'ROM').glob('*.mif'))+list((S/'ROM').glob('*.mem')):shutil.copy2(p,O/p.name)
+ files=[tree.file(n) for n in ['fft_tdp_store.sv','kaiser4_rfft.sv','fft_power_peak.sv']]+[tree.file(n) for n in ['ScopeCic128.sv','ScopeFrameRam.sv','ScopeUartReport.sv','ScopeRxFft.sv']]+[A/'tb_fft_plot.sv']
+ (O/'source_sha256.json').write_text(json.dumps({str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in tree.ledger(files+[S/'FftSettings.svh']+list((S/'ROM').glob('*.mif'))+list((S/'ROM').glob('*.mem')))},indent=2))
  do=O/'run.do';do.write_text('onerror {quit -code 1 -force}\nonbreak {quit -code 1 -force}\nvlib work\nvmap work work\nvlog -sv +define+FFT_USE_INTEL_RAM {+incdir+'+S.as_posix()+'} '+' '.join('{'+p.as_posix()+'}' for p in files)+'\nvsim -t 1ps -L altera_mf work.tb_lowfreq\nrun -all\nquit -code 0 -force\n')
  if '--prepare' in sys.argv:print('Prepared FFT simulation and shared settings');raise SystemExit
  with (O/'simulation.log').open('w') as log:

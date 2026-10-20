@@ -5,7 +5,7 @@ set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_rx_fft_lowfreq
 set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
 set_global_assignment -name VHDL_INPUT_VERSION VHDL_2008
 set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
-set_global_assignment -name MIN_CORE_JUNCTION_TEMP -40
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP "-40"
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 100
 set_global_assignment -name FITTER_EFFORT "AUTO FIT"
 set_global_assignment -name QIP_FILE SourceCode/MainPLL/MainPLL.qip
@@ -130,20 +130,16 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[2
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[1]
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_D[0]
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_PD
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/fft_tdp_store.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/kaiser4_rfft.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/fft_power_peak.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/ScopeAdc27m5.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/ScopeFrameRam.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/ScopeUartReport.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/ScopeRxFft.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/FftPipeline.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/RxAcquisition.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/UartBuffers.sv
 set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/RxFftLowFreq50to100Hz.sv
-set_global_assignment -name MIF_FILE SourceCode/scopelf_window_delta.mif
-set_global_assignment -name MIF_FILE SourceCode/scopelf_cos_quarter.mif
+set_global_assignment -name MIF_FILE SourceCode/ROM/scopelf_window_delta.mif
+set_global_assignment -name MIF_FILE SourceCode/ROM/scopelf_cos_quarter.mif
 set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to adc_clock
 set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to fft_clock
 
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/ScopeCic128.sv
 
 set_global_assignment -name LAST_QUARTUS_VERSION "25.1std.0 Lite Edition"
 set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-STATED"
+set_global_assignment -name SEARCH_PATH SourceCode/ROM

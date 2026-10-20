@@ -24,7 +24,7 @@ set_false_path -from [get_ports iUART_RXD] -to [get_registers {*vRx_L1*}]
 set_false_path -from [get_registers {uRx|uAD|held_sample[*]}] -to [get_registers {uRx|uAD|oFftValue[*] uRx|uAD|oValue[*] uRx|uAD|oClipped}]
 # Immutable frame statistics and FFT results are sampled after 2FF + one edge.
 set_false_path -from [get_registers {uFFT|cap_count[*] uFFT|cap_span[*] uFFT|cap_seq[*] uFFT|cap_min[*] uFFT|cap_max[*] uFFT|cap_flags[*] uFFT|cap_sum[*]}] -to [get_registers {uFFT|report_count[*] uFFT|report_span[*] uFFT|report_seq[*] uFFT|report_min[*] uFFT|report_max[*] uFFT|report_flags[*] uFFT|report_sum[*]}]
-set_false_path -from [get_registers {uFFT|report_count[*] uFFT|report_span[*] uFFT|report_seq[*] uFFT|report_min[*] uFFT|report_max[*] uFFT|report_flags[*] uFFT|report_bin[*] uFFT|report_power[*]}] -to [get_registers {uFFT|o_count[*] uFFT|o_span[*] uFFT|o_seq[*] uFFT|o_min[*] uFFT|o_max[*] uFFT|o_flags[*] uFFT|o_bin[*] uFFT|o_power[*]}]
+set_false_path -from [get_registers {uFFT|report_count[*] uFFT|report_span[*] uFFT|report_seq[*] uFFT|report_min[*] uFFT|report_max[*] uFFT|report_flags[*] uFFT|report_bin[*] uFFT|report_power[*] uFFT|report_delta[*] uFFT|report_interp_status[*]}] -to [get_registers {uFFT|o_count[*] uFFT|o_span[*] uFFT|o_seq[*] uFFT|o_min[*] uFFT|o_max[*] uFFT|o_flags[*] uFFT|o_bin[*] uFFT|o_power[*] uFFT|o_delta_q16[*] uFFT|o_interp_status[*]}]
 # Status, asynchronous UART/I2C and static analog controls have no synchronous
 # external receiver requirement. ADC and DAC signal timing remains constrained.
 set_false_path -to [get_ports {oLED_* oUART_* oTMP_SCL ioTMP_SDA oDA_PD oTX_MUX_* oRX_MUX_* oAD_RST}]

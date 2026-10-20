@@ -17,6 +17,19 @@ namespace UsMimoTestBench
             Check(s.Length==60,"fixture M1 length");int c=0;foreach(char ch in s)c^=(byte)ch;
             return Encoding.ASCII.GetBytes(s+c.ToString("X2")+"\r\n");
         }
+        static byte[] InterpolatedRecord(int delta=-9178,int status=0)
+        {
+            string original=Encoding.ASCII.GetString(Record());
+            string s="M2"+original.Substring(2,58)+unchecked((uint)delta).ToString("X8")+","+status.ToString("X2")+",";
+            Check(s.Length==72,"fixture M2 length");int c=0;foreach(char ch in s)c^=(byte)ch;
+            return Encoding.ASCII.GetBytes(s+c.ToString("X2")+"\r\n");
+        }
+        static byte[] ShortRecord(int delta=-9548,int state=0,int nfft=1024,int count=672)
+        {
+            string s=string.Format(CultureInfo.InvariantCulture,"M3,{0:X8},{1:X8},{2:X4},{3:X11},{4:X4},{5:X4},{6:X2},{7:X8},{8:X8},{9:X2},{10:X4},",1,count,3,123456789,unchecked((ushort)-7000),7000,0,(count-1)*4608,unchecked((uint)delta),state,nfft);
+            Check(s.Length==77,"fixture M3 length");int c=0;foreach(char ch in s)c^=(byte)ch;
+            return Encoding.ASCII.GetBytes(s+c.ToString("X2")+"\r\n");
+        }
         static byte[] Wave(ushort[] data)
         {
             byte[] h={0,0,255,255,0,255,90,0,0,0,0,0,0,255,255,0,0,0,0,0,0,255,255,0,0,90,128,12,255,255,0,0};
@@ -27,9 +40,9 @@ namespace UsMimoTestBench
         }
         public static byte[] DemoStream()
         {
-            ushort[] data=new ushort[71614];double dt=576.0/165e6;
+            ushort[] data=new ushort[(int)(ChirpParameters.MainRxSeconds*165e6/144/4)];double dt=576.0/165e6;
             for(int i=0;i<data.Length;i++)data[i]=(ushort)(32768+Math.Round(7000*Math.Sin(2*Math.PI*100*i*dt)));
-            return Join(Wave(data),Record());
+            return Join(Wave(data),ShortRecord());
         }
         static byte[] ReadHex(string path) { return File.ReadAllText(path).Split((char[])null,StringSplitOptions.RemoveEmptyEntries).Select(x=>byte.Parse(x,NumberStyles.HexNumber,CultureInfo.InvariantCulture)).ToArray(); }
         static void SaveHex(string path,byte[] data) { File.WriteAllLines(path,data.Select(x=>x.ToString("x2")).ToArray()); }
@@ -45,7 +58,7 @@ namespace UsMimoTestBench
             golden[11]=14;
             byte[] fc={0,64,28,71},bw={0,0,122,69},tc={10,215,163,60},amp={0,0,128,62},delay={111,18,131,58};
             Array.Copy(fc,0,golden,12,4);Array.Copy(bw,0,golden,16,4);Array.Copy(tc,0,golden,20,4);Array.Copy(amp,0,golden,24,4);
-            Array.Copy(amp,0,golden,40,4);Array.Copy(delay,0,golden,44,4);golden[48]=3;golden[50]=16;golden[51]=4;
+            byte[] rxDuration={0xe3,0xa5,0x9b,0x3c};Array.Copy(rxDuration,0,golden,40,4);Array.Copy(delay,0,golden,44,4);golden[48]=3;golden[50]=16;golden[51]=4;
             Check(packet.Take(64).SequenceEqual(golden),"independent default settings golden bytes");
             Check(packet.Skip(64).SequenceEqual(new byte[]{0,90,0,90,165,255,165,255}),"trigger after full settings");
             byte[] custom=new ChirpParameters(200000,20000,80,.5).Command(true);
@@ -59,12 +72,12 @@ namespace UsMimoTestBench
 
             byte[] real=ReadHex(Path.Combine(project,"02_RTL/V0/Simulation/FFT/results/main/system/stream.hex"));
             MainStreamParser parser=new MainStreamParser();int raws=0,peaks=0;
-            parser.Raw=f=>{raws++;Check(f.DataLen==71614,"real complete raw frame length");for(int i=0;i<f.DataLen;i++)Check(f.Data[i]==(ushort)(real[32+2*i]|real[33+2*i]<<8),"real raw sample equality");Check(Math.Abs(f.SamplingPeriod-576.0/165e6)<1e-12,"real raw dt");};
-            parser.Peak=r=>{peaks++;Check(r.Status=="BAD_CADENCE"&&r.Count==8192&&r.Flags==0&&r.Span==262112&&r.Bin==23,"compressed-clock RTL fixture correctly flagged");};
+            parser.Raw=f=>{raws++;Check(f.DataLen==5442,"real complete raw frame length");for(int i=0;i<f.DataLen;i++)Check(f.Data[i]==(ushort)(real[32+2*i]|real[33+2*i]<<8),"real raw sample equality");Check(Math.Abs(f.SamplingPeriod-576.0/165e6)<1e-12,"real raw dt");};
+            parser.Peak=r=>{peaks++;Check(r.Status=="BAD_CADENCE"&&r.Count==672&&r.Flags==0&&r.Span==21472&&r.Bin==3,"compressed-clock RTL fixture correctly flagged");if(r.HasInterpolation)Check(r.HasFftLength&&r.FftLength==1024&&r.DeltaQ16!=0&&r.InterpolationStatus==0,"real main M2 interpolation payload");};
             Fragment(parser,real);Check(raws==1&&peaks==1&&parser.Invalid==0,"mixed archived RTL stream counts");
             string physical=File.ReadAllText(Path.Combine(project,"02_RTL/V0/Simulation/FFT/results/main/io/uart.txt")).Trim('\r','\n')+"\r\n";
-            MainReport actual=MainReport.Parse(physical);Check(actual.Status=="OK"&&actual.Bin==23&&actual.Power==123456789&&actual.Minimum==-256,"real 2Mbaud RTL fixture");
-            passed.Add("PASS receive: full archived RTL stream (71,614 exact samples), fragmented reads, real UART record, compressed-clock fixture flagged");
+            MainReport actual=MainReport.Parse(physical);Check(actual.Status=="OK"&&actual.Bin==3&&actual.FftLength==1024&&actual.Power==123456789&&actual.Minimum==-256,"real 2Mbaud RTL fixture");if(actual.HasInterpolation)Check(actual.DeltaQ16==-9548&&actual.InterpolationStatus==0,"real UART signed offset payload");
+            passed.Add("PASS receive: full archived RTL stream (5,442 exact samples), fragmented reads, real UART record, compressed-clock fixture flagged");
 
             ushort[] edge=Enumerable.Range(0,131072).Select(i=>(ushort)((i*7919)&65535)).ToArray();edge[0]=0;edge[1]=65535;edge[2]=32768;
             byte[] max=Wave(edge);parser=new MainStreamParser();raws=peaks=0;
@@ -78,6 +91,22 @@ namespace UsMimoTestBench
             foreach(int flag in new[]{1,2,4,8,16,32,128,64})Check(MainReport.Parse(Encoding.ASCII.GetString(Record(flags:flag))).Status!="OK","flag handled "+flag);
             Check(MainReport.Parse(Encoding.ASCII.GetString(Record(bin:115))).Status!="OK","out of search bin rejected");
             passed.Add("PASS robustness: 131,072-word capacity, two frames, noise, corrupt checksum/trailer, partial reset, oversized header, flags and range");
+            MainReport fine=MainReport.Parse(Encoding.ASCII.GetString(InterpolatedRecord()));
+            Check(fine.InterpolationValid&&Math.Abs(fine.Frequency-99.92102908048)<1e-8&&Math.Abs(fine.RawFrequency-100.53316752116)<1e-8,"M2 signed Q16 and Hz conversion");
+            Check(!MainReport.Parse(Encoding.ASCII.GetString(Record())).HasInterpolation,"M1 backward compatibility");
+            foreach(int state in new[]{1,2,3,4,5}){MainReport fallback=MainReport.Parse(Encoding.ASCII.GetString(InterpolatedRecord(0,state)));Check(!fallback.InterpolationValid&&fallback.Frequency==fallback.RawFrequency,"invalid interpolation fallback");}
+            foreach(int delta in new[]{-32768,32768})Check(MainReport.Parse(Encoding.ASCII.GetString(InterpolatedRecord(delta))).DeltaQ16==delta,"half-bin boundary");
+            foreach(byte[] badFine in new[]{InterpolatedRecord(32769),InterpolatedRecord(-32769),InterpolatedRecord(1,2),InterpolatedRecord(0,6)}){bool rejected=false;try{MainReport.Parse(Encoding.ASCII.GetString(badFine));}catch(FormatException){rejected=true;}Check(rejected,"bad interpolation rejected");}
+            parser=new MainStreamParser();peaks=0;parser.Peak=r=>peaks++;Fragment(parser,Join(Record(),InterpolatedRecord(),Record(),InterpolatedRecord(20000)));Check(peaks==4&&parser.Invalid==0&&parser.BufferedBytes==0,"fragmented mixed M1/M2");
+            byte[] brokenFine=InterpolatedRecord();brokenFine[65]^=1;Fragment(parser,Join(brokenFine,InterpolatedRecord()));Check(peaks==5&&parser.Invalid>0,"corrupt M2 checksum and resync");
+            passed.Add("PASS FPGA interpolation receive: M2 signed Q16, Hz conversion only, original bin comparison, flags, bounds, M1 compatibility, fragmented mixed records, checksum recovery");
+            MainReport shortReport=MainReport.Parse(Encoding.ASCII.GetString(ShortRecord()));
+            Check(shortReport.HasFftLength&&shortReport.FftLength==1024&&shortReport.Count==672&&Math.Abs(shortReport.Frequency-99.809646296)<1e-8&&shortReport.LowCycleWarning,"M3 explicit NFFT and short-window warning");
+            Check(Math.Abs(shortReport.ObservationMs-18.7671272727)<1e-8,"actual valid duration");
+            foreach(int length in new[]{0,512,1000,16384}){bool rejected=false;try{MainReport.Parse(Encoding.ASCII.GetString(ShortRecord(nfft:length)));}catch(FormatException){rejected=true;}Check(rejected,"invalid M3 NFFT");}
+            parser=new MainStreamParser();peaks=0;parser.Peak=r=>peaks++;Fragment(parser,Join(Record(),InterpolatedRecord(),ShortRecord()));Check(peaks==3&&parser.Invalid==0&&parser.BufferedBytes==0,"mixed M1 M2 M3 fragments");
+            byte[] brokenShort=ShortRecord();brokenShort[74]^=1;Fragment(parser,Join(brokenShort,ShortRecord()));Check(peaks==4&&parser.Invalid>0,"M3 checksum recovery");
+            passed.Add("PASS short profile: RX19ms golden settings, M3 explicit 1024 FFT / 672 effective samples, Hz scaling, low-cycle warning, NFFT bounds, legacy formats");
             ScopeDataFrame exportFrame=new ScopeDataFrame {Data=new ushort[]{0,32768,65535},DataLen=3,SamplingPeriod=.001f};
             string csv=Path.Combine(output,"export_check.csv");MainFrm.ExportWaveform(csv,exportFrame,"synthetic_test");
             string[] rows=File.ReadAllLines(csv);Check(rows.Length==4&&rows[1].Contains(",-32768,")&&rows[2].Contains(",0,")&&rows[3].Contains(",32767,"),"offset binary export");

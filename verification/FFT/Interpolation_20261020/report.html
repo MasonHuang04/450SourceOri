@@ -1,0 +1,15 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>Main FPGA peak interpolation</title><style>
+body{max-width:1180px;margin:40px auto;padding:0 24px;font:17px/1.7 'Microsoft YaHei',sans-serif;color:#24384a;background:#f5f8fb}h1{font-size:32px}h2{font-size:22px;margin-top:34px}.card{background:white;padding:22px;border:1px solid #d8e2eb;border-radius:12px;margin:20px 0}.flow{font-size:19px;color:#006c80}table{border-collapse:collapse;width:100%}td,th{padding:10px;border-bottom:1px solid #d8e2eb;text-align:right}img{width:100%;height:auto}a{color:#006c9c}code{background:#e9eff4;padding:3px}.muted{color:#526577;font-size:15px}</style>
+<h1>Main：FPGA 内的三点峰值插值</h1><p>2026-10-20 · 本地实现与验证 · 新 Main SOF + M2 上位机</p>
+<div class="card flow">采样 → CIC /32 → Kaiser4 → 8192 点 FFT → 最大功率频点 → <b>三点对数插值（新增）</b> → UART</div>
+<p>插值发生在 FFT <b>之后</b>，利用峰值及左右邻点估计峰顶位置。log、除法和偏移均在 FPGA 完成；电脑只解析 Q16 结果并换算 Hz。Chirp、RX 250 ms、采样率、8192点和两个独立实验保持原样。</p>
+<div class="card"><b>验证通过：</b>完整 Main 数字处理分支、1136组插值检查、71614点原始数据/M2回传、短ADC与真实2 Mbaud UART、生产C#解析。Quartus全编译通过；84项时序检查无负余量，最小 <b>+0.008 ns</b>，无未约束的Setup/Hold路径。</div>
+<h2>完整 Main RTL 的前后对比</h2><table><tr><th>输入 Hz</th><th>原频点 Hz</th><th>插值 Hz</th><th>原误差 Hz</th><th>插值误差 Hz</th></tr><tr><td>25</td><td>26.226044</td><td>24.861304</td><td>+1.226044</td><td>-0.138696</td></tr><tr><td>100</td><td>100.533168</td><td>99.921029</td><td>+0.533168</td><td>-0.078971</td></tr><tr><td>500</td><td>498.294830</td><td>500.113038</td><td>-1.705170</td><td>+0.113038</td></tr><tr><td>250</td><td>249.147415</td><td>250.115245</td><td>-0.852585</td><td>+0.115245</td></tr><tr><td>99.6</td><td>100.533168</td><td>99.477566</td><td>+0.933168</td><td>-0.122434</td></tr></table>
+<p class="muted">250 Hz案例叠加700 Hz干扰；99.6 Hz案例叠加抽取后的混叠频率附近干扰。异常削顶、短帧、空帧都不会被当作有效插值。功率仍报告原最大频点的功率。</p>
+<img src="comparison.png"><p class="muted">左图：NumPy生成量化频谱，实际RTL完成插值（191频率×4相位）；右图：完整Main RTL产生的100 Hz频谱。左图最大绝对误差从2.1806 Hz降至0.1404 Hz；另60组25 dB单音输入最大插值误差约0.1479 Hz。测试条件不同于论文图中的毫米测距指标。</p>
+<h2>运算量与资源</h2><p>频率格仍为4.371007 Hz。新增插值最大140个50 MHz周期，约2.8 μs；不是减少现有FFT运算。资源为7190 ALM（13%）、31 DSP（20%）、307 RAM块（45%）；相比旧Main多584 ALM、874寄存器和1 DSP，块RAM用量不变。</p>
+<h2>使用方法</h2><ol><li>在Programmer重新下载 <a href="../../../02_RTL/V0/output_files/UsMimoTestBench.sof">Main 的 UsMimoTestBench.sof</a>。</li><li>运行 <a href="../../../03_SW/RunMain.cmd">03_SW/RunMain.cmd</a>，选主板COM口。</li><li>外部发生器向RX输入连续100 Hz正弦，使用此前已验证的幅度与接线；点击“应用并采集一次”。</li><li>比较界面的“FPGA插值”“原频点”和误差；参考频率只用于评价，不参与估计。</li></ol>
+<p>新软件兼容旧M1；旧固件会标明“未提供插值”。新固件使用76字节M2，需配套新版查看器。尚未进行这版固件的实板验证。</p><img src="ui.png"><p class="muted">界面截图为离线合成演示，不是实板测量。</p>
+<h2>可复现入口</h2><p>在Simulation/FFT中运行 <code>python run_main.py --interp</code>、<code>--fast-memory</code>、<code>--system</code>、<code>--short</code> 或 <code>--io</code>。沿用原来的两个FFT测试台文件。</p>
+<p><a href="checks.json">检查数据</a> · <a href="main_comparison.csv">对比CSV</a> · <a href="evidence.zip">源码/日志证据</a> · <a href="../../../02_RTL/V0/README_main_2026-10-17.md">算法、协议与使用说明</a></p>
+<p class="muted">插值提升孤立峰的位置估计，不改变采集时长或物理分辨能力；不能保证噪声、多目标、非稳态或实板条件下都达到上述误差。没有新增FPGA混频或距离换算。</p></html>

@@ -171,7 +171,7 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to oDA_PD
 set_global_assignment -name QIP_FILE SourceCode/DSP/FPFAdd/FPFAdd.qip
 set_global_assignment -name SIP_FILE SourceCode/DSP/FPFAdd/FPFAdd.sip
 set_global_assignment -name VHDL_FILE SourceCode/UsMimoTestBench.vhd
-set_global_assignment -name VHDL_FILE SourceCode/DSPLib.vhd
+set_global_assignment -name VHDL_FILE SourceCode/CommonPackages.vhd
 set_global_assignment -name QIP_FILE SourceCode/DSP/FPFSub/FPFSub.qip
 set_global_assignment -name SIP_FILE SourceCode/DSP/FPFSub/FPFSub.sip
 set_global_assignment -name QIP_FILE SourceCode/DSP/FPFMult/FPFMult.qip
@@ -187,27 +187,21 @@ set_global_assignment -name QIP_FILE SourceCode/DSP/FPFFP32ToInt32/FPFFP32ToInt3
 set_global_assignment -name SIP_FILE SourceCode/DSP/FPFFP32ToInt32/FPFFP32ToInt32.sip
 set_global_assignment -name QIP_FILE SourceCode/DSP/FPFInt32ToFP32/FPFInt32ToFP32.qip
 set_global_assignment -name SIP_FILE SourceCode/DSP/FPFInt32ToFP32/FPFInt32ToFP32.sip
-set_global_assignment -name VHDL_FILE SourceCode/SysLib.vhd
-set_global_assignment -name VHDL_FILE SourceCode/ChirpWaveGen.vhd
+set_global_assignment -name VHDL_FILE SourceCode/ChirpModules.vhd
 set_global_assignment -name QIP_FILE SourceCode/MainPLL/MainPLL.qip
 set_global_assignment -name SIP_FILE SourceCode/MainPLL/MainPLL.sip
-set_global_assignment -name VHDL_FILE SourceCode/MainTxController.vhd
-set_global_assignment -name VHDL_FILE SourceCode/UARTController.vhd
+set_global_assignment -name VHDL_FILE SourceCode/MainControl.vhd
 set_global_assignment -name ENABLE_SIGNALTAP OFF
 set_global_assignment -name USE_SIGNALTAP_FILE AD.stp
 set_global_assignment -name SIGNALTAP_FILE AD.stp
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_global_assignment -name VHDL_FILE SourceCode/MainRxController.vhd
 set_global_assignment -name SDC_FILE SourceCode/MainTiming.sdc
-set_global_assignment -name VHDL_FILE SourceCode/RxDepack.vhd
-set_global_assignment -name VHDL_FILE SourceCode/MainTxPack.vhd
 # Obsolete assignment in <Version 21.4> "set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top"
 
 # Obsolete assignment in <Version 20.4> "set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top"
 # Obsolete assignment in <Version 20.4> "set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top"
 # Obsolete assignment in <Version 20.4> "set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top"
-set_global_assignment -name VHDL_FILE SourceCode/MainTMP117Controller.vhd
 # Obsolete assignment in <Version 20.4> "set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top"
 
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
@@ -215,21 +209,15 @@ set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_RO
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/MainAdcBridge.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/MainFftProcessor.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/MainPeakReport.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/ScopeAdc27m5.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/MainCicDecimator.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/MainFrameRam.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/fft_tdp_store.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/kaiser4_rfft.sv
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/fft_power_peak.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/RxAcquisition.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/FftPipeline.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/UartBuffers.sv
 set_global_assignment -name VHDL_FILE SourceCode/MainSettings.vhd
 set_global_assignment -name SEARCH_PATH SourceCode
 set_global_assignment -name VERILOG_MACRO "FFT_USE_INTEL_RAM=1"
-set_global_assignment -name MIF_FILE SourceCode/main_window_delta.mif
-set_global_assignment -name MIF_FILE SourceCode/main_cos_quarter.mif
-set_instance_assignment -name GLOBAL_SIGNAL OFF -to "uTx|uCWG|cRst*"
+set_global_assignment -name MIF_FILE SourceCode/ROM/main_window_delta.mif
+set_global_assignment -name MIF_FILE SourceCode/ROM/main_cos_quarter.mif
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to uTx|uCWG|cRst*
 set_instance_assignment -name DUPLICATE_ATOM main_reset_u0 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFMult:u0|*"
 set_instance_assignment -name DUPLICATE_ATOM main_reset_u1 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFMult:u1|*"
 set_instance_assignment -name DUPLICATE_ATOM main_reset_u2 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFInt32ToFP32:u2|*"
@@ -243,12 +231,11 @@ set_instance_assignment -name DUPLICATE_ATOM main_reset_u9 -from "MainTxControll
 set_instance_assignment -name DUPLICATE_ATOM main_reset_u10 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFMult:u10|*"
 set_instance_assignment -name DUPLICATE_ATOM main_reset_u11 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFAdd:u11|*"
 set_instance_assignment -name DUPLICATE_ATOM main_reset_u12 -from "MainTxController:uTx|ChirpWaveGen:uCWG|cRst" -to "MainTxController:uTx|ChirpWaveGen:uCWG|FPFFP32ToInt32:u12|*"
-set_instance_assignment -name GLOBAL_SIGNAL OFF -to "*main_reset*"
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to *main_reset*
 
-set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/MainWaveFifo.sv
 
 set_instance_assignment -name DUPLICATE_ATOM main_reset_fft -from cRst -to "MainFftProcessor:uFFT|*"
-set_instance_assignment -name GLOBAL_SIGNAL OFF -to "uTxPack|f1|banks*.we"
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to uTxPack|f1|banks*.we
 
 # Cyclone V extra-effort timing settings from the installed Quartus DSE profile.
 set_global_assignment -name PLACEMENT_EFFORT_MULTIPLIER 3.0
@@ -262,4 +249,5 @@ set_global_assignment -name PHYSICAL_SYNTHESIS_REGISTER_RETIMING OFF
 set_global_assignment -name PHYSICAL_SYNTHESIS_EFFORT NORMAL
 set_global_assignment -name SEED 4
 
-set_instance_assignment -name GLOBAL_SIGNAL OFF -to "*we_half*"
+set_instance_assignment -name GLOBAL_SIGNAL OFF -to *we_half*
+set_global_assignment -name SEARCH_PATH SourceCode/ROM

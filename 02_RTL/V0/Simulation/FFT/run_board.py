@@ -3,10 +3,13 @@ import subprocess,shutil,hashlib,json,sys
 import numpy as np
 from fft_reference import fixed_reference
 A=Path(__file__).resolve().parent;S=A.parents[1]/'SourceCode';O=A/'results/full_board';O.mkdir(parents=True,exist_ok=True)
+sys.path.insert(0,str(A.parent))
+from source_units import SourceTree
+tree=SourceTree(S,O)
 R=S
-for p in list(S.glob('*.mem'))+list(S.glob('*.mif')):shutil.copy2(p,O/p.name)
-files=[R/n for n in ['fft_tdp_store.sv','kaiser4_rfft.sv','fft_power_peak.sv']]+[S/n for n in ['ScopeCic128.sv','ScopeAdc27m5.sv','ScopeFrameRam.sv','ScopeUartReport.sv','ScopeRxFft.sv','RxFftLowFreq50to100Hz.sv']]+[A/'tb_fft_board.sv']
-(O/'source_sha256.json').write_text(json.dumps({str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in files+[S/'FftSettings.svh']},indent=2))
+for p in list((S/'ROM').glob('*.mem'))+list((S/'ROM').glob('*.mif')):shutil.copy2(p,O/p.name)
+files=[tree.file(n) for n in ['fft_tdp_store.sv','kaiser4_rfft.sv','fft_power_peak.sv']]+[tree.file(n) for n in ['ScopeCic128.sv','ScopeAdc27m5.sv','ScopeFrameRam.sv','ScopeUartReport.sv','ScopeRxFft.sv','RxFftLowFreq50to100Hz.sv']]+[A/'tb_fft_board.sv']
+(O/'source_sha256.json').write_text(json.dumps({str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in tree.ledger(files+[S/'FftSettings.svh'])},indent=2))
 do=O/'run.do';do.write_text('onerror {quit -code 1 -force}\nonbreak {quit -code 1 -force}\nvlib work\nvmap work work\nvlog -sv +define+FFT_USE_INTEL_RAM {+incdir+'+S.as_posix()+'} '+' '.join('{'+p.as_posix()+'}' for p in files)+'\nvsim -t 1ps -L altera_mf work.tb_rx_fft_board\nrun -all\nquit -code 0 -force\n')
 with (O/'simulation.log').open('w') as log:
  p=subprocess.Popen(['E:/Downloads/Questa/questa_fse/win64/vsim.exe','-c','-do',str(do)],cwd=O,stdout=log,stderr=subprocess.STDOUT)

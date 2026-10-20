@@ -40,13 +40,20 @@
     UsMimoTestBench.vhd              原顶层
     ChirpTxScope40k20ms.vhd          实验1顶层，与原顶层平级
     RxFftLowFreq50to100Hz.sv          实验2顶层，与原顶层平级
-    Scope*.sv / ScopeBurstControl.vhd
-    kaiser4_*.sv / fft_*.sv           共用功能模块，各保留一份
+    CommonPackages.vhd              公共类型、函数、组件声明
+    ChirpModules.vhd                Chirp核与发射控制
+    MainControl.vhd                 主控制、命令解析、接收/打包/温度控制
+    RxAcquisition.sv                ADC接口、CIC与采集缓存
+    FftPipeline.sv                  Kaiser窗、FFT、功率谱与峰值
+    UartBuffers.sv                  原始帧缓存、UART结果报告
     ChirpSettings.vhd                从Chirp/settings.json生成
     FftSettings.svh                  从FFT/settings.json生成
-    *.sdc / *.mem / *.mif            约束与系数
-    DSP/ MainPLL/ WaveFIFO/          原Intel IP目录，保持依赖结构
+    MainSettings.vhd                 从FFT/main_settings.json生成
+    *.sdc                           三个版本各自的时序约束
+    ROM/                            MEM/MIF窗函数与旋转系数
+    DSP/ MainPLL/                    当前使用的Intel IP目录
   Simulation/
+    source_units.py                 从分组源码选取测试需要的逻辑单元
     Chirp/                          参数、2个小testbench、运行/画图入口
     FFT/                            参数、2个testbench、运行/画图/参考脚本
   Tools/RxFftLowFreqMonitor/         当前实板FFT查看器
@@ -100,18 +107,47 @@ python run.py --board
 
 硬件连线和实测记录见工程根目录 `readme_2026-10-16.md`。历史报告/数据仍在 `verification`；移除的旧入口及重复源码在 `verification/Archive/history_20261017.zip`（内含此前的源码归档），不再作为当前执行入口。
 
-## Main 集成验证（不改变独立实验参数）
+## Main 集成验证（当前默认20 ms Chirp短窗）
 
-在FFT目录运行 `python run_main.py` 检查完整8192点CIC/FFT/功率/峰值。
-`python run_main.py --short` 检查main短ADC SPI窗口和空/短FFT状态；
-`python run_main.py --system` 检查完整250ms等效输入数据量、原始缓存/打包和FFT回传（压缩等待节拍）；
-`python run_main.py --io` 检查真实2Mbaud UART逐位传输和ADC桥缓存限长。
-三个模式是同一个 `tb_fft_board.sv` 的条件编译分支；不需要新建更多testbench文件。
-这组回归使用固定的默认配置。改参数后应相应调整测试输入、预期搜索区间和窗长断言，不能用旧结果代替新验证。
+Main当前RX延迟1 ms后采集19 ms，672有效点补零到1024 FFT；两个独立实验不变。25 Hz不足半周期，低频精度不能沿用旧长窗结论。
 
-main的默认配置入口为 `FFT/main_settings.json`，运行 `python configure_main.py` 后重新编译main。
-独立FFT继续使用 `FFT/settings.json` 与 `run.py`，不受main设置影响。
+在FFT目录运行：`python run_main.py`验证Intel内存模型，`--fast-memory`用等延迟行为内存验证全部有效数据/FFT/插值；`--interp`在既有tb_fft_plot.sv分支测试插值数值。`--system`检查完整19ms等效数据量与M3回传（压缩空闲拍），`--short`检查短ADC SPI，`--io`检查81字节真实UART，`--tx`核对Intel IP的19ms RX计数及原TX配置。系统/IO/TX分支的预期固定为本默认配置；自定义参数需同步调整。
 
-`python run_main.py --tx` 用真实Intel浮点IP检查main时长参数、扫频起点/斜率及DAC启动；这是短启动测试，不重复完整80ms波形仿真。仍在现有tb_fft_board.sv内选择模式。
+配置入口为FFT/main_settings.json；`python configure_main.py`生成MainSettings、ROM与C#默认配置块。FFT点数和有效点数分别设置，必须配套重编译Main与03_SW。四个手写testbench和同一个QPF继续使用。
 
-Main快速回归可用 `python run_main.py --fast-memory`（完整数据、行为内存，结果逐点比较）；主系统长帧保留Intel FFT内存模型，波形帧缓存使用等延迟模型。短ADC测试核对Intel波形内存接口。
+详情见[Main说明](../README_main_2026-10-17.md)和[短窗报告](../../../verification/FFT/Short20ms_20261020/report.html)。
+
+## SourceCode 整理（2026-10-17）
+
+已移除未被三个Revision或测试台引用的旧RxController/ADCController/TxPack/TMP117Controller、旧WaveFIFO、早期KaiserFFT包装入口及.bak；也移除了未使用的AlDec/Cadence/Synopsys启动模板和图形符号.bsf。
+
+保留有效HDL、Intel IP源码、Questa源模型/启动脚本、QIP/SIP/SPD/F/CMP等IP描述、SDC时序约束及HEX/MIF/MEM系数。它们是源码配套输入，不是可随意删除的编译产物。共享FFT核心默认参数仍引用的通用系数也保留。
+
+上述清理阶段未改变有效RTL、三个QSF和现有SOF的内容；后续文件合并见下一节。回退备份位于verification/Archive/sourcecode_before_cleanup_20261017.zip，逐文件清单位于sourcecode_cleanup_20261017.json。
+
+## 按功能合并源文件（2026-10-17）
+
+25份手写模块文件合并为6份，12份系数文件移入ROM。SourceCode根目录由46个文件减少为15个文件；子目录里的Intel IP保持厂商结构。三个顶层、三个参数文件和三个SDC分别保留，仍从同一个QPF选择Revision。
+
+| 编辑的文件 | 内含的逻辑单元 |
+|---|---|
+| [CommonPackages.vhd](../SourceCode/CommonPackages.vhd) | `SysLib`、`DSPLib` |
+| [ChirpModules.vhd](../SourceCode/ChirpModules.vhd) | `ChirpWaveGen`、`TxController`、`MainTxController`、`ScopeBurstControl` |
+| [MainControl.vhd](../SourceCode/MainControl.vhd) | `UARTController`、`RxDepack`、`MainRxController`、`MainTxPack`、`MainTMP117Controller` |
+| [RxAcquisition.sv](../SourceCode/RxAcquisition.sv) | `ScopeAdc27m5`、`MainAdcBridge`、`ScopeCic128`、`MainCicDecimator`、`ScopeFrameRam`、`MainFrameRam` |
+| [FftPipeline.sv](../SourceCode/FftPipeline.sv) | `fft_tdp_store`、`kaiser4_rfft`、`fft_power_peak`、`MainFftProcessor`、`ScopeRxFft` |
+| [UartBuffers.sv](../SourceCode/UartBuffers.sv) | `MainWaveFifo`、`ScopeUartReport`、`MainPeakReport`（含`MainWaveBank`） |
+
+只移动代码的位置：模块名、端口、模块体、默认参数和时序约束均保留。修改功能时直接编辑表中对应文件，在文件内搜索模块名即可。`BEGIN_SOURCE` / `END_SOURCE`注释用于仿真脚本定位单元，编辑时保留它们。
+
+Quartus直接编译六个分组文件。仿真脚本通过`source_units.py`抽取测试需要的单元到`results/.../units`，以便某些测试替换ADC/TX等模型而不重复定义模块；这些自动抽取的文件是可删除缓存，不是第二份需要维护的源码。原有run.py和run_main.py命令不变。
+
+合并前备份和逐文件记录位于`verification/Archive/source_bundle_before_20261017.zip`与`source_bundle_20261017.json`。本轮完成三个Revision的Quartus Analysis & Elaboration，以及Chirp、FFT、短UART回归；没有重新布局布线或生成SOF，现有已验证的SOF保持原样。仅整理文件不要求重新烧录。
+
+## Main FPGA峰值插值（2026-10-20）
+
+新增逻辑单元`main_peak_interpolator`放在既有`SourceCode/FftPipeline.sv`中，根目录文件数不增加。Main现在按“FFT → 最大功率频点 → 三点对数插值”工作，当前M3回传FPGA计算的Q16偏移与FFT长度；两个独立实验保持原样。
+
+`python run_main.py --interp`运行现有tb_fft_plot.sv的插值分支；其频率扫描由NumPy生成频谱，实际插值由RTL完成。`--fast-memory`验证完整Main数字处理分支，`--system`验证全数量原始数据与M2回传，`--short`/`--io`检查短ADC和逐位UART。峰值索引、功率、插值偏移均与独立参考比对。
+
+上板需新Main SOF与支持M3的新版03_SW配套。[详细说明](../README_main_2026-10-17.md)和[验证报告](../../../verification/FFT/Interpolation_20261020/report.html)。

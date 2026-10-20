@@ -57,3 +57,20 @@
 ## 02_RTL / 03_SW 可重建缓存清理
 
 [project_cache_cleanup_20261017.json](project_cache_cleanup_20261017.json)：删除388个Questa/MSBuild缓存及生成输入文件，约119.6 MiB。三个Revision引用检查、上位机离线自测通过，源码、配置、SOF、EXE未改。Quartus占用的db/incremental_db暂留。较大范围的旧代码/控件/JIC/DataRecording归档删除尚未执行，等待明确授权。
+
+
+## SourceCode 专项清理
+
+本轮明确授权的SourceCode清理已完成：246个文件精简为169个，移除77个未使用模块、备份和非当前仿真器模板。保留全部当前Quartus/Questa源输入。三个Revision引用检查、真实Intel IP参数/启动短回归通过；有效RTL、QSF和SOF内容未变。
+
+- [完整清理前备份](sourcecode_before_cleanup_20261017.zip)
+- [删除清单与验证](sourcecode_cleanup_20261017.json)
+
+这不包括此前仍未处理的03_SW旧控件、JIC或DataRecording。
+
+## SourceCode 文件合并
+
+25份手写模块合并为6份，12份MEM/MIF移入ROM，根目录文件46→15。源模块逐字节保持，三个顶层、配置、时序约束及SOF不变；QSF与仿真入口同步引用新位置。三个Revision的Quartus Analysis & Elaboration通过，Chirp、FFT和短UART回归通过。未重新布局布线。
+
+- [合并前源码与入口备份](source_bundle_before_20261017.zip)
+- [文件映射、哈希与验证记录](source_bundle_20261017.json)

@@ -7,8 +7,9 @@ import numpy as np
 A=Path(__file__).resolve().parent
 S=A.parents[1]/'SourceCode'
 c=json.loads((A/'main_settings.json').read_text())
-fs=165e6/144/32;nfft=8192;n=int(c['fft_valid_samples'])
-assert 64<=n<=nfft and n%2==0,'Use an even valid length from 64 to 8192'
+fs=165e6/144/32;nfft=int(c['fft_length']);n=int(c['fft_valid_samples']);logn=nfft.bit_length()-1
+assert nfft in [1024,2048,4096,8192], 'Supported Main FFT lengths: 1024/2048/4096/8192'
+assert 64<=n<=nfft and n%2==0,'Use an even valid length from 64 through the FFT length'
 assert 0<c['rx_capture_ms']<=1500 and 0<=c['rx_raw_downsample']<=65535
 assert 0<c['search_min_hz']<c['search_max_hz']<fs/2
 assert math.ceil((165e6/144)*(c['rx_capture_ms']/1000)/(c['rx_raw_downsample']+1))<=131072,'Increase rx_raw_downsample to fit the raw frame; FFT is independent'
@@ -21,6 +22,8 @@ library ieee;use ieee.std_logic_1164.all;
 package MainSettings is
  constant MF_RX_TC:std_logic_vector(31 downto 0):=x"{tc}";
  constant MF_RX_DOWNSAMPLE:natural:={c['rx_raw_downsample']};
+ constant MF_FFT_LOGN:positive:={logn};
+ constant MF_FFT_LENGTH:positive:={nfft};
  constant MF_VALID_SAMPLES:positive:={n};
  constant MF_DELTA_W:positive:={bits};
  constant MF_MIN_BIN:natural:={lo};
@@ -28,11 +31,20 @@ package MainSettings is
 end package;
 '''
 def put(name,txt):
- p=S/name
+ p=(S/'ROM'/name) if name.endswith(('.mem','.mif')) else S/name
+ p.parent.mkdir(parents=True,exist_ok=True)
  if not p.exists() or p.read_text()!=txt:p.write_text(txt)
 put('MainSettings.vhd',pkg)
-for name,data,width in [('main_window_delta',d,bits),('main_cos_quarter',np.floor(np.cos(np.arange(2049)*2*np.pi/nfft)*2**17+.5).astype(np.int64),19)]:
+for name,data,width in [('main_window_delta',d,bits),('main_cos_quarter',np.floor(np.cos(np.arange(nfft//4+1)*2*np.pi/nfft)*2**17+.5).astype(np.int64),19)]:
  put(name+'.mem',''.join(f'{int(x):0{width}b}\n' for x in data))
  put(name+'.mif',f'WIDTH={width};\nDEPTH={len(data)};\nADDRESS_RADIX=UNS;\nDATA_RADIX=UNS;\nCONTENT BEGIN\n'+''.join(f'{i} : {x};\n' for i,x in enumerate(data))+'END;\n')
 print(f'Main: ADC {165e6/144:.6f} S/s; FFT {fs:.6f} S/s; {n} valid / {nfft} FFT; observation {n/fs*1000:.3f} ms; bin {fs/nfft:.6f} Hz; search bins {lo}..{hi}.')
-print('Recompile revision UsMimoTestBench. Changing valid length does not change FFT grid; shorter data worsen true resolution.')
+print('Recompile revision UsMimoTestBench and rebuild 03_SW after profile changes. Zero padding/interpolation do not restore short-window information.')
+
+# Keep the existing C# file as the only software profile source (no extra files).
+import re
+sw=A.parents[3]/'03_SW/UsMimoTestBench/MainProtocol.cs'
+text=sw.read_text(encoding='utf-8')
+profile=f"// BEGIN_MAIN_PROFILE\n        public const float MainRxSeconds = {c['rx_capture_ms']/1000:.9f}f;\n        public const int MainValidSamples = {n}, MainFftLength = {nfft};\n        // END_MAIN_PROFILE"
+text,count=re.subn(r'// BEGIN_MAIN_PROFILE.*?// END_MAIN_PROFILE',profile,text,flags=re.S);assert count==1
+sw.write_text(text,encoding='utf-8')

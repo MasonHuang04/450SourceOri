@@ -1,11 +1,14 @@
 """Chirp entry: shared settings -> board constants -> Questa -> waveform plots."""
 from pathlib import Path
-import argparse,json,struct,math,shutil,subprocess,hashlib
+import argparse,json,struct,math,shutil,subprocess,hashlib,sys
 import numpy as np
 HERE=Path(__file__).resolve().parent;V=HERE.parents[1];RTL=V/'SourceCode'
 p=argparse.ArgumentParser();p.add_argument('--prepare',action='store_true');p.add_argument('--analyze',action='store_true');p.add_argument('--settings-only',action='store_true')
 p.add_argument('--vsim',default='E:/Downloads/Questa/questa_fse/win64/vsim.exe');a=p.parse_args()
 OUT=HERE/'results/run';OUT.mkdir(parents=True,exist_ok=True)
+sys.path.insert(0,str(HERE.parent))
+from source_units import SourceTree
+tree=SourceTree(RTL,OUT)
 cfg=json.loads((HERE/'settings.json').read_text());hz=165000000
 assert 0<cfg['start_hz']<=cfg['end_hz']<hz/2
 assert 0<cfg['duration_ms']<cfg['repeat_ms'] and cfg['boot_ms']>1 and 0<cfg['amplitude']<=1
@@ -23,16 +26,16 @@ def prepare():
  if a.settings_only:return
  files=[];cmd=['vlib work','vmap work work','vlib real_ip','vmap real_ip real_ip']
  def add(lib,f):files.append(f);cmd.append('vcom -2008 -work '+lib+' {'+f.as_posix()+'}')
- for n in ['SysLib.vhd','DSP/FPFAdd/FPFAdd/dspba_library_package.vhd','DSP/FPFAdd/FPFAdd/dspba_library.vhd']:add('real_ip',RTL/n)
+ for n in ['SysLib.vhd','DSP/FPFAdd/FPFAdd/dspba_library_package.vhd','DSP/FPFAdd/FPFAdd/dspba_library.vhd']:add('real_ip',tree.file(n))
  for n in ['FPFAdd','FPFSub','FPFMult','FPFDiv','FPFCos','FPFFP32ToInt32','FPFInt32ToFP32']:
   add('real_ip',RTL/'DSP'/n/n/(n+'_0002.vhd'));add('real_ip',RTL/'DSP'/n/(n+'.vhd'))
- for n in ['DSPLib.vhd','DSP/FIFO.vhd','ChirpWaveGen.vhd']:add('real_ip',RTL/n)
- for f in [RTL/'ChirpSettings.vhd',RTL/'ScopeBurstControl.vhd',HERE/'tb_chirp_plot.vhd',HERE/'tb_chirp_board_control.vhd']:add('work',f)
+ for n in ['DSPLib.vhd','DSP/FIFO.vhd','ChirpWaveGen.vhd']:add('real_ip',tree.file(n))
+ for f in [RTL/'ChirpSettings.vhd',tree.file('ScopeBurstControl.vhd'),HERE/'tb_chirp_plot.vhd',HERE/'tb_chirp_board_control.vhd']:add('work',f)
  for f in (RTL/'DSP').rglob('*.hex'):shutil.copy2(f,OUT/f.name)
  for top in ['tb_chirp_board_control','tb_chirp_plot']:
   cmd+=['vsim -onfinish stop -t 1fs -L altera_mf -L altera_lnsim -L lpm -L real_ip work.'+top,'run -all','quit -sim']
  (OUT/'compile_and_run.do').write_text('\n'.join(cmd)+'\n')
- (OUT/'source_sha256.json').write_text(json.dumps({str(f):hashlib.sha256(f.read_bytes()).hexdigest() for f in files},indent=2))
+ (OUT/'source_sha256.json').write_text(json.dumps({str(f):hashlib.sha256(f.read_bytes()).hexdigest() for f in tree.ledger(files)},indent=2))
  (OUT/'settings_used.json').write_text(json.dumps(cfg,indent=2))
 def analyze():
  import matplotlib

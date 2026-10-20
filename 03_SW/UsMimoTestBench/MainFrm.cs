@@ -75,7 +75,7 @@ namespace UsMimoTestBench
             Label txHint=LabelOf("正弦 Chirp · TX 滤波旁路 · 14 位");fields.Controls.Add(txHint,0,5);fields.SetColumnSpan(txHint,2);tx.Controls.Add(fields);left.Controls.Add(tx);
             foreach(NumericUpDown n in new[]{center,bandwidth,duration,amplitude})n.ValueChanged+=delegate{parameterInfo.Text="参数待发送；点击应用或采集。";};
             GroupBox rx=new GroupBox { Text="RX / FFT · 保持当前 main 配置",Width=292,Height=112,Padding=new Padding(12,24,8,6) };
-            rx.Controls.Add(LabelOf("RX 250 ms，延迟 1 ms，16 位\n波形每 4 点保留 1 点\nFFT 8192 点 · 35.807 kS/s\n峰值搜索：25–500 Hz"));left.Controls.Add(rx);
+            rx.Controls.Add(LabelOf("RX 19 ms，延迟 1 ms，16 位\n672有效点 → 1024点FFT\n观察约18.77 ms · 35.807 kS/s\n25–500 Hz；低频精度受限"));left.Controls.Add(rx);
             TableLayoutPanel reference=new TableLayoutPanel { Width=292,Height=62,ColumnCount=2,RowCount=1 };
             reference.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,57));reference.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,43));target=Number(25,500,3,1);target.Value=100;
             Field(reference,0,"RX 参考频率 (Hz)\n仅用于计算误差",target);left.Controls.Add(reference);
@@ -98,8 +98,8 @@ namespace UsMimoTestBench
             rawInfo=new Label { AutoSize=true,Margin=new Padding(8,12,0,0),Text="尚未采集" };waveBar.Controls.Add(rawInfo);right.Controls.Add(waveBar,0,1);
             waveform=new WaveformView { Dock=DockStyle.Fill,Font=Font };right.Controls.Add(waveform,0,2);
             history=new DataGridView { Dock=DockStyle.Fill,ReadOnly=true,AllowUserToAddRows=false,AllowUserToDeleteRows=false,RowHeadersVisible=false,BackgroundColor=Color.White,BorderStyle=BorderStyle.None,AutoSizeColumnsMode=DataGridViewAutoSizeColumnsMode.Fill,SelectionMode=DataGridViewSelectionMode.FullRowSelect };
-            foreach(string name in new[]{"时间 / 来源","帧号","峰值 Hz","参考 Hz","误差 Hz","功率 code²","状态"})history.Columns.Add(name,name);
-            history.Columns[0].FillWeight=140;history.Columns[6].FillWeight=170;right.Controls.Add(history,0,3);
+            foreach(string name in new[]{"时间 / 来源","帧号","峰值 Hz","原频点 Hz","参考 Hz","误差 Hz","功率 code²","状态"})history.Columns.Add(name,name);
+            history.Columns[0].FillWeight=140;history.Columns[7].FillWeight=170;right.Controls.Add(history,0,3);
             footer=LabelOf("请烧录新版 main 的 UsMimoTestBench.sof，再选择主板 COM 口。图中显示 RX 采集数据；当前固件只回传 FFT 峰值，不回传完整频谱。");footer.ForeColor=Color.FromArgb(65,84,103);root.Controls.Add(footer,0,2);
         }
         void SetDefaults() { center.Value=40;bandwidth.Value=4;duration.Value=20;amplitude.Value=.25m;parameterInfo.Text="默认：40 kHz / 4 kHz / 20 ms / 0.25。"; }
@@ -152,7 +152,8 @@ namespace UsMimoTestBench
         void ReceivedRaw(ScopeDataFrame frame)
         {
             if(!busy)return;
-            if(frame.DataLen<71613||frame.DataLen>71615||Math.Abs(frame.SamplingPeriod-576.0/165e6)>1e-10){Fault("收到的波形长度或采样率与当前 main 配置不符，请检查固件和串口设置。");return;}
+            int expected=(int)(ChirpParameters.MainRxSeconds*165e6/144/4);
+            if(Math.Abs(frame.DataLen-expected)>2||Math.Abs(frame.SamplingPeriod-576.0/165e6)>1e-10){Fault("收到的波形长度或采样率与当前 main 配置不符，请检查固件和串口设置。");return;}
             pendingFrame=latestFrame=frame;latestFrameSource=isDemo?"synthetic_demo":"UART";hasFrame=true;waveform.SetFrame(frame);
             rawInfo.Text=string.Format(Inv,"{0:N0} 点 · {1:0.###} ms",frame.DataLen,frame.DataLen*frame.SamplingPeriod*1000);
             footer.Text="RX 波形已收到，等待 FPGA 峰值…";
@@ -163,14 +164,14 @@ namespace UsMimoTestBench
             if(pendingFrame.Data==null){Fault("收到峰值但缺少对应波形；请断开重连后重试。");return;}
             latestPeak=r;busy=false;
             bool valid=r.Status=="OK";
-            peakLabel.Text=valid?string.Format(Inv,(isDemo?"演示峰值：":"FPGA 峰值：")+"{0:0.000} Hz",r.Frequency):"FPGA 峰值：结果无效";
-            peakLabel.ForeColor=valid?Color.FromArgb(0,103,143):Color.Firebrick;
-            peakDetail.Text=string.Format(Inv,"{0}  ·  功率 {1:0.000} ADC code²  ·  bin {2}  ·  N={3}\n参考 {4:0.###} Hz，误差 {5:+0.000;-0.000;0.000} Hz  ·  flags 0x{6:X2}{7}",
-                r.StatusText,r.Power/64.0,r.Bin,r.Count,pendingTarget,r.Frequency-pendingTarget,r.Flags,isDemo?"  ·  离线合成演示":"");
+            peakLabel.Text=valid?string.Format(Inv,(isDemo?"演示峰值：":r.InterpolationValid?"FPGA 插值：":"FPGA 原频点：")+"{0:0.000} Hz",r.Frequency):"FPGA 峰值：结果无效";
+            peakLabel.ForeColor=valid?(r.LowCycleWarning?Color.DarkOrange:Color.FromArgb(0,103,143)):Color.Firebrick;
+            peakDetail.Text=string.Format(Inv,"{0}  ·  原频点 {1:0.000} Hz  ·  偏移 {2:+0.0000;-0.0000;0.0000} bin\n{3}  ·  功率 {4:0.000} ADC code²  ·  有效点{5}  ·  参考 {6:0.###} Hz / 误差 {7:+0.000;-0.000;0.000} Hz{8}",
+                r.InterpolationText,r.RawFrequency,r.OffsetBins,r.StatusText,r.Power/64.0,r.Count,pendingTarget,r.Frequency-pendingTarget,isDemo?"  ·  合成演示":"");
             string source=isDemo?"演示":"串口";
-            history.Rows.Insert(0,DateTime.Now.ToString("HH:mm:ss")+" / "+source,r.Sequence,r.Frequency.ToString("F3",Inv),pendingTarget.ToString("0.###",Inv),(r.Frequency-pendingTarget).ToString("+0.000;-0.000;0.000",Inv),(r.Power/64.0).ToString("F3",Inv),r.StatusText);
+            history.Rows.Insert(0,DateTime.Now.ToString("HH:mm:ss")+" / "+source,r.Sequence,r.Frequency.ToString("F3",Inv),r.RawFrequency.ToString("F3",Inv),pendingTarget.ToString("0.###",Inv),(r.Frequency-pendingTarget).ToString("+0.000;-0.000;0.000",Inv),(r.Power/64.0).ToString("F3",Inv),r.StatusText);
             if(history.Rows.Count>100)history.Rows.RemoveAt(100);
-            footer.Text=isDemo?"离线演示：合成的 100 Hz 数据，非主板实测；未打开串口。":"本次采集完成。波形来自 ADC，峰值和功率由 FPGA 计算。";
+            footer.Text=isDemo?"离线演示：合成的 100 Hz 数据，非主板实测；未打开串口。":"本次采集完成。19 ms短窗：低频仅作参考；25 Hz可能产生很大误差。FFT与插值由FPGA计算。";
             try{WritePeakLog(source,r);}catch(Exception error){footer.Text+=" 日志保存失败："+error.Message;}
             nextCapture=DateTime.UtcNow.AddSeconds(1);UpdateControls();
         }
@@ -179,8 +180,8 @@ namespace UsMimoTestBench
             if(logFolder==null){logFolder=Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"DataSessions",DateTime.Now.ToString("yyyyMMdd_HHmmss")+"_"+Guid.NewGuid().ToString("N").Substring(0,6));Directory.CreateDirectory(logFolder);}
             string file=Path.Combine(logFolder,"peaks.csv");bool exists=File.Exists(file);
             using(StreamWriter writer=new StreamWriter(file,true,Encoding.UTF8)) {
-                if(!exists)writer.WriteLine("time,source,sequence,status,peak_hz,target_hz,error_hz,power_code_squared,bin,fft_count,flags,raw_count,raw_dt_s,tx_center_hz,tx_bandwidth_hz,tx_duration_s,tx_amplitude");
-                writer.WriteLine(string.Format(Inv,"{0},{1},{2},{3},{4:R},{5:R},{6:R},{7:R},{8},{9},{10},{11},{12:R},{13:R},{14:R},{15:R},{16:R}",DateTime.Now.ToString("o"),source,r.Sequence,r.Status,r.Frequency,pendingTarget,r.Frequency-pendingTarget,r.Power/64.0,r.Bin,r.Count,r.Flags,pendingFrame.DataLen,pendingFrame.SamplingPeriod,pendingParameters.CenterHz,pendingParameters.BandwidthHz,pendingParameters.DurationSeconds,pendingParameters.Amplitude));
+                if(!exists)writer.WriteLine("time,source,sequence,status,peak_hz,target_hz,error_hz,power_code_squared,bin,fft_count,flags,raw_count,raw_dt_s,tx_center_hz,tx_bandwidth_hz,tx_duration_s,tx_amplitude,raw_bin_hz,delta_q16,interpolation_status,interpolation_valid,fft_length,short_window_warning");
+                writer.WriteLine(string.Format(Inv,"{0},{1},{2},{3},{4:R},{5:R},{6:R},{7:R},{8},{9},{10},{11},{12:R},{13:R},{14:R},{15:R},{16:R},{17:R},{18},{19},{20},{21},{22}",DateTime.Now.ToString("o"),source,r.Sequence,r.Status,r.Frequency,pendingTarget,r.Frequency-pendingTarget,r.Power/64.0,r.Bin,r.Count,r.Flags,pendingFrame.DataLen,pendingFrame.SamplingPeriod,pendingParameters.CenterHz,pendingParameters.BandwidthHz,pendingParameters.DurationSeconds,pendingParameters.Amplitude,r.RawFrequency,r.DeltaQ16,r.HasInterpolation?r.InterpolationStatus:-1,r.InterpolationValid,r.FftLength,r.LowCycleWarning));
             }
         }
         void Fault(string reason)

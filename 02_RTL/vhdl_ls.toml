@@ -9,7 +9,6 @@ rtl.files = [
     "V0/SourceCode/DSP/FIFO*.vhd",
     "V0/SourceCode/DSP/*/*.vhd",
     "V0/SourceCode/MainPLL/MainPLL.vhd",
-    "V0/SourceCode/WaveFIFO/WaveFIFO.vhd",
 ]
 rtl.exclude = [
     "V0/SourceCode/**/*_sim/**",

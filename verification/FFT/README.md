@@ -1,6 +1,13 @@
 # FFT 验证索引
 
-## main：当前集成流程
+## main：当前短窗版本（2026-10-20）
+
+- [短窗报告](Short20ms_20261020/report.html)：19 ms RX、672有效点/1024 FFT、FPGA插值、M3协议。
+- [用户反馈与版本校验](Short20ms_20261020/user_confirmation.json)：用户确认当前运行正常；未新增定量精度数据。
+- [长窗插值对照](Interpolation_20261020/report.html)：保留旧8192点条件下的对比结果。
+- [本次保存说明](../../readme_2026-10-20.md)。
+
+## 初版main：2026-10-17集成记录
 
 - [main报告](Main_20261017/report.html)：8192点、35.807kS/s、25–500Hz搜索。
 - [40kHz Chirp默认值更新](Main_20261017/chirp40_update.json)及[最新时序结果](Main_20261017/chirp40_timing.json)。

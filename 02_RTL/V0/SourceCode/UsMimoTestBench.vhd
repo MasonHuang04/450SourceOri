@@ -274,7 +274,7 @@ architecture Beh of UsMimoTestBench is
 	signal cRx_Busy : std_logic := '0';
 	signal cRx_MuxSel : std_logic_vector(2 downto 0) := "100"; --bit 2 for FLT, 1 downto 0 for gain. 000 for div 1 no flt
 			
-	signal cRx_Tc : std_logic_vector(31 downto 0) := MF_RX_TC; --default 250ms continuous-low-frequency bench capture
+	signal cRx_Tc : std_logic_vector(31 downto 0) := MF_RX_TC; --default 19ms RX after 1ms delay, for 20ms Chirp
 	signal cRx_Td : std_logic_vector(31 downto 0) := x"3a83126f"; --delay time for sampling after chirp start, F32, s, def = 0.001
 	signal cRx_DownSampleRate : integer range 0 to 65535 := MF_RX_DOWNSAMPLE;
 	signal cRx_DataResolution : integer range 0 to 31 := 16;
@@ -312,6 +312,7 @@ architecture Beh of UsMimoTestBench is
  signal cAutoTriggerDue:boolean:=false;
  signal cFftDone,cFftSend,cFftSendBusy,cFftSendDone:std_logic:='0';
  signal cFftSeq,cFftCount,cFftSpan:std_logic_vector(31 downto 0);signal cFftBin:std_logic_vector(14 downto 0);
+ signal cFftDelta:std_logic_vector(31 downto 0);signal cFftInterpStatus:std_logic_vector(7 downto 0);
  signal cFftPower:std_logic_vector(40 downto 0);signal cFftMin,cFftMax:std_logic_vector(15 downto 0);
  signal cFftFlags,cReportFlags:std_logic_vector(7 downto 0);
  signal cRawTxValid,cFftTxValid:std_logic:='0';signal cRawTxData,cFftTxData:std_logic_vector(7 downto 0);
@@ -319,14 +320,14 @@ architecture Beh of UsMimoTestBench is
  attribute altera_attribute:string;
  attribute altera_attribute of cLockSync,cFFTRstSync:signal is "-name SYNCHRONIZER_IDENTIFICATION FORCED_IF_ASYNCHRONOUS";
  component MainFftProcessor is
-  generic(VALID_SAMPLES:integer:=8192;SAMPLE_TICKS:integer:=4608;DELTA_W:integer:=6;MIN_BIN:integer:=6;MAX_BIN:integer:=114);
+  generic(LOGN:integer:=10;VALID_SAMPLES:integer:=672;SAMPLE_TICKS:integer:=4608;DELTA_W:integer:=9;MIN_BIN:integer:=1;MAX_BIN:integer:=14);
   port(sys_clk,fft_clk,sys_rst,fft_rst,i_start,i_capture_active,i_raw_valid:in std_logic;i_raw_sample:in std_logic_vector(15 downto 0);
    o_done:out std_logic;o_seq,o_count,o_span:out std_logic_vector(31 downto 0);o_bin:out std_logic_vector(14 downto 0);
-   o_power:out std_logic_vector(40 downto 0);o_min,o_max:out std_logic_vector(15 downto 0);o_flags:out std_logic_vector(7 downto 0));
+   o_power:out std_logic_vector(40 downto 0);o_min,o_max:out std_logic_vector(15 downto 0);o_flags:out std_logic_vector(7 downto 0);o_delta_q16:out std_logic_vector(31 downto 0);o_interp_status:out std_logic_vector(7 downto 0));
  end component;
  component MainPeakReport is
   port(clk,rst,i_start,i_tx_busy:in std_logic;i_seq,i_count,i_span:in std_logic_vector(31 downto 0);
-   i_bin:in std_logic_vector(14 downto 0);i_power:in std_logic_vector(40 downto 0);i_min,i_max:in std_logic_vector(15 downto 0);i_flags:in std_logic_vector(7 downto 0);
+   i_bin:in std_logic_vector(14 downto 0);i_power:in std_logic_vector(40 downto 0);i_min,i_max:in std_logic_vector(15 downto 0);i_flags:in std_logic_vector(7 downto 0);i_fft_length:in std_logic_vector(15 downto 0);i_delta_q16:in std_logic_vector(31 downto 0);i_interp_status:in std_logic_vector(7 downto 0);
    o_data:out std_logic_vector(7 downto 0);o_valid,o_busy,o_done:out std_logic);
  end component;
 
@@ -385,12 +386,12 @@ begin
  cReportFlags<=cFftFlags or (cRawOverflow & "0000" & cRawClipped & "00");
  cUART_TxDataValid<=cFftTxValid when cFftSendBusy='1' else cRawTxValid;
  cUART_TxData<=cFftTxData when cFftSendBusy='1' else cRawTxData;
- uFFT:MainFftProcessor generic map(VALID_SAMPLES=>MF_VALID_SAMPLES,DELTA_W=>MF_DELTA_W,MIN_BIN=>MF_MIN_BIN,MAX_BIN=>MF_MAX_BIN)
+ uFFT:MainFftProcessor generic map(LOGN=>MF_FFT_LOGN,VALID_SAMPLES=>MF_VALID_SAMPLES,DELTA_W=>MF_DELTA_W,MIN_BIN=>MF_MIN_BIN,MAX_BIN=>MF_MAX_BIN)
  port map(sys_clk=>cClkH,fft_clk=>cFFTClk,sys_rst=>cRst,fft_rst=>cFFTRstSync(1),i_start=>cRx_Start,
  i_capture_active=>cCaptureActive,i_raw_valid=>cFullValid,i_raw_sample=>cFullValue,
- o_done=>cFftDone,o_seq=>cFftSeq,o_count=>cFftCount,o_span=>cFftSpan,o_bin=>cFftBin,o_power=>cFftPower,o_min=>cFftMin,o_max=>cFftMax,o_flags=>cFftFlags);
+ o_done=>cFftDone,o_seq=>cFftSeq,o_count=>cFftCount,o_span=>cFftSpan,o_bin=>cFftBin,o_power=>cFftPower,o_min=>cFftMin,o_max=>cFftMax,o_flags=>cFftFlags,o_delta_q16=>cFftDelta,o_interp_status=>cFftInterpStatus);
  uPeakReport:MainPeakReport port map(clk=>cClkH,rst=>cRst,i_start=>cFftSend,i_tx_busy=>cUART_TxBusy,
- i_seq=>cFftSeq,i_count=>cFftCount,i_span=>cFftSpan,i_bin=>cFftBin,i_power=>cFftPower,i_min=>cFftMin,i_max=>cFftMax,i_flags=>cReportFlags,
+ i_seq=>cFftSeq,i_count=>cFftCount,i_span=>cFftSpan,i_bin=>cFftBin,i_power=>cFftPower,i_min=>cFftMin,i_max=>cFftMax,i_flags=>cReportFlags,i_fft_length=>conv_std_logic_vector(MF_FFT_LENGTH,16),i_delta_q16=>cFftDelta,i_interp_status=>cFftInterpStatus,
  o_data=>cFftTxData,o_valid=>cFftTxValid,o_busy=>cFftSendBusy,o_done=>cFftSendDone);
 
 	oLED_STATE <= cRx_Busy;

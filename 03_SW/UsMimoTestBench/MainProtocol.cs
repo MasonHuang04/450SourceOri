@@ -8,6 +8,10 @@ namespace UsMimoTestBench
     // Main's legacy settings packet always includes RX: keep its current profile explicit.
     public sealed class ChirpParameters
     {
+        // BEGIN_MAIN_PROFILE
+        public const float MainRxSeconds = 0.019000000f;
+        public const int MainValidSamples = 672, MainFftLength = 1024;
+        // END_MAIN_PROFILE
         public readonly float CenterHz, BandwidthHz, DurationSeconds, Amplitude;
         public static ChirpParameters Defaults { get { return new ChirpParameters(40000, 4000, 20, .25); } }
         public ChirpParameters(double centerHz, double bandwidthHz, double durationMs, double amplitude)
@@ -30,7 +34,7 @@ namespace UsMimoTestBench
                 TxSQWaveEn = false, TxDownSampleRate = 0, TxDataResolution = 14,
                 TxCenterFreq = CenterHz, TxBandWidth = BandwidthHz, TxTimeLength = DurationSeconds,
                 TxDigitalAmplitude = Amplitude, TxMuxSel = 0,
-                RxTimeLength = .25f, RxStartDelay = .001f, RxDownSampleRate = 3,
+                RxTimeLength = MainRxSeconds, RxStartDelay = .001f, RxDownSampleRate = 3,
                 RxDataResolution = 16, RxMuxSel = 4
             };
         }
@@ -52,8 +56,28 @@ namespace UsMimoTestBench
         public uint Sequence, Count, Span;
         public int Bin, Minimum, Maximum, Flags;
         public ulong Power;
-        public const double Fs = 165000000.0 / 144 / 32, BinHz = Fs / 8192;
-        public double Frequency { get { return Bin * BinHz; } }
+        public bool HasInterpolation, HasFftLength; public int DeltaQ16, InterpolationStatus, FftLength = 8192;
+        public const double Fs = 165000000.0 / 144 / 32;
+        public double BinHz { get { return Fs / FftLength; } }
+        public double ObservationMs { get { return Count / Fs * 1000; } }
+        public bool LowCycleWarning { get { return HasFftLength && Status == "OK" && Frequency * Count / Fs < 3; } }
+        public double RawFrequency { get { return Bin * BinHz; } }
+        public double OffsetBins { get { return DeltaQ16 / 65536.0; } }
+        public bool InterpolationValid { get { return HasInterpolation && InterpolationStatus == 0 && Status == "OK"; } }
+        // FPGA already computed the parabolic offset. PC only converts bin units to Hz.
+        public double Frequency { get { return InterpolationValid ? (Bin + OffsetBins) * BinHz : RawFrequency; } }
+        public string InterpolationText { get {
+            if (!HasInterpolation) return "旧固件：未提供插值";
+            if (InterpolationValid) return "FPGA 三点对数插值";
+            switch (InterpolationStatus) {
+                case 1: return "插值停用：采集/FFT状态异常";
+                case 2: return "插值停用：邻点不完整";
+                case 3: return "插值停用：邻点功率为零";
+                case 4: return "插值停用：非局部峰顶";
+                case 5: return "插值停用：峰顶平坦";
+                default: return "插值停用：结果状态异常";
+            }
+        } }
         static ulong Hex(string s, int width)
         {
             if (s.Length != width) throw new FormatException("字段长度错误");
@@ -61,21 +85,31 @@ namespace UsMimoTestBench
         }
         public static MainReport Parse(string line)
         {
-            if (line.Length != 64 || !line.StartsWith("M1,") || !line.EndsWith("\r\n")) throw new FormatException("M1 格式错误");
-            int checksum = 0; for (int i = 0; i < 60; i++) checksum ^= (byte)line[i];
-            if (checksum != (int)Hex(line.Substring(60, 2), 2)) throw new FormatException("M1 校验失败");
-            string[] f = line.Substring(0, 62).Split(','); if (f.Length != 10) throw new FormatException("M1 字段数错误");
+            bool m3 = line.StartsWith("M3,"), m2 = line.StartsWith("M2,"); int total = m3 ? 81 : m2 ? 76 : 64, checkAt = total - 4;
+            if (line.Length != total || (!m3 && !m2 && !line.StartsWith("M1,")) || !line.EndsWith("\r\n")) throw new FormatException("Main 报告格式错误");
+            int checksum = 0; for (int i = 0; i < checkAt; i++) checksum ^= (byte)line[i];
+            if (checksum != (int)Hex(line.Substring(checkAt, 2), 2)) throw new FormatException("Main 报告校验失败");
+            string[] f = line.Substring(0, total - 2).Split(','); if (f.Length != (m3 ? 13 : m2 ? 12 : 10)) throw new FormatException("Main 报告字段数错误");
             MainReport r = new MainReport();
             r.Sequence = (uint)Hex(f[1], 8); r.Count = (uint)Hex(f[2], 8); r.Bin = (int)Hex(f[3], 4);
             r.Power = Hex(f[4], 11); r.Minimum = unchecked((short)Hex(f[5], 4)); r.Maximum = unchecked((short)Hex(f[6], 4));
             r.Flags = (int)Hex(f[7], 2); r.Span = (uint)Hex(f[8], 8);
-            if (r.Count > 8192 || r.Bin > 4096 || r.Power >= (1UL << 41)) throw new FormatException("M1 数值越界");
+            if (r.Count > 8192 || r.Bin > 4096 || r.Power >= (1UL << 41)) throw new FormatException("Main 报告数值越界");
+            r.HasFftLength = m3;
+            if (m3) { r.FftLength = (int)Hex(f[11],4); if (r.FftLength!=1024 && r.FftLength!=2048 && r.FftLength!=4096 && r.FftLength!=8192) throw new FormatException("FFT长度无效"); }
+            if(r.Count>r.FftLength || r.Bin>r.FftLength/2)throw new FormatException("FFT数据越界");
+            r.HasInterpolation = m2 || m3;
+            if (r.HasInterpolation) {
+                r.DeltaQ16 = unchecked((int)(uint)Hex(f[9], 8)); r.InterpolationStatus = (int)Hex(f[10], 2);
+                if (r.DeltaQ16 < -32768 || r.DeltaQ16 > 32768 || r.InterpolationStatus > 5 ||
+                    (r.InterpolationStatus != 0 && r.DeltaQ16 != 0)) throw new FormatException("插值字段越界");
+            }
             return r;
         }
         public string Status
         {
             get {
-                if ((Flags & 1) != 0 || Count != 8192) return "SHORT_OR_EMPTY_WINDOW";
+                if ((Flags & 1) != 0 || Count < 64 || Count > FftLength || (!HasFftLength && Count != 8192)) return "SHORT_OR_EMPTY_WINDOW";
                 if ((Flags & 2) != 0 || Span != (Count - 1) * 4608) return "BAD_CADENCE";
                 if ((Flags & 4) != 0) return "ADC_CLIPPED";
                 if ((Flags & 8) != 0) return "FFT_OVERFLOW";
@@ -83,7 +117,7 @@ namespace UsMimoTestBench
                 if ((Flags & 16) != 0) return "NO_STRONG_PEAK";
                 if ((Flags & 128) != 0) return "RAW_BUFFER_CAPPED";
                 if (Flags != 0) return "UNKNOWN_FLAGS";
-                if (Bin < 6 || Bin > 114) return "PEAK_OUTSIDE_MAIN_RANGE";
+                if (Bin < Math.Ceiling(25 / BinHz) || Bin > Math.Floor(500 / BinHz)) return "PEAK_OUTSIDE_MAIN_RANGE";
                 return "OK";
             }
         }
@@ -91,7 +125,7 @@ namespace UsMimoTestBench
         {
             get {
                 switch (Status) {
-                    case "OK": return "有效";
+                    case "OK": return LowCycleWarning ? "短窗低频，仅供参考" : "数据有效";
                     case "SHORT_OR_EMPTY_WINDOW": return "采样不足 / 空窗口";
                     case "BAD_CADENCE": return "采样间隔不符合当前 main 配置";
                     case "ADC_CLIPPED": return "ADC 削顶，请降低输入幅度";
@@ -106,7 +140,7 @@ namespace UsMimoTestBench
         }
     }
 
-    // One parser for interleaved legacy binary waveform packets and 64-byte M1 records.
+    // One parser for interleaved legacy binary waveform packets and M1 (64), M2 (76), M3 (81 bytes with explicit FFT length) records.
     public sealed class MainStreamParser
     {
         readonly List<byte> buffer = new List<byte>();
@@ -140,13 +174,14 @@ namespace UsMimoTestBench
                     for (int i = 0; i < n; i++) words[i] = (ushort)(buffer[offset + 32 + 2*i] | buffer[offset + 33 + 2*i] << 8);
                     offset += total;
                     if (Raw != null) Raw(new ScopeDataFrame { DataLen = (int)n, Data = words, SamplingPeriod = dt, TempC = BitConverter.ToInt16(h, 26) / 128f });
-                } else if (buffer[offset] == 77 && buffer[offset + 1] == 49 && buffer[offset + 2] == 44) {
-                    if (remaining < 64) break;
+                } else if (buffer[offset] == 77 && (buffer[offset + 1] == 49 || buffer[offset + 1] == 50 || buffer[offset + 1] == 51) && buffer[offset + 2] == 44) {
+                    int length = buffer[offset + 1] == 51 ? 81 : buffer[offset + 1] == 50 ? 76 : 64;
+                    if (remaining < length) break;
                     MainReport r;
-                    try { r = MainReport.Parse(Encoding.ASCII.GetString(buffer.GetRange(offset, 64).ToArray())); }
+                    try { r = MainReport.Parse(Encoding.ASCII.GetString(buffer.GetRange(offset, length).ToArray())); }
                     catch (FormatException) { offset++; Invalid++; continue; }
                     catch (OverflowException) { offset++; Invalid++; continue; }
-                    offset += 64; if (Peak != null) Peak(r);
+                    offset += length; if (Peak != null) Peak(r);
                 } else offset++;
             }
             if (offset > 0) buffer.RemoveRange(0, offset);
