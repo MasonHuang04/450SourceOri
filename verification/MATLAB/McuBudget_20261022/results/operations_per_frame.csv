@@ -1,0 +1,10 @@
+Stage,RealMultiplications,AddSubtracts,Notes
+Digital RX x reference mixing (new),21770,0,"Rescaling/saturation/memory access excluded"
+CIC3 integrators,0,65310,"40-bit FPGA states: typically 64-bit MCU arithmetic"
+CIC3 combs,0,2040,"One decimated output per 32 raw samples"
+Frame sum and DC removal,0,1344,"One mean division per frame"
+Kaiser4 window,672,0,"Precomputed coefficients, no runtime Bessel evaluation"
+1024 real FFT: 512 complex FFT + split,10236,16376,"Expression counts, not optimized CMSIS instructions"
+Power at all 513 bins,1026,513,"Only 59 bins are needed for equivalent peak/neighbour processing"
+Peak comparison in bins 1 to 57,0,0,"57 eligible bins, approximately 56 max comparisons"
+Peak interpolation,0,0,"3 logarithms and 1 divide, or existing 48-squaring fixed algorithm"

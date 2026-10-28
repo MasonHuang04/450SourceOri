@@ -1,0 +1,18 @@
+{
+  "local_links_valid": true,
+  "archive_crc_valid": true,
+  "plot_visually_reviewed": true,
+  "no_compile_outputs_in_archive": true,
+  "sha256": {
+    "build_figure.py": "4110ed475ef16f196af92f0ed87c92294267ab692bd624d1c50d79c7a80458ab",
+    "checks.json": "55665d2d5c9b193fcdb6056a7aa62135af0ed06c506f6b882fcc87eab4f3a0d7",
+    "distance_error_10_75cm.png": "0a58c262434489ee3a115ae7123c36ed00a6e49be19ff85247e0437a36641cd7",
+    "distance_error_10_75cm.svg": "9b65f06491247809dccbbbd8a31b559ec8c190884606e8d0730c69b7bee3ebb4",
+    "distance_results.csv": "a5b5a514d1a11ef2f2b0a5e14c3270a9226a0e2afe77e9ba9869a2075eef7e14",
+    "evidence.zip": "a9d3062099220be6943676eff5a45a6d0df1680494459c7d4e984129321a758a",
+    "model.json": "84176058e6364f65e467a37f5308eef7e025024a04dbae6a4ef35533c7a73fa3",
+    "provenance.json": "ee58c1ce3ff42cccf9d3116f7901a781118bdadb960adc9a0a91434bcef0cc93",
+    "report.html": "b00bc181bea01ffb5ff9445bb99aa64f1e0e41b7b5a8a6c00cb939fcecfb706c",
+    "run_sweep.py": "a523703dd07b82b599c13723b56adc276e44b4c84d62e6f827132dc9f736d499"
+  }
+}

@@ -1,0 +1,469 @@
+{
+  "date": "2026-10-21",
+  "feature": "FPGA TMP117 temperature and sound-speed-compensated range; M4 telemetry",
+  "implementation_pass": true,
+  "hardware_sensor_verified": false,
+  "range_accuracy_calibrated": false,
+  "profile": {
+    "rx_capture_ms": 19,
+    "rx_raw_downsample": 3,
+    "fft_length": 1024,
+    "fft_valid_samples": 672,
+    "search_min_hz": 25,
+    "search_max_hz": 2000
+  },
+  "m4_bytes": 110,
+  "waveform_samples": 5442,
+  "full_stream_bytes": 11058,
+  "arithmetic": {
+    "arithmetic_vectors": 383,
+    "arithmetic_exact_match": true,
+    "max_cycles": 168,
+    "temp_guard": true,
+    "m4_packets": 3,
+    "m4_checksum": true,
+    "mailbox_snapshot": true,
+    "scope": "Actual new FPGA arithmetic, frame temperature validity and M4 asynchronous mailbox. No physical sensor connected."
+  },
+  "interfaces": {
+    "tmp117_i2c_model": true,
+    "ack_nack": true,
+    "signed_temperature": true,
+    "update_pulse": true,
+    "i2c_rate_khz": 322.265625,
+    "i2c_pin_timing": true,
+    "last_byte_nack": true,
+    "physical_uart_2mbaud": true,
+    "m4_bytes": 110,
+    "checksum": true,
+    "hardware_sensor_tested": false
+  },
+  "minimum_slack_ns": 0.044,
+  "timing_checks": [
+    {
+      "check": "Slow 1100mV 100C Model Setup 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.299,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Setup 'dac_capture'",
+      "slack_ns": 0.97,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Setup 'adc_clk'",
+      "slack_ns": 2.316,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Setup 'adc_pin'",
+      "slack_ns": 3.411,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Setup 'fft_clk'",
+      "slack_ns": 4.696,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Setup 'board_clk'",
+      "slack_ns": 5.955,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Setup 'adc_spi'",
+      "slack_ns": 9.654,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Hold 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.244,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Hold 'fft_clk'",
+      "slack_ns": 0.251,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Hold 'adc_clk'",
+      "slack_ns": 0.438,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Hold 'dac_capture'",
+      "slack_ns": 1.204,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Hold 'board_clk'",
+      "slack_ns": 1.512,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Hold 'adc_spi'",
+      "slack_ns": 6.624,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Hold 'adc_pin'",
+      "slack_ns": 9.421,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Recovery 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 2.012,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Removal 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.542,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Minimum Pulse Width 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'",
+      "slack_ns": 0.757,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Minimum Pulse Width 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 1.617,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Minimum Pulse Width 'board_clk'",
+      "slack_ns": 4.198,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Minimum Pulse Width 'fft_clk'",
+      "slack_ns": 8.6,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV 100C Model Minimum Pulse Width 'adc_clk'",
+      "slack_ns": 17.199,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Setup 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.152,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Setup 'dac_capture'",
+      "slack_ns": 0.868,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Setup 'adc_clk'",
+      "slack_ns": 2.532,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Setup 'adc_pin'",
+      "slack_ns": 3.779,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Setup 'fft_clk'",
+      "slack_ns": 4.029,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Setup 'board_clk'",
+      "slack_ns": 6.064,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Setup 'adc_spi'",
+      "slack_ns": 9.95,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Hold 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.067,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Hold 'fft_clk'",
+      "slack_ns": 0.243,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Hold 'adc_clk'",
+      "slack_ns": 0.461,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Hold 'dac_capture'",
+      "slack_ns": 1.325,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Hold 'board_clk'",
+      "slack_ns": 1.456,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Hold 'adc_spi'",
+      "slack_ns": 6.605,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Hold 'adc_pin'",
+      "slack_ns": 9.273,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Recovery 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 2.151,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Removal 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.434,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Minimum Pulse Width 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'",
+      "slack_ns": 0.757,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Minimum Pulse Width 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 1.576,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Minimum Pulse Width 'board_clk'",
+      "slack_ns": 4.246,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Minimum Pulse Width 'fft_clk'",
+      "slack_ns": 8.578,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Slow 1100mV -40C Model Minimum Pulse Width 'adc_clk'",
+      "slack_ns": 17.225,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Setup 'dac_capture'",
+      "slack_ns": 1.341,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Setup 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 2.479,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Setup 'adc_pin'",
+      "slack_ns": 5.595,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Setup 'adc_clk'",
+      "slack_ns": 7.172,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Setup 'board_clk'",
+      "slack_ns": 7.754,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Setup 'adc_spi'",
+      "slack_ns": 11.409,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Setup 'fft_clk'",
+      "slack_ns": 12.318,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Hold 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.126,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Hold 'fft_clk'",
+      "slack_ns": 0.133,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Hold 'adc_clk'",
+      "slack_ns": 0.16,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Hold 'board_clk'",
+      "slack_ns": 0.513,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Hold 'dac_capture'",
+      "slack_ns": 1.18,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Hold 'adc_spi'",
+      "slack_ns": 7.137,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Hold 'adc_pin'",
+      "slack_ns": 9.435,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Recovery 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 3.671,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Removal 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.234,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Minimum Pulse Width 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'",
+      "slack_ns": 0.757,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Minimum Pulse Width 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 1.913,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Minimum Pulse Width 'board_clk'",
+      "slack_ns": 4.635,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Minimum Pulse Width 'fft_clk'",
+      "slack_ns": 8.932,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV 100C Model Minimum Pulse Width 'adc_clk'",
+      "slack_ns": 17.515,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Setup 'dac_capture'",
+      "slack_ns": 1.319,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Setup 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 3.177,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Setup 'adc_pin'",
+      "slack_ns": 6.136,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Setup 'adc_clk'",
+      "slack_ns": 7.676,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Setup 'board_clk'",
+      "slack_ns": 7.997,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Setup 'adc_spi'",
+      "slack_ns": 11.784,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Setup 'fft_clk'",
+      "slack_ns": 13.133,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Hold 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.044,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Hold 'fft_clk'",
+      "slack_ns": 0.088,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Hold 'adc_clk'",
+      "slack_ns": 0.13,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Hold 'board_clk'",
+      "slack_ns": 0.384,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Hold 'dac_capture'",
+      "slack_ns": 1.195,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Hold 'adc_spi'",
+      "slack_ns": 7.101,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Hold 'adc_pin'",
+      "slack_ns": 9.192,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Recovery 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 4.086,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Removal 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 0.149,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Minimum Pulse Width 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]'",
+      "slack_ns": 0.757,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Minimum Pulse Width 'uPLL|mainpll_inst|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk'",
+      "slack_ns": 1.913,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Minimum Pulse Width 'board_clk'",
+      "slack_ns": 4.625,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Minimum Pulse Width 'fft_clk'",
+      "slack_ns": 8.929,
+      "tns_ns": 0.0
+    },
+    {
+      "check": "Fast 1100mV -40C Model Minimum Pulse Width 'adc_clk'",
+      "slack_ns": 17.62,
+      "tns_ns": 0.0
+    }
+  ],
+  "unconstrained_setup_hold": 0,
+  "main_sof_sha256": "61b24e01651a4613714a20d99fe9d244f5d8a76c51c66f6b75716a3a0ff9be70",
+  "ui_exe_sha256": "ee1faa59fb74127ed86219f5c831cba0451e77830c9aa1f7ba08e5995317dc4d",
+  "fit_summary": "Fitter Status : Successful - Wed Oct 21 23:07:39 2026\nQuartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition\nRevision Name : UsMimoTestBench\nTop-level Entity Name : UsMimoTestBench\nFamily : Cyclone V\nDevice : 5CEFA7F23I7\nTiming Models : Final\nLogic utilization (in ALMs) : 8,507 / 56,480 ( 15 % )\nTotal registers : 17561\nTotal pins : 51 / 240 ( 21 % )\nTotal virtual pins : 0\nTotal block memory bits : 2,201,010 / 7,024,640 ( 31 % )\nTotal RAM Blocks : 272 / 686 ( 40 % )\nTotal DSP Blocks : 44 / 156 ( 28 % )\nTotal HSSI RX PCSs : 0\nTotal HSSI PMA RX Deserializers : 0\nTotal HSSI TX PCSs : 0\nTotal HSSI PMA TX Serializers : 0\nTotal PLLs : 1 / 7 ( 14 % )\nTotal DLLs : 0 / 4 ( 0 % )\n",
+  "scope": "New arithmetic, I2C/UART simulation, full word-count Main integration, C# parser/UI tests and full Quartus timing. No real sensor or new acoustic hardware test."
+}

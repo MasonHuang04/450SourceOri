@@ -4,9 +4,9 @@ module tb_main_tx_parameters;
  reg clk=0,rst=1,start=0;always #3.030303 clk=~clk;
  reg [31:0] fc=32'h48435000,bw=32'h469c4000,tc=32'h3da3d70a,amp=32'h3f800000;
  reg [2:0] mux=3'b100;
- wire busy;wire [13:0] data;wire [2:0] mux_out;
- MainTxController dut(.iClk(clk),.iRst(rst),.iStart(start),.oBusy(busy),.iSQWaveEn(1'b0),.iDownSampleRate(0),.iDataResolution(14),
- .iFc(fc),.iBW(bw),.iTc(tc),.iA(amp),.iMuxSel(mux),.oDA_D(data),.oTX_MUX_A(mux_out));
+ wire busy;wire [13:0] data;wire [2:0] mux_out;wire signed [15:0] sine_reference;
+ MainTxController dut(.iClk(clk),.iRst(rst),.iStart(start),.oBusy(busy),.iSQWaveEn(1'b1),.iDownSampleRate(0),.iDataResolution(14),
+ .iFc(fc),.iBW(bw),.iTc(tc),.iA(amp),.iMuxSel(mux),.oDA_D(data),.oTX_MUX_A(mux_out),.oSineReference(sine_reference));
  wire [31:0] rx_period;
  MainRxController rx(.iClk(clk),.iRst(rst),.iStart(start),.iTc(32'h3c9ba5e3),.iTd(32'h3a83126f),.iDownSampleRate(3),.iDataResolution(16),.iMuxSel(3'b100),.iAD_SDO(1'b0),.iAD_DRDY(1'b1),.oSamplingPeriod(rx_period));
  real period_error;integer c,n,changes;reg [13:0] prev;
@@ -25,18 +25,20 @@ module tb_main_tx_parameters;
    period_error=$bitstoshortreal(rx_period)-576.0/165000000;if(period_error<0)period_error=-period_error;
    if($isunknown(rx_period)||period_error>1e-12)$fatal(1,"RX sample-period metadata");
    changes=0;prev=data;
-   for(n=0;n<1200;n++)begin
+   for(n=0;n<4000;n++)begin
     @(negedge clk);if($isunknown(data))$fatal(1,"Unknown DAC code");
     if(c==1&&(data<6140||data>10244))$fatal(1,"Quarter-scale DAC amplitude out of bounds: %0d",data);
+    if((data>8192)!=(sine_reference>=0))$fatal(1,"Square TX and sine reference have different phase signs");
+    if(c==1&&!(data==6144||data==10240||data==6145||data==10239))$fatal(1,"Square TX does not preserve quarter amplitude");
     if(data!=prev)changes++;prev=data;
    end
-   if(!busy||changes<100)$fatal(1,"Chirp output did not start");
+   if(!busy||changes<1)$fatal(1,"Chirp output did not start");
    $display("PASS MAIN REAL TX PARAMS: case=%0d duration_ticks=%0d f0=%h slope=%h changing_DAC=%0d",c,dut.cn,dut.cf0,dut.ck,changes);
   end
   $display("PASS MAIN RX REAL PARAMETERS: 19ms=3135000 ticks, delay=165000 ticks, raw period=%h",rx_period);
-  $display("PASS MAIN TX PARAMETERS AND STARTUP (not full duration waveform)");$finish;
+  $display("PASS MAIN TX PARAMETERS AND STARTUP: square TX, synchronous sine reference, amplitude respected");$finish;
  end
- initial begin #100000;$fatal(1,"TX parameter test timeout");end
+ initial begin #1000000;$fatal(1,"TX parameter test timeout");end
 endmodule
 
 `elsif MAIN_SHORT_TOP
@@ -199,8 +201,8 @@ module tb_main_top;
   if(dut.cfftsenddone)begin
    if(raw_count!=full_count/4||dut.crx_datacnt!=raw_count)$fatal(1,"Raw count mismatch");
    if(dut.cfftcount!=fft_count||!dut.creportflags[0]||dut.cfftbin!=0||dut.cfftpower!=0)$fatal(1,"Short window must reject FFT");
-   if(byte_count!=raw_count*2+145)$fatal(1,"Raw+FFT record length mismatch");
-   $display("PASS MAIN SHORT TOP: ADC SPI/raw FIFO/full short packet/short-FFT rejection/M3; raw=%0d full=%0d bytes=%0d peak=%0d power=%0d",raw_count,full_count,byte_count,dut.cfftbin,dut.cfftpower);
+   if(byte_count!=raw_count*2+174)$fatal(1,"Raw+FFT record length mismatch");
+   $display("PASS MAIN SHORT TOP: ADC SPI/raw FIFO/full short packet/short-FFT rejection/M4; raw=%0d full=%0d bytes=%0d peak=%0d power=%0d",raw_count,full_count,byte_count,dut.cfftbin,dut.cfftpower);
    $fclose(rf);$fclose(ff);$fclose(bf);#100;$finish;
   end
  end
@@ -238,10 +240,11 @@ endmodule
 // Accelerated ADC WORD model: all 21770 words representing 19 ms are kept.
 // Conversion/SPI idle time is compressed. SPI is tested in the separate pin test.
 module MainAdcBridge #(parameter RAW_CAPACITY=131072)(
- input iClk,iRst,iSamplingEn,input [15:0] iDownSampleRate,input iADSDO,iADDRdy,
+ input iClk,iRst,iSamplingEn,input [15:0] iDownSampleRate,input iADSDO,iADDRdy,input [15:0] iReference,
  output oADRstz,oADCSz,oADSClk,oADSDI,oADStart,oADClk,
  output reg [23:0] oDataCnt=0,output reg oNewData=0,output reg [15:0] oValue=0,
- output reg oFftValid=0,output reg [15:0] oFftValue=0,output oOverflow,oClipped);
+ output reg oFftValid=0,output reg [15:0] oFftValue=0,output [15:0] oFftReference,output oOverflow,oClipped);
+ assign oFftReference=16'h7fff;
  assign oOverflow=0;assign oClipped=0;assign oADRstz=!iRst;assign oADCSz=1;assign oADSClk=0;assign oADSDI=0;assign oADStart=1;assign oADClk=0;
  integer n=0,skip=0;integer sample;
  always @(posedge iClk)begin
@@ -304,8 +307,8 @@ module tb_main_top;
    if(raw_count!=full_count/4||dut.crx_datacnt!=raw_count)$fatal(1,"Raw count mismatch");
    if(fft_count!=672||dut.cfftcount!=672||dut.cfftspan!=21472)$fatal(1,"FFT count/span");
    if(dut.cfftbin!=3||dut.creportflags!=0)$fatal(1,"FFT result bin=%0d flags=%h",dut.cfftbin,dut.creportflags);
-   if(byte_count!=raw_count*2+145)$fatal(1,"Raw+FFT record length mismatch");
-   $display("PASS MAIN LONG FRAME: 19ms-equivalent word count, compressed ADC timing, full raw buffer/672samples/1024FFT/packet/M3; raw=%0d full=%0d bytes=%0d peak=%0d power=%0d",raw_count,full_count,byte_count,dut.cfftbin,dut.cfftpower);
+   if(byte_count!=raw_count*2+174)$fatal(1,"Raw+FFT record length mismatch");
+   $display("PASS MAIN LONG FRAME: 19ms-equivalent word count, compressed ADC timing, full raw buffer/672samples/1024FFT/packet/M4; raw=%0d full=%0d bytes=%0d peak=%0d power=%0d",raw_count,full_count,byte_count,dut.cfftbin,dut.cfftpower);
    $fclose(rf);$fclose(ff);$fclose(bf);#100;$finish;
   end
  end
@@ -316,8 +319,9 @@ endmodule
 `timescale 1ns/1ps
 // Focused contract test: real UART bits and main bridge boundary conditions.
 // ADC conversion producer is a word model here; board test uses SPI pin model.
-module ScopeAdc27m5(input clk,rst,sdo,drdy,output reset_n,cs_n,sclk,sdi,start,initialized,
- output reg valid=0,output reg signed [15:0] sample=0);
+module ScopeAdc27m5(input clk,rst,sdo,drdy,input [15:0] reference,output reset_n,cs_n,sclk,sdi,start,initialized,
+ output reg valid=0,output reg signed [15:0] sample=0,output [15:0] sample_reference);
+ assign sample_reference=reference;
  assign reset_n=!rst;assign cs_n=1;assign sclk=clk;assign sdi=0;assign start=1;assign initialized=!rst;
  integer phase=0,index=0;
  always @(posedge clk)begin valid<=0;

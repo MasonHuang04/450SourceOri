@@ -1,4 +1,10 @@
-# Main：匹配20 ms Chirp的短窗FFT（2026-10-20）
+# 当前multiFPGA副本：2026-10-26方波TX与数字正弦参考
+
+Main现使用原始RX载波在FPGA内混频，不再直接接外部100 Hz低频到Main做FFT。请以[当前报告与连线说明](../../verification/SquareTx_20261026/report.html)为准。下文保留复制前版本记录；独立FFT实验仍用它自己的Revision。
+
+---
+
+# Main：20 ms Chirp短窗FFT，25–2000 Hz搜峰（2026-10-21）
 
 当前Main采用用户选择的短窗方案：默认TX仍为38–42 kHz、20 ms、幅度0.25；RX延迟1 ms后采集19 ms。ADC速率、CIC /32、Kaiser4和FPGA峰值插值保持原样。两个独立Chirp/FFT实验不变。
 
@@ -18,7 +24,7 @@
 | FFT长度 | 8192 | 1024（补352个零） |
 | 频率格间隔 | 4.371007 Hz | 34.968058 Hz |
 | 每帧原始波形回传 | 约71614点 | 约5442点 |
-| 峰值搜索 | 25–500 Hz | 保留名义搜索范围，低频精度受限 |
+| 峰值搜索 | 25–500 Hz | 25–2000 Hz，第1–57格；低频精度仍受限 |
 
 Main的采集控制、FFT缓存和ROM都已按新尺寸匹配，并非只把上位机显示的时间改短。672点给19 ms接收窗口留出少量转换/流水线余量；真实有效回波仍取决于传播延迟、混频和滤波建立时间，本版尚未做声路有效区间自适应选择。
 
@@ -46,7 +52,7 @@ log功率与log幅度只相差常数倍，该比值与Simulation的对数幅度�
 
 ## 参数与代码
 
-只打开`UsMimoTestBench.qpf`，在Project → Revisions选择`UsMimoTestBench`。默认设置位于`Simulation/FFT/main_settings.json`，运行`python configure_main.py`会生成MainSettings、ROM，并更新现有MainProtocol.cs中的软件RX/FFT默认配置块。然后重新编译Main与03_SW。
+只打开`UsMimoTestBench.qpf`，在Project → Revisions选择`UsMimoTestBench`。默认设置位于`Simulation/FFT/main_settings.json`，运行`python configure_main.py`会生成MainSettings、ROM，并更新现有MainProtocol.cs中的软件RX/FFT/搜索范围默认配置块，以及MainFftMonitor中的搜索范围常量。GUI范围检查、说明文字和参考频率输入读取生成常量。以后调整搜峰上限只改JSON里的search_max_hz，然后运行生成器、重新编译Main与03_SW并下载SOF。串口不能运行时修改此上限。
 
 - `SourceCode/FftPipeline.sv`：MainFftProcessor现在可配置LOGN/有效点数，复用原FFT和插值核。
 - `SourceCode/RxAcquisition.sv`：MainFrameRam地址与深度匹配FFT长度。
@@ -64,6 +70,12 @@ log功率与log幅度只相差常数倍，该比值与Simulation的对数幅度�
 
 M1/M2解析保留用于历史数据，但旧固件没有本次短窗FFT配置，不能只升级软件后就用于短窗测试。旧查看器不能解析新M3。
 
+## 本次搜索范围更新
+
+2026-10-21仅把Main搜索上限从500 Hz改为2000 Hz；下限25 Hz、TX/RX、采样、窗、FFT长度、插值和时钟都不变。10–75 cm、每2.5 cm一个点，共27点的理想单回波RTL扫描，最大绝对距离误差0.467 mm，RMSE 0.226 mm。未新增实板精度测试。
+
+[25–2000 Hz更新报告和英文误差图](../../verification/FFT/Search2k_20261021/report.html)。回退包：verification/Archive/before_search2k_20261021.zip。
+
 ## 验证与回退
 
 在Simulation/FFT运行`python run_main.py`（Intel内存）或`--fast-memory`，验证完整CIC/去直流/加窗/补零/FFT/功率/插值，与独立定点参考逐点对比；`--interp`测试插值数值与频率扫描。`--system`保留19 ms等效全部输入点但压缩空闲节拍，`--short`检查短ADC SPI，`--io`检查真实2Mbaud逐位串口，`--tx`检查实际Intel IP的19 ms计数和TX默认值。
@@ -71,3 +83,11 @@ M1/M2解析保留用于历史数据，但旧固件没有本次短窗FFT配置，
 [本次短窗报告](../../verification/FFT/Short20ms_20261020/report.html)包含所有低频偏差，没有把实现正确当作低频精度保证。2026-10-20用户随后反馈当前运行正常；未新增定量精度实测数据，见[本次保存说明](../../readme_2026-10-20.md)。
 
 旧长窗版：[插值报告](../../verification/FFT/Interpolation_20261020/report.html)。修改前文件与SOF备份在`verification/Archive/before_short20ms_20261020.zip`。恢复时应同时恢复Main固件、参数/ROM与配套软件。
+
+## 温度补偿距离（2026-10-21）
+
+Main 在原有 FFT/插值后增加温度有效性判断、声速和距离运算，随 M4 报文回传。TMP117 温度以 Q7、有符号形式，频率以 milliHz、距离以微米发送。M4 共 110 字节，新上位机兼容旧 M1–M3。保留当前 25–2000 Hz 搜峰和其他采样参数。
+
+温度无应答、过期、越界，或 FFT/插值/Chirp 参数无效时，不提供有效距离；0 带宽单频模式不能测距。使用本次锁存的 B/T，R=(331.3+0.606θ)·f_b·T/(2B)，未标定系统零点或双探头几何。
+
+完整 RTL/I²C/UART/上位机验证和 84 项时序检查见 [温度补偿报告](../../verification/FFT/TemperatureRange_20261021/report.html)。实际温度传感器与声学精度仍需上板验证。

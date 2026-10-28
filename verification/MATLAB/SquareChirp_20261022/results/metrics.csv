@@ -1,0 +1,8 @@
+Case,MaxAbsError_mm,RMSE_mm,ValidPeaks
+"Previous IF baseline",0.467407664594504,0.225540843351354,27
+"Sine TX, sampled reference",0.468780273998419,0.225857018513213,27
+"Square TX, fundamental RX",0.470152883402335,0.225771783051248,27
+"Square TX, digital reference",0.470610419870354,0.2259218389512,27
+"Downsample first, then mix",0.459172008171009,0.218115891022915,27
+"CIC on both RF channels, then mix",NaN,NaN,0
+"RF /4, mix, CIC /8",0.464204909318724,0.225519561396764,27

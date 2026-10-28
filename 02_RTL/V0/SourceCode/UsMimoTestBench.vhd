@@ -173,6 +173,7 @@ architecture Beh of UsMimoTestBench is
 			--control
 			iStart : in std_logic := '0'; --signal to start sending a chirp
 			oBusy : out std_logic := '0';
+            oSineReference : out std_logic_vector(15 downto 0);
 			
 			--chirp parameters
 			iSQWaveEn : in std_logic := '0';
@@ -209,7 +210,7 @@ architecture Beh of UsMimoTestBench is
 	signal cTx_Busy : std_logic := '0';
 	signal cTx_MuxSel :std_logic_vector(2 downto 0) := "000"; --match Chirp experiment: divide by 1, TX filter bypass
 	
-	signal cTx_SQWaveEn :std_logic := '0';
+	signal cTx_SQWaveEn :std_logic := '1'; -- Dedicated square-chirp TX; sine tap remains internal
 	signal cTx_DownSampleRate :integer range 0 to 65535 := 0; --sampling rate = 165M / (DownSampleRate + 1)
 	signal cTx_DataResolution : integer range 0 to 31 := 14;
 	signal cTx_Fc :std_logic_vector(31 downto 0) := x"471c4000"; --40 kHz center; match ChirpTxScope40k20ms
@@ -229,7 +230,8 @@ architecture Beh of UsMimoTestBench is
 			iStart : in std_logic := '0'; --start signal of chirp, not Rx, delay done inside
 			oBusy : out std_logic := '0';
 			
-			oFftValid:out std_logic;oFftValue:out std_logic_vector(15 downto 0);
+			iReference:in std_logic_vector(15 downto 0):=(others=>'0');
+            oFftValid:out std_logic;oFftValue,oFftReference:out std_logic_vector(15 downto 0);
             oCaptureActive:out std_logic;oRawOverflow,oRawClipped:out std_logic;
             --data output
 			oDataCnt : out integer range 0 to 16777215 := 0;
@@ -272,7 +274,7 @@ architecture Beh of UsMimoTestBench is
 
 	signal cRx_Start : std_logic := '0'; --start signal of chirp, not Rx, delay done inside
 	signal cRx_Busy : std_logic := '0';
-	signal cRx_MuxSel : std_logic_vector(2 downto 0) := "100"; --bit 2 for FLT, 1 downto 0 for gain. 000 for div 1 no flt
+	signal cRx_MuxSel : std_logic_vector(2 downto 0) := "000"; --bit 2 for FLT, 1 downto 0 for gain. 000 for div 1 no flt
 			
 	signal cRx_Tc : std_logic_vector(31 downto 0) := MF_RX_TC; --default 19ms RX after 1ms delay, for 20ms Chirp
 	signal cRx_Td : std_logic_vector(31 downto 0) := x"3a83126f"; --delay time for sampling after chirp start, F32, s, def = 0.001
@@ -292,6 +294,7 @@ architecture Beh of UsMimoTestBench is
 			iAddr : in std_logic_vector(7 downto 0) := x"48";
 			
 			oDataValid : out std_logic := '0';
+            oUpdated : out std_logic := '0';
 			oTempData : out std_logic_vector(15 downto 0) := x"0000";
 			
 			
@@ -300,7 +303,9 @@ architecture Beh of UsMimoTestBench is
 		);
 	end component MainTMP117Controller;
 	
-	signal cTmp_DataValid : std_logic := '0';
+	signal cTmp_DataValid,cTmp_Updated : std_logic := '0';
+ signal cFrameTemp:std_logic_vector(15 downto 0);signal cFrameTempStatus:std_logic_vector(7 downto 0);
+ signal cFrameBW,cFrameDuration:std_logic_vector(31 downto 0);signal cFrameChirp:std_logic;signal cFrameStartLast:std_logic:='0';
 	signal cTmp_TempData : std_logic_vector(15 downto 0) := x"0000";
 
  
@@ -310,6 +315,10 @@ architecture Beh of UsMimoTestBench is
  signal cFFTClk:std_logic:='0';signal cFFTRstSync:std_logic_vector(1 downto 0):="11";
  signal cFullValid,cCaptureActive,cRawOverflow,cRawClipped:std_logic:='0';signal cFullValue:std_logic_vector(15 downto 0);
  signal cAutoTriggerDue:boolean:=false;
+ -- Register the full millisecond-to-clock product before saturation.
+ -- This removes the clamp mux from the 165 MHz multiplier output path.
+ signal cAutoPeriodProduct:std_logic_vector(33 downto 0):=(others=>'0');
+ signal cAutoPeriodSaturated:boolean:=false;
  signal cFftDone,cFftSend,cFftSendBusy,cFftSendDone:std_logic:='0';
  signal cFftSeq,cFftCount,cFftSpan:std_logic_vector(31 downto 0);signal cFftBin:std_logic_vector(14 downto 0);
  signal cFftDelta:std_logic_vector(31 downto 0);signal cFftInterpStatus:std_logic_vector(7 downto 0);
@@ -317,6 +326,16 @@ architecture Beh of UsMimoTestBench is
  signal cFftFlags,cReportFlags:std_logic_vector(7 downto 0);
  signal cRawTxValid,cFftTxValid:std_logic:='0';signal cRawTxData,cFftTxData:std_logic_vector(7 downto 0);
  signal cTxDac:std_logic_vector(13 downto 0);signal cTxPd:std_logic;
+ signal cTxReference,cDacReference,cDelayedReference,cFullReference,cMixedValue:std_logic_vector(15 downto 0):=(others=>'0');
+ signal cMixedValid,cMixerClipped:std_logic:='0';
+ component MainReferenceDelay is
+  generic(DELAY_CYCLES:integer:=18);
+  port(clk,rst:in std_logic;i_reference:in std_logic_vector(15 downto 0);o_reference:out std_logic_vector(15 downto 0));
+ end component;
+ component MainDigitalMixer is
+  port(clk,rst,i_frame_start,i_valid:in std_logic;i_rx,i_reference:in std_logic_vector(15 downto 0);
+   o_valid:out std_logic;o_sample:out std_logic_vector(15 downto 0);o_clipped:out std_logic);
+ end component;
  attribute altera_attribute:string;
  attribute altera_attribute of cLockSync,cFFTRstSync:signal is "-name SYNCHRONIZER_IDENTIFICATION FORCED_IF_ASYNCHRONOUS";
  component MainFftProcessor is
@@ -326,9 +345,18 @@ architecture Beh of UsMimoTestBench is
    o_power:out std_logic_vector(40 downto 0);o_min,o_max:out std_logic_vector(15 downto 0);o_flags:out std_logic_vector(7 downto 0);o_delta_q16:out std_logic_vector(31 downto 0);o_interp_status:out std_logic_vector(7 downto 0));
  end component;
  component MainPeakReport is
+  generic(RANGE_REPORT:integer:=0);
   port(clk,rst,i_start,i_tx_busy:in std_logic;i_seq,i_count,i_span:in std_logic_vector(31 downto 0);
    i_bin:in std_logic_vector(14 downto 0);i_power:in std_logic_vector(40 downto 0);i_min,i_max:in std_logic_vector(15 downto 0);i_flags:in std_logic_vector(7 downto 0);i_fft_length:in std_logic_vector(15 downto 0);i_delta_q16:in std_logic_vector(31 downto 0);i_interp_status:in std_logic_vector(7 downto 0);
+   i_calc_clk,i_calc_rst:in std_logic;i_temp:in std_logic_vector(15 downto 0);i_temp_status:in std_logic_vector(7 downto 0);
+   i_bandwidth_fp,i_duration_fp:in std_logic_vector(31 downto 0);i_chirp:in std_logic;
    o_data:out std_logic_vector(7 downto 0);o_valid,o_busy,o_done:out std_logic);
+ end component;
+
+ component MainTempSnapshot is
+  generic(MAX_AGE:integer:=330000000);
+  port(clk,rst,i_updated,i_valid,i_capture:in std_logic;i_temp:in std_logic_vector(15 downto 0);
+   o_temp:out std_logic_vector(15 downto 0);o_status:out std_logic_vector(7 downto 0));
  end component;
 
 begin
@@ -349,7 +377,7 @@ begin
 		iTxBusy => cUART_TxBusy, oTxDataValid => cRawTxValid, oTxData => cRawTxData);
 		
 		
-	uTx : MainTxController port map (iClk => cClkH, iRst => cRst, iStart => cTx_Start, oBusy => cTx_Busy,
+	uTx : MainTxController port map (iClk => cClkH, iRst => cRst, iStart => cTx_Start, oBusy => cTx_Busy,oSineReference=>cTxReference,
 		--parameters
 		iSQWaveEn => cTx_SQWaveEn, iDownSampleRate => cTx_DownSampleRate, iDataResolution => cTx_DataResolution,
 		iFc => cTx_Fc, iBW => cTx_BW, iTc => cTx_Tc, iA => cTx_A, iMuxSel => cTx_MuxSel,
@@ -364,7 +392,7 @@ begin
 		iTc => cRx_Tc, iTd => cRx_Td, iDownSampleRate => cRx_DownSampleRate, iDataResolution => cRx_DataResolution,
 		--output
 		oSamplingPeriod => cRx_SamplingPeriod, oDataCnt => cRx_DataCnt, oNewData => cRx_NewData, oValue => cRx_Value,
-        oFftValid=>cFullValid,oFftValue=>cFullValue,oCaptureActive=>cCaptureActive,oRawOverflow=>cRawOverflow,oRawClipped=>cRawClipped,
+        iReference=>cDelayedReference,oFftValid=>cFullValid,oFftValue=>cFullValue,oFftReference=>cFullReference,oCaptureActive=>cCaptureActive,oRawOverflow=>cRawOverflow,oRawClipped=>cRawClipped,
 		--control interface
 		oAD_RST => oAD_RST, oAD_CS => oAD_CS, oAD_SCLK => oAD_SCLK, oAD_SDI => oAD_SDI, iAD_SDO => iAD_SDO, 
 		oAD_START => oAD_START, iAD_DRDY => iAD_DRDY, oAD_CLK => oAD_CLK,
@@ -372,26 +400,42 @@ begin
 		oLED_RX_DIV1 => oLED_RX_DIV1, oLED_RX_DIV2 => oLED_RX_DIV2, oLED_RX_DIV4 => oLED_RX_DIV4, oLED_RX_DIV8 => oLED_RX_DIV8);
 		
 	uTmp : MainTMP117Controller port map (iClk => cClkH, iRst => cRst, iAddr => x"48",
-		oDataValid => cTmp_DataValid, oTempData => cTmp_TempData, oTmp_SCL => oTmp_SCL, ioTmp_SDA => ioTmp_SDA);
+		oDataValid => cTmp_DataValid, oUpdated=>cTmp_Updated, oTempData => cTmp_TempData, oTmp_SCL => oTmp_SCL, ioTmp_SDA => ioTmp_SDA);
 	
 
+
+ uTempFrame:MainTempSnapshot port map(clk=>cClkH,rst=>cRst,i_updated=>cTmp_Updated,i_valid=>cTmp_DataValid,
+ i_capture=>cRx_Start,i_temp=>cTmp_TempData,o_temp=>cFrameTemp,o_status=>cFrameTempStatus);
+ process(cClkH)begin if rising_edge(cClkH)then
+  cFrameStartLast<=cRx_Start;
+  if cRst='1'then cFrameStartLast<='0';cFrameBW<=x"457a0000";cFrameDuration<=x"3ca3d70a";cFrameChirp<='1';
+  elsif cRx_Start='1' and cFrameStartLast='0'then cFrameBW<=cTx_BW;cFrameDuration<=cTx_Tc;cFrameChirp<='1'; -- Shape is independent of chirp validity; calculator checks bandwidth/duration
+  end if;
+ end if;end process;
 
  -- Preserve two feedback cells so the /2 divider meets fast-corner hold.
  uFFTDivHold0:lcell port map(a_in=>not cFFTClk,a_out=>cFFTDivB);
  uFFTDivHold1:lcell port map(a_in=>cFFTDivB,a_out=>cFFTDivD);
  process(iMAIN_CLK) begin if rising_edge(iMAIN_CLK) then cFFTClk<=cFFTDivD;end if;end process;
  process(cFFTClk) begin if rising_edge(cFFTClk) then cFFTRstSync<=cFFTRstSync(0)&cRst;end if;end process;
- process(cClkH) begin if rising_edge(cClkH) then cLockSync<=cLockSync(0)&cPLL_Locked;oDA_D<=cTxDac;end if;end process;
+ process(cClkH) begin if rising_edge(cClkH) then cLockSync<=cLockSync(0)&cPLL_Locked;oDA_D<=cTxDac;cDacReference<=cTxReference;end if;end process;
  oDA_CLK<=not cClkH;oDA_PD<=cTxPd or cRst or not cPLL_Locked;
- cReportFlags<=cFftFlags or (cRawOverflow & "0000" & cRawClipped & "00");
+ cReportFlags<=cFftFlags or (cRawOverflow & cMixerClipped & "000" & cRawClipped & "00");
+ uReferenceDelay:MainReferenceDelay generic map(DELAY_CYCLES=>MF_REFERENCE_DELAY_CYCLES)
+ port map(clk=>cClkH,rst=>cRst,i_reference=>cDacReference,o_reference=>cDelayedReference);
+ uDigitalMixer:MainDigitalMixer port map(clk=>cClkH,rst=>cRst,i_frame_start=>cRx_Start,
+ i_valid=>cFullValid,i_rx=>cFullValue,i_reference=>cFullReference,
+ o_valid=>cMixedValid,o_sample=>cMixedValue,o_clipped=>cMixerClipped);
  cUART_TxDataValid<=cFftTxValid when cFftSendBusy='1' else cRawTxValid;
  cUART_TxData<=cFftTxData when cFftSendBusy='1' else cRawTxData;
  uFFT:MainFftProcessor generic map(LOGN=>MF_FFT_LOGN,VALID_SAMPLES=>MF_VALID_SAMPLES,DELTA_W=>MF_DELTA_W,MIN_BIN=>MF_MIN_BIN,MAX_BIN=>MF_MAX_BIN)
  port map(sys_clk=>cClkH,fft_clk=>cFFTClk,sys_rst=>cRst,fft_rst=>cFFTRstSync(1),i_start=>cRx_Start,
- i_capture_active=>cCaptureActive,i_raw_valid=>cFullValid,i_raw_sample=>cFullValue,
+ i_capture_active=>cCaptureActive,i_raw_valid=>cMixedValid,i_raw_sample=>cMixedValue,
  o_done=>cFftDone,o_seq=>cFftSeq,o_count=>cFftCount,o_span=>cFftSpan,o_bin=>cFftBin,o_power=>cFftPower,o_min=>cFftMin,o_max=>cFftMax,o_flags=>cFftFlags,o_delta_q16=>cFftDelta,o_interp_status=>cFftInterpStatus);
- uPeakReport:MainPeakReport port map(clk=>cClkH,rst=>cRst,i_start=>cFftSend,i_tx_busy=>cUART_TxBusy,
+ uPeakReport:MainPeakReport generic map(RANGE_REPORT=>1) port map(clk=>cClkH,rst=>cRst,i_start=>cFftSend,i_tx_busy=>cUART_TxBusy,
  i_seq=>cFftSeq,i_count=>cFftCount,i_span=>cFftSpan,i_bin=>cFftBin,i_power=>cFftPower,i_min=>cFftMin,i_max=>cFftMax,i_flags=>cReportFlags,i_fft_length=>conv_std_logic_vector(MF_FFT_LENGTH,16),i_delta_q16=>cFftDelta,i_interp_status=>cFftInterpStatus,
+ i_calc_clk=>cFFTClk,i_calc_rst=>cFFTRstSync(1),i_temp=>cFrameTemp,i_temp_status=>cFrameTempStatus,
+ i_bandwidth_fp=>cFrameBW,i_duration_fp=>cFrameDuration,i_chirp=>cFrameChirp,
  o_data=>cFftTxData,o_valid=>cFftTxValid,o_busy=>cFftSendBusy,o_done=>cFftSendDone);
 
 	oLED_STATE <= cRx_Busy;
@@ -410,6 +454,8 @@ begin
 	
 		if cClkH'event and cClkH = '1' then
             cAutoTriggerDue<=vAutoTriggerCnt>=vAutoTriggerTh;
+            cAutoPeriodProduct<=conv_std_logic_vector(cSys_AutoTriggerPeriod,16)*conv_std_logic_vector(165000,18);
+            cAutoPeriodSaturated<=cSys_AutoTriggerPeriod>10000;
 
 			
 			if cLockSync(1)='0' then
@@ -496,8 +542,8 @@ begin
 			
 			
             if vAutoTriggerCnt<1650000000 then vAutoTriggerCnt := vAutoTriggerCnt + 1;end if;
-			if cSys_AutoTriggerPeriod <= 10000 then
-				vAutoTriggerTh := cSys_AutoTriggerPeriod * 165000;
+			if not cAutoPeriodSaturated then
+				vAutoTriggerTh := conv_integer(cAutoPeriodProduct(30 downto 0));
 			else
 				vAutoTriggerTh := 1650000000;
 			end if;
@@ -509,7 +555,7 @@ begin
 				cSys_AutoTriggerEn <= cSys_SettingPack(0)(0);
 				cSys_AutoTriggerPeriod <= conv_integer(cSys_SettingPack(3) & cSys_SettingPack(2));
 				
-				cTx_SQWaveEn <= cSys_SettingPack(4)(0);
+				cTx_SQWaveEn <= '1'; -- This Main revision always emits square chirps
 				cTx_DownSampleRate <= conv_integer(cSys_SettingPack(6) & cSys_SettingPack(5));
 				cTx_DataResolution <= conv_integer(cSys_SettingPack(7));
 				cTx_Fc <= (cSys_SettingPack(11) & cSys_SettingPack(10) & cSys_SettingPack(9) & cSys_SettingPack(8));
@@ -522,7 +568,8 @@ begin
 				cRx_Td <= (cSys_SettingPack(43) & cSys_SettingPack(42) & cSys_SettingPack(41) & cSys_SettingPack(40));
 				cRx_DownSampleRate <= conv_integer(cSys_SettingPack(45) & cSys_SettingPack(44));
 				cRx_DataResolution <= conv_integer(cSys_SettingPack(46));
-				cRx_MuxSel <= cSys_SettingPack(47)(2 downto 0);
+				-- This revision accepts raw carrier only: preserve gain, force LPF bypass.
+                cRx_MuxSel <= '0' & cSys_SettingPack(47)(1 downto 0);
 			
 			end if;
 		

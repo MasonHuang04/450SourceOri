@@ -1,0 +1,32 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>Square TX / Sine Reference Verification</title>
+<style>body{font:16px/1.8 system-ui,'Microsoft YaHei',sans-serif;max-width:1120px;margin:32px auto;padding:0 24px;color:#193a51}img{max-width:100%}table{border-collapse:collapse;width:100%}td,th{padding:8px;border-bottom:1px solid #d5e1e9;text-align:left}code,pre{background:#edf3f6}pre{padding:15px;white-space:pre-wrap}.note{background:#fff4e1;padding:15px}a{color:#126f9d}</style>
+<h1>方波发射 + 同源正弦参考：FPGA 数字混频</h1><p>2026-10-26。修正位于 <b>15_UsMimoTestBench_multiFPGA</b>；原工作工程与 original 备份未修改。本次构建尚未实板验证。</p>
+<p><a href="../../02_RTL/V0/output_files/UsMimoTestBench.sof">新版 Main SOF</a> · <a href="../../03_SW/RunMain.cmd">新版上位机</a> · <a href="../../WORKFLOW_Demo_MULFPGA.drawio">流程图</a> · <a href="checks.json">检查数据</a> · <a href="evidence.zip">仿真及编译证据</a></p>
+<h2>两个同源 Chirp，各有用途</h2><img src="workflow_0.png" alt="Square TX / Sine Reference workflow"><p><a href="workflow_1.png">连接、采样率和参数页</a></p>
+<pre>同一个相位 phi(t) = 2*pi*(38000*t + 0.5*200000*t^2)
+  ├─ 方波 A*sign(cos(phi(t))) → DAC / 发射驱动 / TX 换能器
+  └─ 正弦 A*cos(phi(t)) → FPGA 内部数字参考
+回波 → RX 换能器 → 原始载波 ADC → RX[n] × sine_reference[n]
+     → CIC3 低通 /32 → Kaiser4 → FFT → 搜峰 → 插值 → 距离 → UART</pre>
+<p>两个参考波形同时生成、使用相同相位和时间起点。回波则含传播延迟 tau；理想接收基波为 G*(4A/pi)*cos(phi(t-tau))。因此同一时刻接收频率与参考频率相差斜率×tau，保留这个差才能测距。参考采用内部数字正弦，不需要再用一个ADC采样参考。</p>
+<p>“方波经过换能器后近似正弦”在本次仿真中按仅保留基波建模，4/pi来自理想对称方波的傅里叶基波系数。真实换能器会改变幅度、相位和群延迟，基波模型没有证明真实声学通道仅影响幅度。</p>
+<h2>本次修正</h2><ul><li>Main 默认且固定选择方波发射；上位机设置包同步发送方波标志，避免旧设置把它改回正弦。</li><li>修复旧方波限幅分支忽略幅度的问题：A=0.25时14位DAC码为6144/10240，中心8192；内部正弦幅度同样为0.25。零幅度输出中心码。</li><li>方波仍是扫频Chirp，允许有效距离报文；带宽为零等无效测距参数仍会被拒绝。</li><li>接收、数字乘法、CIC、FFT、插值以及25–2000Hz搜峰参数保持上一版。</li></ul>
+<p>时序修复：ADC SDO先由输入IO寄存器采入，串行移位器读取该寄存值，完整字提交延后一拍；不改变外部采样边沿、ADC采样率或DRDY对应参考。乘法器增加一级输入寄存器成为三级流水，数值和吞吐率不变。1,714组乘法、200个SPI字配对及完整Main重新验证，约束没有放宽。</p><h2>默认参数</h2><p>40kHz中心、4kHz带宽、20ms、幅度0.25。系统/DAC165MHz；ADC1.145833MS/s；RX延迟1ms后采19ms。先全速数字相乘，再CIC3低通/32到35.807292kS/s；672个有效点加Kaiser beta=4，补352零到1024点FFT。</p>
+<h2>验证结果</h2><table><tr><th>检查</th><th>结果</th></tr>
+<tr><td>真实 Intel Chirp IP</td><td>20ms内5001个4us时间检查点，方波与正弦符号一致；拟合起止频率38,000.014 / 41,999.968Hz。另测幅度0、0.125、0.5、1。MainTX参数、启动及20/80ms计数配置通过。</td></tr>
+<tr><td>27个距离点</td><td>10–75cm，每2.5cm。每帧21,770原始样本，672有效点；CIC和全部513个FFT功率与独立定点参考一致。最大误差0.463747mm，RMSE 0.225219mm。</td></tr>
+<tr><td>完整 Main</td><td>真实ADC SPI及144系统周期采样节拍、数字混频/低通/FFT/插值/温度距离、5442波形样本、11058字节完整波形+M4通过。25°C下50cm模型输出577.391280Hz、500.093mm。</td></tr>
+<tr><td>生产上位机</td><td>方波设置包、raw RX配置、完整RF测试报文、波形与M4解析及既有异常测试通过。</td></tr>
+<tr><td>完整编译与时序</td><td>84项时序检查通过，最差裕量+0.071ns；未约束时钟、输入/输出路径统计为0。详细资源和警告见证据包内Fitter报告及编译日志。</td></tr></table>
+<p>27点向量压缩了空闲时钟。完整Main测试保留实际ADC SPI节拍，但TX数学、PLL、温度、ADC模拟输入和原始缓存存储采用行为模型；UART字节握手加速。真实Intel Chirp IP另测，不能将分层测试描述为完整物理换能器仿真。未变化的乘法边界/ADC配对/串口逐位测试记录保留在<a href="../DigitalMixer_20261026/checks.json">上一版模块验证</a>。</p>
+<img src="distance_error_EN.png" alt="Ideal-model distance error">
+<p><a href="square_sine_checkpoints.csv">同步方波/正弦原始检查点CSV</a>（4us检查点，不是完整165MHz DAC记录）。</p>
+<p>最终资源：8,730 / 56,480 ALM，45 / 156 DSP，273 / 686 RAM块；系统/DAC仍为165MHz。</p><h2>上板使用</h2><ol><li>重新下载此副本的新版Main SOF，再运行同副本RunMain.cmd。窗口标题为Square TX / Sine Reference / FFT。</li><li>主板P4 TX_OUT → 前端P3 → 发射驱动 → TX换能器。当前仍通过DAC输出方波；没有擅自增加FPGA引脚或直连换能器。</li><li>RX换能器 → 前端P6；前端P4跳线2–3选原始Rx_Amp，旁路AD835；前端P5 → 主板P5 RX_IN。主板约15kHz低通旁路，保留原始载波所需模拟调理。</li><li>先单次采集：波形区显示原始约40kHz载波，峰值区显示混频拍频。确认不过载后再连续采集。</li></ol>
+<div class="note">默认参考历史18系统周期、extra=0仅处理数字配对；真实ADC/模拟群延迟仍需标定。补偿固定电子延迟时必须保留未知声学传播延迟。误差图是无噪声、无多径、理想基波模型，不代表实板毫米精度；最大峰仍可能在多径或串扰时换峰。</div>
+<h2>上位机预览</h2><img src="software_preview.png" alt="Synthetic UI preview"><p>离线合成演示，未打开COM口。</p>
+<h2>复现</h2><pre>python 02_RTL/V0/Simulation/FFT/run_main.py --tx
+python 02_RTL/V0/Simulation/FFT/run_digital_mixer.py --square-tx
+python 02_RTL/V0/Simulation/FFT/run_digital_mixer.py --frames
+python 02_RTL/V0/Simulation/FFT/run_digital_mixer.py --top</pre><p>Questa仿真按顺序运行，避免单会话许可证冲突。</p>
+<details><summary>27点数值</summary><table><tr><th>Distance/cm</th><th>Ideal/Hz</th><th>RTL/Hz</th><th>Error/mm</th></tr><tr><td>10</td><td>116.618076</td><td>116.729158</td><td>+0.095253</td></tr><tr><td>12.5</td><td>145.772595</td><td>146.126743</td><td>+0.303682</td></tr><tr><td>15</td><td>174.927114</td><td>174.920860</td><td>-0.005362</td></tr><tr><td>17.5</td><td>204.081633</td><td>203.784342</td><td>-0.254927</td></tr><tr><td>20</td><td>233.236152</td><td>232.865520</td><td>-0.317817</td></tr><tr><td>22.5</td><td>262.390671</td><td>262.554434</td><td>+0.140427</td></tr><tr><td>25</td><td>291.545190</td><td>291.994705</td><td>+0.385459</td></tr><tr><td>27.5</td><td>320.699708</td><td>320.958497</td><td>+0.221912</td></tr><tr><td>30</td><td>349.854227</td><td>349.752081</td><td>-0.087590</td></tr><tr><td>32.5</td><td>379.008746</td><td>378.741485</td><td>-0.229177</td></tr><tr><td>35</td><td>408.163265</td><td>407.921907</td><td>-0.206965</td></tr><tr><td>37.5</td><td>437.317784</td><td>437.313089</td><td>-0.004026</td></tr><tr><td>40</td><td>466.472303</td><td>466.594356</td><td>+0.104660</td></tr><tr><td>42.5</td><td>495.626822</td><td>495.707015</td><td>+0.068765</td></tr><tr><td>45</td><td>524.781341</td><td>524.874631</td><td>+0.079996</td></tr><tr><td>47.5</td><td>553.935860</td><td>553.941403</td><td>+0.004753</td></tr><tr><td>50</td><td>583.090379</td><td>582.762732</td><td>-0.280957</td></tr><tr><td>52.5</td><td>612.244898</td><td>612.063207</td><td>-0.155800</td></tr><tr><td>55</td><td>641.399417</td><td>641.849765</td><td>+0.386174</td></tr><tr><td>57.5</td><td>670.553936</td><td>671.094749</td><td>+0.463747</td></tr><tr><td>60</td><td>699.708455</td><td>699.608208</td><td>-0.085961</td></tr><tr><td>62.5</td><td>728.862974</td><td>728.466354</td><td>-0.340101</td></tr><tr><td>65</td><td>758.017493</td><td>757.948243</td><td>-0.059381</td></tr><tr><td>67.5</td><td>787.172012</td><td>787.184157</td><td>+0.010414</td></tr><tr><td>70</td><td>816.326531</td><td>816.394992</td><td>+0.058706</td></tr><tr><td>72.5</td><td>845.481050</td><td>845.922768</td><td>+0.378774</td></tr><tr><td>75</td><td>874.635569</td><td>874.794253</td><td>+0.136072</td></tr></table></details>
+<p>SOF SHA256：<code>d83136b1530341af5195e5e8135eee4d34cfb9d772135106a8a81ba950cc96c1</code><br>GUI SHA256：<code>466aed0c3b1830df3bc3ce69c7f53996268aa99b7a1fa94760ad3bc5be129cc3</code></p></html>

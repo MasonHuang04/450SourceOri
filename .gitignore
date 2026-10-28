@@ -61,3 +61,16 @@ DataRecording/
 # Large local rollback archives and cleanup audit records are kept locally.
 /verification/Archive/*
 !/verification/Archive/README.md
+
+# Local rollback copies are not verification source data. Keep evidence.zip.
+/verification/**/before_*.zip
+/verification/**/rollback_*.zip
+/verification/**/copy_manifest.json
+
+# Required production-parser fixture for the FPGA digital mixer branch.
+!/02_RTL/V0/Simulation/FFT/results/main/digital_mixer/
+/02_RTL/V0/Simulation/FFT/results/main/digital_mixer/*
+!/02_RTL/V0/Simulation/FFT/results/main/digital_mixer/top/
+/02_RTL/V0/Simulation/FFT/results/main/digital_mixer/top/*
+!/02_RTL/V0/Simulation/FFT/results/main/digital_mixer/top/stream.hex
+!/02_RTL/V0/Simulation/FFT/results/main/digital_mixer/top/checks.json

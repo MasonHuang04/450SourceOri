@@ -9,7 +9,7 @@
 | 选择 Revision | `ChirpTxScope40k20ms` | `RxFftLowFreq50to100Hz` |
 | 可综合顶层 | [ChirpTxScope40k20ms.vhd](../SourceCode/ChirpTxScope40k20ms.vhd) | [RxFftLowFreq50to100Hz.sv](../SourceCode/RxFftLowFreq50to100Hz.sv) |
 
-`UsMimoTestBench.vhd` 是原可综合主顶层，名字里虽然有 TestBench，但不是这里的仿真 testbench。main现已接入25–500Hz峰值检测；两个独立实验仍使用各自顶层。详见 [main说明](../README_main_2026-10-17.md)。
+`UsMimoTestBench.vhd` 是原可综合主顶层，名字里虽然有 TestBench，但不是这里的仿真 testbench。main现已接入25–2000Hz峰值检测；两个独立实验仍使用各自顶层。详见 [main说明](../README_main_2026-10-17.md)。
 
 ## 只开一个 .qpf 怎样生成两种 .sof
 
@@ -22,7 +22,7 @@
 |---|---|---|
 | `ChirpTxScope40k20ms`（默认） | 主板TX接示波器，38–42kHz / 20ms | [output_chirp_scope_40k20ms/ChirpTxScope40k20ms.sof](../output_chirp_scope_40k20ms/ChirpTxScope40k20ms.sof) |
 | `RxFftLowFreq50to100Hz` | 外部50–100Hz输入，RX / FFT / 峰值 | [output_rx_fft_lowfreq/RxFftLowFreq50to100Hz.sof](../output_rx_fft_lowfreq/RxFftLowFreq50to100Hz.sof) |
-| `UsMimoTestBench` | main：TX + RX + 25–500Hz FFT/峰值 | `output_files/UsMimoTestBench.sof` |
+| `UsMimoTestBench` | main：TX + RX + 25–2000Hz FFT/峰值 | `output_files/UsMimoTestBench.sof` |
 
 这里切换的是 **Revision（可综合设计配置）**；`Simulation/Chirp` 和 `Simulation/FFT` 仍是仿真/画图目录。仿真testbench不作为烧录顶层。一个 `.qpf` 管理多个 `.qsf` 是Quartus原生支持的方式，`.qsf`需要保留，不能为了只剩一个文件把它们删掉。[官方说明](https://docs.altera.com/r/docs/683475/19.4/quartus-prime-standard-edition-user-guide-getting-started/optimize-settings-with-project-revisions?contentId=JjKtzmhVXufy~kLhFihUag)
 
@@ -113,7 +113,7 @@ Main当前RX延迟1 ms后采集19 ms，672有效点补零到1024 FFT；两个独
 
 在FFT目录运行：`python run_main.py`验证Intel内存模型，`--fast-memory`用等延迟行为内存验证全部有效数据/FFT/插值；`--interp`在既有tb_fft_plot.sv分支测试插值数值。`--system`检查完整19ms等效数据量与M3回传（压缩空闲拍），`--short`检查短ADC SPI，`--io`检查81字节真实UART，`--tx`核对Intel IP的19ms RX计数及原TX配置。系统/IO/TX分支的预期固定为本默认配置；自定义参数需同步调整。
 
-配置入口为FFT/main_settings.json；`python configure_main.py`生成MainSettings、ROM与C#默认配置块。FFT点数和有效点数分别设置，必须配套重编译Main与03_SW。四个手写testbench和同一个QPF继续使用。
+当前Main搜索范围为25–2000 Hz，更新记录见[搜索范围报告](../../../verification/FFT/Search2k_20261021/report.html)。配置入口为FFT/main_settings.json；`python configure_main.py`生成MainSettings、ROM与C#默认配置块。FFT点数和有效点数分别设置，必须配套重编译Main与03_SW。四个手写testbench和同一个QPF继续使用。
 
 详情见[Main说明](../README_main_2026-10-17.md)和[短窗报告](../../../verification/FFT/Short20ms_20261020/report.html)。
 

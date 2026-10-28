@@ -6,17 +6,24 @@
 // SDI changes on rising CLK, sampled by ADC on falling SCLK.
 // Gated SCLK starts a full clock after CS falls and stops before CS rises.
 module ScopeAdc27m5(input logic clk,rst, input logic sdo,drdy,
+ input logic signed [15:0] reference,
  output logic reset_n,cs_n,sdi,sclk,start,initialized,valid,
- output logic signed [15:0] sample);
- typedef enum logic[3:0] {BOOT,GAP,WRITE,CLOSE,START_CONV,WAIT_DATA,READ_DATA,READ_LAST} state_t;
+ output logic signed [15:0] sample,
+ output logic signed [15:0] sample_reference);
+ typedef enum logic[3:0] {BOOT,GAP,WRITE,CLOSE,START_CONV,WAIT_DATA,READ_DATA,READ_LAST,READ_COMMIT} state_t;
  state_t state;
  logic [13:0] wait_count;
  logic [2:0] command_index;
  logic [4:0] bit_index;
  logic [15:0] shift_data;
+ // Single unconditional input register is eligible for the IO cell.
+ // This preserves the external capture edge; only word delivery is one clk later.
+ logic sdo_capture;
+ always_ff @(posedge clk) sdo_capture <= sdo;
  logic spi_request,spi_gate,start_request;
  (* altera_attribute="-name SYNCHRONIZER_IDENTIFICATION FORCED_IF_ASYNCHRONOUS" *) logic [1:0] drdy_sync;
  logic drdy_last,drdy_pending;
+ logic signed [15:0] pending_reference,active_reference;
  function automatic [15:0] command(input [2:0] n);
   case(n) 0:command=16'h0000;1:command=16'h8500;2:command=16'h8687;
    3:command=16'h870c;4:command=16'h8880;default:command=16'h8908;endcase
@@ -34,9 +41,12 @@ module ScopeAdc27m5(input logic clk,rst, input logic sdo,drdy,
    reset_n<=0;cs_n<=1;sdi<=0;initialized<=0;valid<=0;sample<=0;
    spi_request<=0;start_request<=0;shift_data<=0;
    drdy_sync<=2'b11;drdy_last<=1;drdy_pending<=0;
+   pending_reference<=0;active_reference<=0;sample_reference<=0;
   end else begin
    reset_n<=1;valid<=0;drdy_sync<={drdy_sync[0],drdy};drdy_last<=drdy_sync[1];
-   if(drdy_last&&!drdy_sync[1])drdy_pending<=1;
+   if(drdy_last&&!drdy_sync[1])begin
+    drdy_pending<=1;pending_reference<=reference;
+   end
    case(state)
     BOOT: if(wait_count==10015) begin wait_count<=0;state<=GAP;end
           else wait_count<=wait_count+1'b1;
@@ -55,16 +65,23 @@ module ScopeAdc27m5(input logic clk,rst, input logic sdo,drdy,
      end
     START_CONV:begin start_request<=1;drdy_pending<=0;state<=WAIT_DATA;end
     WAIT_DATA:if(drdy_pending)begin
-      drdy_pending<=0;cs_n<=0;spi_request<=1;bit_index<=0;state<=READ_DATA;
+      drdy_pending<=0;active_reference<=pending_reference;
+      cs_n<=0;spi_request<=1;bit_index<=0;state<=READ_DATA;
      end
     READ_DATA:begin
-      // First SCLK rising edge launches MSB. Capture it one full period later.
-      if(bit_index!=0)shift_data<={shift_data[14:0],sdo};
+      // First SCLK edge launches MSB; input register captures next edge.
+      // Consume that registered MSB on bit_index=2, then shift through bit1.
+      if(bit_index>=2)shift_data<={shift_data[14:0],sdo_capture};
       if(bit_index==15)begin spi_request<=0;state<=READ_LAST;end
       else bit_index<=bit_index+1'b1;
      end
     READ_LAST:begin
-      sample<={shift_data[14:0],sdo};valid<=1;cs_n<=1;state<=WAIT_DATA;
+      shift_data<={shift_data[14:0],sdo_capture};
+      cs_n<=1;state<=READ_COMMIT;
+     end
+    READ_COMMIT:begin
+      sample<={shift_data[14:0],sdo_capture};sample_reference<=active_reference;
+      valid<=1;state<=WAIT_DATA;
      end
     default:state<=BOOT;
    endcase
@@ -79,10 +96,10 @@ endmodule
 // Raw packet decimation is separate from the full-rate FFT tap.
 module MainAdcBridge #(parameter integer RAW_CAPACITY=131072)(
  input logic iClk,iRst,iSamplingEn,input logic [15:0] iDownSampleRate,
- input logic iADSDO,iADDRdy,
+ input logic iADSDO,iADDRdy,input logic signed [15:0] iReference,
  output wire oADRstz,oADCSz,oADSClk,oADSDI,oADStart,oADClk,
  output logic [23:0] oDataCnt,output logic oNewData,output logic [15:0] oValue,
- output logic oFftValid,output logic [15:0] oFftValue,
+ output logic oFftValid,output logic [15:0] oFftValue,oFftReference,
  output logic oOverflow,oClipped);
  logic [2:0] divide_count=0;logic adc_clock=0;
  always_ff @(posedge iClk)begin
@@ -92,15 +109,15 @@ module MainAdcBridge #(parameter integer RAW_CAPACITY=131072)(
  end
  (* altera_attribute="-name SYNCHRONIZER_IDENTIFICATION FORCED_IF_ASYNCHRONOUS" *) logic [1:0] adc_reset_sync=3;
  always_ff @(posedge adc_clock)adc_reset_sync<={adc_reset_sync[0],iRst};
- wire adc_rst=adc_reset_sync[1];wire valid,initialized;wire signed [15:0] sample;
- ScopeAdc27m5 adc(.clk(adc_clock),.rst(adc_rst),.sdo(iADSDO),.drdy(iADDRdy),
+ wire adc_rst=adc_reset_sync[1];wire valid,initialized;wire signed [15:0] sample,sample_reference;
+ ScopeAdc27m5 adc(.clk(adc_clock),.rst(adc_rst),.sdo(iADSDO),.drdy(iADDRdy),.reference(iReference),
  .reset_n(oADRstz),.cs_n(oADCSz),.sclk(oADSClk),.sdi(oADSDI),.start(oADStart),
- .initialized(initialized),.valid(valid),.sample(sample));
+ .initialized(initialized),.valid(valid),.sample(sample),.sample_reference(sample_reference));
  assign oADClk=adc_clock;
- logic word_toggle=0;logic [15:0] held_sample=0;
+ logic word_toggle=0;logic [15:0] held_sample=0,held_reference=0;
  always_ff @(posedge adc_clock)begin
-  if(adc_rst)begin word_toggle<=0;held_sample<=0;end
-  else if(valid)begin held_sample<=sample;word_toggle<=~word_toggle;end
+  if(adc_rst)begin word_toggle<=0;held_sample<=0;held_reference<=0;end
+  else if(valid)begin held_sample<=sample;held_reference<=sample_reference;word_toggle<=~word_toggle;end
  end
  (* altera_attribute="-name SYNCHRONIZER_IDENTIFICATION FORCED_IF_ASYNCHRONOUS" *) logic [1:0] word_sync;
  logic seen,enabled_last,pending;
@@ -109,7 +126,7 @@ module MainAdcBridge #(parameter integer RAW_CAPACITY=131072)(
   oNewData<=0;oFftValid<=0;
   if(iRst)begin
    word_sync<=0;seen<=0;enabled_last<=0;pending<=0;
-   skip<=0;skip_limit<=0;oDataCnt<=0;oValue<=16'h8000;oFftValue<=0;oOverflow<=0;oClipped<=0;
+   skip<=0;skip_limit<=0;oDataCnt<=0;oValue<=16'h8000;oFftValue<=0;oFftReference<=0;oOverflow<=0;oClipped<=0;
   end else begin
    word_sync<={word_sync[0],word_toggle};enabled_last<=iSamplingEn;
    if(word_sync[1]!=seen)begin seen<=word_sync[1];pending<=1;end
@@ -117,7 +134,7 @@ module MainAdcBridge #(parameter integer RAW_CAPACITY=131072)(
    if(iSamplingEn&&!enabled_last)begin
     skip_limit<=iDownSampleRate;skip<=0;oDataCnt<=0;oOverflow<=0;oClipped<=0;pending<=0;
    end else if(pending&&iSamplingEn)begin
-    pending<=0;oFftValue<=held_sample;oFftValid<=1;
+    pending<=0;oFftValue<=held_sample;oFftReference<=held_reference;oFftValid<=1;
     if(held_sample==16'h7fff||held_sample==16'h8000)oClipped<=1;
     if(skip==skip_limit)begin
      skip<=0;
@@ -261,3 +278,59 @@ endmodule
 
 // END_SOURCE: MainFrameRam.sv
 
+
+// BEGIN_SOURCE: MainReferenceDelay.sv
+// Known digital timing alignment. Extra ADC/analog delay is a calibration
+// parameter, not the unknown acoustic propagation delay. No reference reset
+// is performed at the delayed RX-window start.
+module MainReferenceDelay #(parameter integer DELAY_CYCLES=18)(
+ input logic clk,rst,input logic signed [15:0] i_reference,
+ output wire signed [15:0] o_reference);
+ generate if(DELAY_CYCLES==0)begin: g_zero
+  assign o_reference=rst ? 16'sd0 : i_reference;
+ end else begin: g_delay
+  localparam integer CW=$clog2(DELAY_CYCLES+1);
+  logic signed [15:0] history[0:DELAY_CYCLES-1];
+  logic [CW-1:0] filled=0;
+  always_ff @(posedge clk)begin
+   history[0]<=i_reference;
+   for(integer n=1;n<DELAY_CYCLES;n=n+1)history[n]<=history[n-1];
+   if(rst)filled<=0;else if(filled<DELAY_CYCLES)filled<=filled+1'b1;
+  end
+  assign o_reference=filled==DELAY_CYCLES ? history[DELAY_CYCLES-1] : 16'sd0;
+ end endgenerate
+endmodule
+// END_SOURCE: MainReferenceDelay.sv
+
+// BEGIN_SOURCE: MainDigitalMixer.sv
+// Signed ADC * signed Q1.15 reference. Round to nearest (ties towards +inf),
+// then saturate to the existing signed16 CIC input. Three registered stages.
+module MainDigitalMixer(input logic clk,rst,i_frame_start,i_valid,
+ input logic signed [15:0] i_rx,i_reference,
+ output logic o_valid,output logic signed [15:0] o_sample,
+ output logic o_clipped);
+ logic valid_input,valid_product;
+ logic signed [15:0] rx_registered,reference_registered;
+ logic signed [31:0] product;
+ // Unconditional data registers allow input/output registers to pack in the DSP.
+ // Valid bits flush the pipeline; invalid data do not need reset/enable muxes.
+ always_ff @(posedge clk)begin
+  rx_registered<=i_rx;reference_registered<=i_reference;
+  product<=$signed(rx_registered)*$signed(reference_registered);
+ end
+ wire signed [32:0] rounded=$signed({product[31],product})+33'sd16384;
+ wire signed [32:0] scaled=rounded>>>15;
+ always_ff @(posedge clk)begin
+  if(rst||i_frame_start)begin
+   valid_input<=0;valid_product<=0;o_valid<=0;o_sample<=0;o_clipped<=0;
+  end else begin
+   valid_input<=i_valid;valid_product<=valid_input;o_valid<=valid_product;
+   if(valid_product)begin
+    if(scaled>32767)begin o_sample<=32767;o_clipped<=1;end
+    else if(scaled< -32768)begin o_sample<=-32768;o_clipped<=1;end
+    else o_sample<=scaled[15:0];
+   end
+  end
+ end
+endmodule
+// END_SOURCE: MainDigitalMixer.sv

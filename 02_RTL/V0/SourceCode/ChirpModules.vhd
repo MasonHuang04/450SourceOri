@@ -26,7 +26,8 @@ entity ChirpWaveGen is
 		iDT : in std_logic_vector(31 downto 0) := x"31d03da8"; --period for clock
 		
 		--output, LAT = 106
-		oWaveform : out integer range 0 to 16383 := 8192
+		oWaveform : out integer range 0 to 16383 := 8192;
+        oSineWaveform : out integer range 0 to 16383 := 8192
 		
 	);
 end entity ChirpWaveGen;
@@ -42,6 +43,8 @@ architecture Beh of ChirpWaveGen is
 	
 	signal cKDiv2 : std_logic_vector(31 downto 0);
 	signal cADig : std_logic_vector(31 downto 0);
+    signal cPeakInt : std_logic_vector(31 downto 0);
+    signal cPeakCode : integer range 0 to 8191 := 0;
 	
 	--L11
 	signal cDIdxF_L11 : std_logic_vector(31 downto 0);
@@ -93,6 +96,13 @@ begin
 	--calculate amp from 0~1 range to 0 to 8191 range
 	u1 : FPFMult port map (clk => iClk, areset => cRst, a => cA, b => FLOAT_8191, q => cADig);
 	
+
+    -- Square-wave height follows the SAME amplitude setting as the sine.
+    -- The previous legacy limiter ignored amplitude and drove both DAC rails.
+    uPeak : FPFFP32ToInt32 port map(clk=>iClk,areset=>cRst,a=>cADig,q=>cPeakInt);
+    cPeakCode <= 0 when cPeakInt(31)='1' else
+        8191 when cPeakInt(30 downto 13)/="000000000000000000" else
+        conv_integer(cPeakInt(12 downto 0));
 
 ----L0
 
@@ -161,9 +171,9 @@ begin
 ----L105
 	
 	--quare wave check
-	cWaveformSQCheck_L105 <= cWaveformUInt14_L105 when (cSQWaveEn = '0') or (cWaveformUInt14_L105 = 8192) else
-						0 when cWaveformUInt14_L105 < 8192 else
-						16383 ;
+	cWaveformSQCheck_L105 <= cWaveformUInt14_L105 when cSQWaveEn='0' else
+        8192-cPeakCode when cWaveformUInt14_L105<8192 else
+        8192+cPeakCode;
 						
 ----L106
 
@@ -176,6 +186,7 @@ begin
 		
 			cWaveformUInt14_L105 <= cWaveformUInt14_L104;
 			cWaveformSQCheck_L106 <= cWaveformSQCheck_L105;
+            oSineWaveform <= cWaveformUInt14_L105;
 		
 			cRst <= iRst;
 			
@@ -260,7 +271,8 @@ architecture Beh of TxController is
 			iDT : in std_logic_vector(31 downto 0) := x"31d03da8"; --period for clock
 			
 			--output, LAT = 106
-			oWaveform : out integer range 0 to 16383 := 8192
+			oWaveform : out integer range 0 to 16383 := 8192;
+        oSineWaveform : out integer range 0 to 16383 := 8192
 		);
 	end component ChirpWaveGen;
 	
@@ -328,7 +340,7 @@ begin
 
 	uCWG : ChirpWaveGen port map (iClk => iClk, iRst => cRst,
 		iSQWaveEn => cSQWaveEn, iDIdx => cCWG_DIdx, iF0 => cF0, iK => cK, iA => cA, iDT => DA_CLK_PERIOD,
-		oWaveform => cCWG_Waveform);
+		oWaveform => cCWG_Waveform, oSineWaveform => open);
 
 ----direct output signals
 
@@ -460,6 +472,7 @@ entity MainTxController is
 		--control
 		iStart : in std_logic := '0'; --signal to start sending a chirp
 		oBusy : out std_logic := '0';
+        oSineReference : out std_logic_vector(15 downto 0) := (others=>'0');
 		
 		--chirp parameters
 		iSQWaveEn : in std_logic := '0';
@@ -512,7 +525,8 @@ architecture Beh of MainTxController is
 			iDT : in std_logic_vector(31 downto 0) := x"31d03da8"; --period for clock
 			
 			--output, LAT = 106
-			oWaveform : out integer range 0 to 16383 := 8192
+			oWaveform : out integer range 0 to 16383 := 8192;
+        oSineWaveform : out integer range 0 to 16383 := 8192
 		);
 	end component ChirpWaveGen;
 	
@@ -543,6 +557,7 @@ architecture Beh of MainTxController is
 	--CWG signals
 	signal cCWG_DIdx : std_logic_vector(31 downto 0) := (others => '0');
 	signal cCWG_Waveform : integer range 0 to 16383 := 8192;
+    signal cCWG_Sine : integer range 0 to 16383 := 8192;
 begin
 
 ----parameter calculation
@@ -583,7 +598,7 @@ begin
 
 	uCWG : ChirpWaveGen port map (iClk => iClk, iRst => cRst,
 		iSQWaveEn => cSQWaveEn, iDIdx => cCWG_DIdx, iF0 => cF0, iK => cK, iA => cA, iDT => DA_CLK_PERIOD,
-		oWaveform => cCWG_Waveform);
+		oWaveform => cCWG_Waveform, oSineWaveform => cCWG_Sine);
 
 ----direct output signals
 
@@ -620,6 +635,7 @@ begin
 				vCnt := 0;
 				vStart_L1 := '0';
 				cBusy <= '0';
+                oSineReference <= (others=>'0');
 				vDownSampleCnt := 0;
 				
 			else
@@ -631,6 +647,7 @@ begin
 					
 					--set DA @ 0V
 					oDA_D <= conv_std_logic_vector(8192, 14);
+                    oSineReference <= (others=>'0');
 					cCWG_DIdx <= (others => '0');
 				
 					--latch settings
@@ -676,6 +693,8 @@ begin
 					end if;
 					
 					oDA_D <= conv_std_logic_vector(cCWG_Waveform, 14) and cDataMask;
+                    -- Pre-square sine, same pipeline/output gate as the DAC.
+                    oSineReference <= conv_std_logic_vector((cCWG_Sine-8192)*4,16);
 					
 					--check end of chirp
 					if vCnt = vN then

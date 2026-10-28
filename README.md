@@ -1,43 +1,66 @@
-# 450SourceOri
+# 450SourceOri — FPGA digital mixer / Square TX
 
-超声 MIMO 测试平台的当前工作工程：主板/前端电路、FPGA RTL、仿真入口和桌面上位机。
+本目录对应 **`fpga-mixer` 分支**。原始RX载波经ADC后，在FPGA内与同源数字正弦参考相乘，再做CIC低通、FFT、搜峰和插值。
 
-2026-10-20：已保存Main短窗FFT与FPGA峰值插值版本；用户反馈当前运行正常。详见[本次版本记录](readme_2026-10-20.md)。
+## 两个目录、两个分支
 
-## 当前入口
+| 本地目录 | GitHub分支 | Main输入 |
+|---|---|---|
+| `15_UsMimoTestBench` | [`main`](https://github.com/MasonHuang04/450SourceOri/tree/main) | 前端模拟混频后的低频 |
+| `15_UsMimoTestBench_multiFPGA` | [`fpga-mixer`](https://github.com/MasonHuang04/450SourceOri/tree/fpga-mixer) | 原始约40kHz RX载波 |
 
-| 内容 | 位置 |
-|---|---|
-| 硬件设计 | `01_Elec/01_MainBoard`、`01_Elec/02_FrontEnd`（Altium） |
-| 唯一 Quartus 工程 | [UsMimoTestBench.qpf](02_RTL/V0/UsMimoTestBench.qpf) |
-| 三个 Revision / 仿真说明 | [Simulation/README.md](02_RTL/V0/Simulation/README.md) |
-| main 使用说明 | [README_main_2026-10-17.md](02_RTL/V0/README_main_2026-10-17.md) |
-| 图形上位机 | [03_SW/RunMain.cmd](03_SW/RunMain.cmd) |
-| 上位机说明 | [03_SW/README_main_2026-10-17.md](03_SW/README_main_2026-10-17.md) |
-| 验证结果索引 | [verification/README.md](verification/README.md) |
+两个目录各有独立Git工作区，提交和推送各自分支。不要通过覆盖整个文件夹同步两种硬件链路；共用修复可在审核后按提交同步。两分支以原有共同历史为基础分别保存当前工作状态，不自动互相合并。
 
-## main 默认配置
+## 本分支默认配置与入口
 
-- TX：中心40 kHz、带宽4 kHz（38–42 kHz）、20 ms、幅度0.25，TX滤波旁路。
-- RX：19 ms，延迟1 ms；原始ADC约1.146 MS/s，波形每4点保留1点。
-- FFT：CIC/32后约35.807 kS/s，672有效点补零至1024点，Kaiser β=4，25–500 Hz名义搜索及FPGA三点峰值插值；短窗低频精度受限。
-- FPGA系统时钟165 MHz；UART 2 Mbaud / 8N1；M3结果报文携带实际FFT长度。
-- 03_SW可在运行时发送TX参数，显示RX波形和FPGA峰值，无需为改这些参数重新编译FPGA。
+- TX：方波TX；内部保留同相位正弦参考，40kHz中心、4kHz带宽、20ms、幅度0.25。
+- RX：延迟1ms后采19ms；ADC1.145833MS/s；回传波形每4点保留1点。
+- FFT：CIC3 /32 → 35.807292kS/s；672有效点加Kaiser beta=4，补零到1024；25–2000Hz搜峰及FPGA三点对数插值。
+- FPGA计算温度补偿声速和距离，使用M4报文；系统/DAC165MHz，FFT50MHz，UART2Mbaud / 8N1。
+- **前端P4：2–3，Amplifier / Rx_Amp**；旁路AD835，主板模拟RX低通旁路。
 
-板上应使用 main revision `UsMimoTestBench`。独立Chirp与独立FFT实验分别使用自己的Revision，不能混用上位机协议。main低频测试先用持续的外部信号发生器模拟混频信号；当前没有新增FPGA TX×RX混频器。
+[Quartus工程](02_RTL/V0/UsMimoTestBench.qpf) · [本分支Main SOF](02_RTL/V0/output_files/UsMimoTestBench.sof) · [配套上位机RunMain.cmd](03_SW/RunMain.cmd)
 
-## 打开和构建
+同一QPF中选择 `UsMimoTestBench` revision编译Main。独立Chirp、独立低频FFT实验有各自Revision，不要混用其SOF和上位机。SOF/EXE均取自本分支；代码改动后需重新编译和核对时序。主板供电、连接及实物改动还需参照[接线记录](HARDWARE_WIRING_NOTES.txt)。
 
-FPGA：用Quartus Prime Lite打开唯一QPF，Project → Revisions选择目标，再编译。三个当前SOF和时序摘要随仓库保存；源码改变后需重新编译和核对时序。
+## 结果与证据
 
-软件：Windows下双击 `03_SW/RunMain.cmd`。重新编译可运行 `03_SW/Build.ps1`，或用Visual Studio打开原解决方案；需要.NET Framework 4.8开发工具。连接主板COM后点击「应用并采集一次」。
+- [数字混频、方波TX及完整Main验证](verification/SquareTx_20261026/report.html)
+- [27个距离点及15cm FFT频谱](verification/SquareTx_20261026/figures_20261028/report.html)
+- [前端Mixer误接对照](verification/MixerRouteAudit_20261028/report.html)
+- [流程图](WORKFLOW_Demo_MULFPGA.drawio)
 
-仿真：Python、NumPy、Matplotlib和Questa。运行两个Simulation目录内的脚本，具体见对应README。脚本中Questa路径按原电脑配置，换电脑时调整路径。当前软件自测使用仓库内保留的两个UART/波形测试数据文件。
+仿真通过说明对应模型下的数字处理和接口验证通过，不保证真实声学链路的测距精度。固定偏移、群延迟、过载、多径及最大峰切换均需结合实测检查。使用方波新版时须正确选择Rx_Amp；错误接入Rx_Mix可能偶尔给出看似正确的距离。
 
-## 验证范围与版本保存
+## 日常提交与同步
 
-仓库记录RTL分层测试、UART协议测试和时序结果。2026-10-20用户已反馈当前运行正常；定量精度仍以各报告的测试条件为准，未新增完整声学测距精度结论。上位机界面预览仍是明确标识的离线合成演示。
+在本目录终端中操作，先确认当前分支：
 
-`.gitignore`排除Quartus/Questa/MSBuild缓存、旧原始录波、重复编译产物和大型本地历史备份。最新报告、必要采样数据、验证证据ZIP、三个SOF和上位机Release保留。被忽略的文件仍在原电脑，不会因Git初始化被删除。
+```powershell
+git branch --show-current
+git status
+git add <本次修改的文件或目录>
+git commit -m "说明本次修改"
+git push origin fpga-mixer
+```
 
-本仓库对应当前 `15_UsMimoTestBench` 工作工程，不包含同级 `15_UsMimoTestBench_original` 备份或独立的 `Simulation` 目录。历史文档中指向 `verification/Archive` ZIP的链接仅适用于保留了这些本地归档的电脑；该目录的大型回退包不随Git上传。
+此目录的当前分支应为 `fpga-mixer`，上游为 `origin/fpga-mixer`。另一目录的未提交文件不会随本目录提交一起上传。需要拉取更新时，先保存自己的改动，再运行 `git pull --ff-only`；出现分叉时先检查差异。
+
+新电脑可分别克隆：
+
+```powershell
+git clone --branch main --single-branch https://github.com/MasonHuang04/450SourceOri.git 15_UsMimoTestBench
+git clone --branch fpga-mixer --single-branch https://github.com/MasonHuang04/450SourceOri.git 15_UsMimoTestBench_multiFPGA
+```
+
+## 文件保留策略
+
+Git保留硬件设计、源码/IP/ROM、工程配置、仿真入口、必要自测样本、报告、图表和关键数值。沿用当前项目方式，保留三个最新SOF、配套Release EXE和构建摘要，使克隆后入口可直接使用；后续可按版本标签发布Release附件。
+
+Quartus/Questa/MSBuild缓存、DataSessions原始会话目录及本地回退ZIP不进入新提交。关键实测资料按需整理到verification后提交。旧文档中的回退ZIP链接仅适用于保留这些本地备份的电脑。`original`备份及同级独立Simulation工程不属于此仓库。
+
+当前Main SOF SHA256：`d83136b1530341af5195e5e8135eee4d34cfb9d772135106a8a81ba950cc96c1`
+
+当前上位机EXE SHA256：`466aed0c3b1830df3bc3ce69c7f53996268aa99b7a1fa94760ad3bc5be129cc3`
+
+2026-10-28整理：仅分支/仓库配置、说明和打包元数据调整；保留已经验证的RTL、SOF和EXE原始字节。

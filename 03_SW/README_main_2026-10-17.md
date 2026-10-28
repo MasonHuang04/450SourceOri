@@ -1,4 +1,10 @@
-# Main 上位机：短窗采集、FFT与FPGA插值（2026-10-20）
+# 当前multiFPGA副本：2026-10-26方波TX与数字正弦参考
+
+Main现使用原始RX载波在FPGA内混频，不再直接接外部100 Hz低频到Main做FFT。请以[当前报告与连线说明](../verification/SquareTx_20261026/report.html)为准。下文保留复制前版本记录；独立FFT实验仍用它自己的Revision。
+
+---
+
+# Main 上位机：短窗采集、25–2000 Hz搜峰与FPGA插值（2026-10-21）
 
 双击`RunMain.cmd`启动Release程序。请先下载配套的短窗Main `02_RTL/V0/output_files/UsMimoTestBench.sof`。本次更新同时涉及FPGA与上位机，旧长窗固件不能直接套用短窗设置。
 
@@ -12,7 +18,7 @@
 
 ## 固定的Main短窗配置
 
-RX延迟1 ms，采集19 ms；原始ADC约1.145833 MS/s，原始回传每4点留1点。FFT分支独立CIC /32，35.807292 kS/s，672有效点（18.767 ms），补零到1024点。名义搜索25–500 Hz，频率格34.968058 Hz。
+RX延迟1 ms，采集19 ms；原始ADC约1.145833 MS/s，原始回传每4点留1点。FFT分支独立CIC /32，35.807292 kS/s，672有效点（18.767 ms），补零到1024点。名义搜索25–2000 Hz，频率格34.968058 Hz。
 
 峰值插值在FPGA内完成。上位机根据M3报文中的FFT长度、峰值bin与Q16偏移换算Hz，不再固定按8192点换算。即使插值计算正确，短窗也可能使低频估计产生很大偏差；不足3个估计周期时显示橙色“短窗低频，仅供参考”。
 
@@ -30,10 +36,22 @@ TX仍由上位机原64字节设置协议调整中心频率、带宽、时长和�
 
 ## 配置和构建
 
-主配置在`02_RTL/V0/Simulation/FFT/main_settings.json`。`configure_main.py`会同时更新RTL/ROM和MainProtocol.cs里的BEGIN_MAIN_PROFILE块；重新编译FPGA与上位机后生效。GUI当前文字说明针对默认短窗配置；自定义其他窗口时需同步检查展示和测试预期。
+主配置在`02_RTL/V0/Simulation/FFT/main_settings.json`。`configure_main.py`会同时更新RTL/ROM和MainProtocol.cs里的BEGIN_MAIN_PROFILE块，包括MainSearchMinHz/MainSearchMaxHz。界面说明、参考频率输入和接收范围检查均读取这两个常量；保留的MainFftMonitor也同步生成范围。重新编译FPGA与上位机后生效。GUI当前文字说明针对默认短窗配置；自定义其他窗口时需同步检查展示和测试预期。
 
 使用.NET Framework 4.8与原`UsMimoTestBench.sln`。`Build.ps1`可重建Release/Debug；当前已发布并验证Release。软件没有JTAG烧录功能。
+
+2026-10-21仅扩大搜峰上限到2000 Hz，其他信号参数不变。请重新下载配套Main SOF后使用新版程序。参考频率仍只用于误差评价，不会改变FPGA检测值。
+
+[25–2000 Hz验证与误差图](../verification/FFT/Search2k_20261021/report.html)。
 
 [当前算法/协议说明](../02_RTL/V0/README_main_2026-10-17.md) · [短窗测试报告](../verification/FFT/Short20ms_20261020/report.html)
 
 2026-10-20用户反馈当前版本运行正常；本次保存用户确认与既有测试资料，未额外新增量化精度结论。旧文件及可回退SOF/EXE归档在verification/Archive/before_short20ms_20261020.zip。
+
+## 温度与估算距离（2026-10-21）
+
+重新下载温度补偿版 Main SOF 后，运行 RunMain.cmd。界面和历史记录增加温度 °C、估算距离 mm，日志新增温度状态、FPGA 频率 milliHz、距离 um/mm、距离状态和声速。距离由 FPGA 计算，上位机仅换算显示单位。
+
+新界面可读取旧 M1–M3，但旧固件不提供有效性标记和距离，界面会明确显示。温度无应答、过期或峰值/插值无效时，距离显示原因；短窗低频提示继续保留。温度应代表环境空气，距离需要几何/零点校准。
+
+[验证报告与界面](../verification/FFT/TemperatureRange_20261021/report.html)。

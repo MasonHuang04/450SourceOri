@@ -1,0 +1,22 @@
+{
+  "pass": true,
+  "raw_samples": 5442,
+  "effective_samples": 672,
+  "fft_length": 1024,
+  "packet_bytes": 11058,
+  "frequency_hz": 577.3912804822127,
+  "expected_beat_hz": 577.2838793476692,
+  "distance_mm": 500.093,
+  "expected_distance_mm": 500,
+  "model_temperature_c": 25,
+  "sound_speed_m_s": 346.45,
+  "raw_cadence_sys_cycles": 144,
+  "raw_waveform_spi_and_complete_m4_verified": true,
+  "independent_fft_power_interpolation_match": true,
+  "scope": "Actual Main top/ADC SPI/reference pairing/mixer/CIC/FFT/interpolation/range/frame reporting. TX waveform math, PLL, temperature and ADC analog behavior modeled; UART byte handshake accelerated; raw buffer behavioral storage with production control, FFT Intel altsyncram. Separate tests cover real Intel TX IP and UART bits.",
+  "tx_shape": "square",
+  "reference_shape": "sine from same phase",
+  "rx_model": "delayed square-wave fundamental only, amplitude factor4/pi",
+  "adc_analog_group_delay_modeled": false,
+  "hardware_measured": false
+}

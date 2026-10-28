@@ -30,12 +30,12 @@ if '--interp' in sys.argv:
  rng=np.random.default_rng(45020261020)
  for _ in range(300):
   c=int(2**rng.uniform(10,40));add(max(1,int(c*rng.uniform(.001,.9))),c,max(1,int(c*rng.uniform(.001,.9))))
- for hz in np.linspace(25,500,191):
+ for hz in np.linspace(cfg['search_min_hz'],cfg['search_max_hz'],191):
   for phase in [0,.7,1.9,3.1]:
    x=np.rint(7000*np.sin(2*np.pi*hz*t+phase));x-=np.trunc(x.mean())
    y=np.fft.rfft(x*w,nfft)/nfft*8;re=np.rint(y.real).astype(np.int64);im=np.rint(y.imag).astype(np.int64);pw=re*re+im*im
    k=lo+int(np.argmax(pw[lo:hi+1]));add(*pw[k-1:k+2],k=k,hz=float(hz),kind='single_tone_numpy_spectrum')
- for hz in [25,50,99.6,100,250,500]:
+ for hz in [cfg['search_min_hz'],50,99.6,100,250,cfg['search_max_hz']]:
   for trial in range(10):
    x=7000*np.sin(2*np.pi*hz*t+rng.uniform(0,2*np.pi))+rng.normal(0,7000/np.sqrt(2)*10**(-25/20),len(t));x=np.rint(x);x-=np.trunc(x.mean())
    y=np.fft.rfft(x*w,nfft)/nfft*8;re=np.rint(y.real).astype(np.int64);im=np.rint(y.imag).astype(np.int64);pw=re*re+im*im;k=lo+int(np.argmax(pw[lo:hi+1]))
@@ -67,7 +67,7 @@ if '--tx' in sys.argv:
 for mode in ['short','system','io']:
  if '--'+mode in sys.argv:
   subprocess.run([sys.executable,str(A/'run_main_system.py'),mode],check=True);raise SystemExit
-freqs=[25,100,500,250,99.6,75,25,100]
+freqs=[cfg['search_min_hz'],100,cfg['search_max_hz'],250,99.6,75,25,100]
 if '--analyze' not in sys.argv:
  (O/'run_profile.json').write_text(json.dumps(dict(ram_model='behavioral' if '--fast-memory' in sys.argv else 'Intel altsyncram')))
  t=np.arange(raw_words+1024)/fs

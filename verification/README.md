@@ -1,3 +1,9 @@
+# 当前multiFPGA副本：2026-10-26方波TX与数字正弦参考
+
+Main现使用原始RX载波在FPGA内混频，不再直接接外部100 Hz低频到Main做FFT。请以[当前报告与连线说明](SquareTx_20261026/report.html)为准。下文保留复制前版本记录；独立FFT实验仍用它自己的Revision。
+
+---
+
 # 验证结果与历史归档
 
 这里保存报告、图表、采样数据和证据，不是当前编译使用的源代码。FPGA源码在 `../02_RTL/V0/SourceCode`，仿真入口在 `../02_RTL/V0/Simulation`，上位机源码在 `../03_SW/UsMimoTestBench`。
@@ -6,6 +12,7 @@
 
 | 内容 | 入口 |
 |---|---|
+| 当前Main：25–2000 Hz，10–75 cm距离扫描 | [更新报告与英文误差图](FFT/Search2k_20261021/report.html) |
 | 5 / 7.5 / 12.5 cm 声学跳峰排查、频响包络与 Git/备份核查 | [核查报告](AcousticAudit_20261020/report.html) · [诊断 workflow](AcousticAudit_20261020/DIAGNOSTIC_WORKFLOW.drawio) |
 | 当前Main：19ms RX、672有效点/1024 FFT、FPGA插值 | [短窗报告](FFT/Short20ms_20261020/report.html) · [用户确认](FFT/Short20ms_20261020/user_confirmation.json) |
 | Main长窗插值基线 | [报告](FFT/Interpolation_20261020/report.html) |
@@ -37,3 +44,7 @@ Quartus编译不会自动更新本目录。编译只更新当前revision对应�
 `Archive/history_20261017.zip` 约97 MiB，占用最多，保存早期200kHz、旧FFT、失败重跑及旧入口快照。它不影响当前运行，但删除后会失去这些历史记录，本次保留。`original_backup_hashes.json` 是original备份的校验基准，也保留。
 
 软件自测重新运行后可能再次生成命令hex、导出示例CSV及构建日志；它们是测试输出，不是应用运行依赖。
+
+## Main 温度补偿距离（2026-10-21）
+
+[当前温度/距离集成报告](FFT/TemperatureRange_20261021/report.html)：M4 测量回传、温度有效性与 FPGA 声速补偿距离。原有频率和波形保留；实际声学精度未新增验证。

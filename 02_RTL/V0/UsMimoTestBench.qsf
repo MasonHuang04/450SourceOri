@@ -208,7 +208,7 @@ set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
-set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT NONE -section_id eda_simulation
 set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/RxAcquisition.sv
 set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/FftPipeline.sv
 set_global_assignment -name SYSTEMVERILOG_FILE SourceCode/UartBuffers.sv
@@ -251,3 +251,6 @@ set_global_assignment -name SEED 4
 
 set_instance_assignment -name GLOBAL_SIGNAL OFF -to *we_half*
 set_global_assignment -name SEARCH_PATH SourceCode/ROM
+
+# Keep ADC serial data capture at the input pad; no timing relaxation.
+set_instance_assignment -name FAST_INPUT_REGISTER ON -to iAD_SDO

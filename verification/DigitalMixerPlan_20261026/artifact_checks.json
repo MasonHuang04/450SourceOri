@@ -1,0 +1,14 @@
+{
+  "updated_at_utc": "2026-10-26T07:51:31.960094+00:00",
+  "scope": "workflow drawing, low-pass analysis and complete copied project only",
+  "rtl_sw_sof_changes": false,
+  "awaiting_user_approval_for_implementation": true,
+  "copied_rtl_sw_files_verified_unchanged": 1165,
+  "rendered_with": "draw.io Desktop 23.1.5",
+  "preview_pages_visually_reviewed": 2,
+  "original_diagram_sha256": "7ce250f924e1fb5ce9dfa8af2147925147fda5aff391673e98445e50b0b61ae2",
+  "new_diagram_sha256": "4a9a48f8e3fbea83cc503d1841d6cffccb672674adbd0fbe76f19d40d57ed712",
+  "backup": "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench_multiFPGA\\verification\\DigitalMixerPlan_20261026\\WORKFLOW_Demo_MULFPGA_before.drawio",
+  "diagram": "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench_multiFPGA\\WORKFLOW_Demo_MULFPGA.drawio",
+  "preview": "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench_multiFPGA\\verification\\DigitalMixerPlan_20261026\\workflow_preview.png"
+}

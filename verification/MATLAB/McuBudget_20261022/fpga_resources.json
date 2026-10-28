@@ -1,0 +1,197 @@
+{
+  "date": "2026-10-22",
+  "matched_sof_sha256": "61b24e01651a4613714a20d99fe9d244f5d8a76c51c66f6b75716a3a0ff9be70",
+  "feature": "FPGA TMP117 temperature and sound-speed-compensated range; M4 telemetry",
+  "profile": {
+    "rx_capture_ms": 19,
+    "rx_raw_downsample": 3,
+    "fft_length": 1024,
+    "fft_valid_samples": 672,
+    "search_min_hz": 25,
+    "search_max_hz": 2000
+  },
+  "fitter_report_path": "C:\\Users\\admin\\.codex\\visualizations\\2026\\10\\21\\01a15e6a-f1d7-7a52-b9ca-69f924c11fcd\\temperature_range_20261021\\project\\02_RTL\\V0\\output_files\\UsMimoTestBench.fit.rpt",
+  "fitter_report_sha256": "8e150304fb4068ed267eebd9d6cba745d9db37dfb475b324eea946b54de8983d",
+  "current_summary_matches_manifest": true,
+  "root_fit_rpt_is_older_search2k_version": true,
+  "totals": {
+    "alms": 8507,
+    "alms_available": 56480,
+    "registers": 17561,
+    "dsp": 44,
+    "dsp_available": 156,
+    "memory_bits": 2201010,
+    "memory_bits_available": 7024640,
+    "m10k": 272,
+    "m10k_available": 686
+  },
+  "entities": [
+    {
+      "node": "|UsMimoTestBench",
+      "entity": "UsMimoTestBench",
+      "alms": 8507.0,
+      "registers": 17547,
+      "memory_bits": 2201010,
+      "m10k": 272,
+      "dsp": 44
+    },
+    {
+      "node": "|MainFftProcessor:uFFT|",
+      "entity": "MainFftProcessor",
+      "alms": 1908.8,
+      "registers": 2998,
+      "memory_bits": 44514,
+      "m10k": 6,
+      "dsp": 8
+    },
+    {
+      "node": "|MainCicDecimator:filter|",
+      "entity": "MainCicDecimator",
+      "alms": 125.4,
+      "registers": 337,
+      "memory_bits": 0,
+      "m10k": 0,
+      "dsp": 0
+    },
+    {
+      "node": "|fft_power_peak:peak|",
+      "entity": "fft_power_peak",
+      "alms": 113.0,
+      "registers": 238,
+      "memory_bits": 0,
+      "m10k": 0,
+      "dsp": 2
+    },
+    {
+      "node": "|kaiser4_rfft:fft|",
+      "entity": "kaiser4_rfft",
+      "alms": 763.3,
+      "registers": 794,
+      "memory_bits": 28130,
+      "m10k": 4,
+      "dsp": 5
+    },
+    {
+      "node": "|main_peak_interpolator:interpolate|",
+      "entity": "main_peak_interpolator",
+      "alms": 537.5,
+      "registers": 715,
+      "memory_bits": 0,
+      "m10k": 0,
+      "dsp": 1
+    },
+    {
+      "node": "|MainPLL:uPLL|",
+      "entity": "MainPLL",
+      "alms": 0.0,
+      "registers": 0,
+      "memory_bits": 0,
+      "m10k": 0,
+      "dsp": 0
+    },
+    {
+      "node": "|MainPeakReport:uPeakReport|",
+      "entity": "MainPeakReport",
+      "alms": 1704.3,
+      "registers": 1701,
+      "memory_bits": 0,
+      "m10k": 0,
+      "dsp": 13
+    },
+    {
+      "node": "|MainRangeCalculator:g_range.calculator|",
+      "entity": "MainRangeCalculator",
+      "alms": 1440.9,
+      "registers": 912,
+      "memory_bits": 0,
+      "m10k": 0,
+      "dsp": 13
+    },
+    {
+      "node": "|MainRxController:uRx|",
+      "entity": "MainRxController",
+      "alms": 910.4,
+      "registers": 1880,
+      "memory_bits": 0,
+      "m10k": 0,
+      "dsp": 3
+    },
+    {
+      "node": "|MainTMP117Controller:uTmp|",
+      "entity": "MainTMP117Controller",
+      "alms": 48.2,
+      "registers": 72,
+      "memory_bits": 0,
+      "m10k": 0,
+      "dsp": 0
+    },
+    {
+      "node": "|MainTempSnapshot:uTempFrame|",
+      "entity": "MainTempSnapshot",
+      "alms": 50.7,
+      "registers": 71,
+      "memory_bits": 0,
+      "m10k": 0,
+      "dsp": 0
+    },
+    {
+      "node": "|MainTxController:uTx|",
+      "entity": "MainTxController",
+      "alms": 3234.0,
+      "registers": 7681,
+      "memory_bits": 59344,
+      "m10k": 10,
+      "dsp": 19
+    },
+    {
+      "node": "|MainTxPack:uTxPack|",
+      "entity": "MainTxPack",
+      "alms": 343.8,
+      "registers": 1841,
+      "memory_bits": 2097152,
+      "m10k": 256,
+      "dsp": 0
+    },
+    {
+      "node": "|MainWaveFifo:f1|",
+      "entity": "MainWaveFifo",
+      "alms": 275.0,
+      "registers": 1714,
+      "memory_bits": 2097152,
+      "m10k": 256,
+      "dsp": 0
+    },
+    {
+      "node": "|RxDepack:uRxDepack|",
+      "entity": "RxDepack",
+      "alms": 59.0,
+      "registers": 783,
+      "memory_bits": 0,
+      "m10k": 0,
+      "dsp": 0
+    },
+    {
+      "node": "|UARTController:uUART|",
+      "entity": "UARTController",
+      "alms": 49.3,
+      "registers": 62,
+      "memory_bits": 0,
+      "m10k": 0,
+      "dsp": 0
+    }
+  ],
+  "full_stream_bytes": 11058,
+  "peak_packet_bytes": 110,
+  "raw_display_points": 5442,
+  "prior_search2k_totals": {
+    "alms": 7053,
+    "dsp": 31,
+    "memory_bits": 2201010,
+    "m10k": 272
+  },
+  "sources": {
+    "datasheet": "https://www.st.com/resource/en/datasheet/stm32g431rb.pdf",
+    "dsp_benchmark": "https://www.st.com/content/ccc/resource/technical/document/application_note/group0/c1/ee/18/7a/f9/45/45/3b/DM00273990/files/DM00273990.pdf/jcr:content/translations/en.DM00273990.pdf",
+    "cmsis_rfft": "https://arm-software.github.io/CMSIS-DSP/main/group__RealFFT.html"
+  }
+}

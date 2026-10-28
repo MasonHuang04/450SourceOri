@@ -1,0 +1,15 @@
+{
+  "scope": "multiFPGA square TX correction only",
+  "files": {
+    "02_RTL/V0/SourceCode/ChirpModules.vhd": "84963d4ff181c57fbfb275b77031a024eaefe5390fb8fb0e891b696fe56d420e",
+    "02_RTL/V0/SourceCode/UsMimoTestBench.vhd": "3c2ea9356589d6ea8f17216a0c73729518ac1ff1154b1aa074da111acc2a8cfa",
+    "02_RTL/V0/Simulation/FFT/run_digital_mixer.py": "2399dee4681b1881c07c8cb4d7659d89758b4f7bc73a2bd49ab3173199e02ea3",
+    "02_RTL/V0/Simulation/FFT/run_main_system.py": "b5a792852b237de817e719fa2199b3d65f2f91cfd95f6316ef65e4b94af029a4",
+    "02_RTL/V0/Simulation/FFT/tb_fft_board.sv": "506b101ab265b3c6955b7d4d22eaee4347dbe83800b810db69eba0beb6cf1438",
+    "03_SW/UsMimoTestBench/MainFrm.cs": "abe225f361833b2b1bc0660cea7b3ed36b3aa650199bb00a3f325c4536e0a37b",
+    "03_SW/UsMimoTestBench/MainProtocol.cs": "8fe5a3552dd07d68ef87575f1edddea343fcd5194af0df60b114cf3a7b6a0a90",
+    "03_SW/UsMimoTestBench/SoftwareChecks.cs": "3cb2dd77db013eb789b1d9799378f6f5d5ffa5d4916fea70791056cac4b89531",
+    "02_RTL/V0/SourceCode/RxAcquisition.sv": "7e3cd9da336212e6123404b5edfb758a3f12d163539b93f8f75bc3dd054c26c4",
+    "02_RTL/V0/UsMimoTestBench.qsf": "ed111c4793108ed0de49f57b9ed1f99aed0965f3cfdec2dc85043971147a29e1"
+  }
+}

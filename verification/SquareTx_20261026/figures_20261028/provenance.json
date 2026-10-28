@@ -1,0 +1,60 @@
+{
+  "figure_date": "2026-10-28",
+  "rtl_run_date": "2026-10-26",
+  "new_simulation_run": false,
+  "data_kind": "Archived actual RTL simulator outputs, not illustrative floating-point signal models",
+  "evidence_sha256": "dc22f4277199878c71e049c62b3a443917530a65dae41b9ca8acd690b4e6f7af",
+  "full_spectrum_csv_sha256": "48ea60116403a1c34ae97ebfe091a617c581df37408e7ad7573aae32c0b80a9d",
+  "sof_sha256": "d83136b1530341af5195e5e8135eee4d34cfb9d772135106a8a81ba950cc96c1",
+  "parameters": {
+    "chirp_start_hz": 38000,
+    "chirp_end_hz": 42000,
+    "chirp_s": 0.02,
+    "amplitude": 0.25,
+    "adc_hz": 1145833.3333333333,
+    "fft_input_hz": 35807.291666666664,
+    "cic_decimation": 32,
+    "effective_samples": 672,
+    "fft_length": 1024,
+    "window": "Kaiser beta=4",
+    "search_hz": [
+      25,
+      2000
+    ],
+    "assumed_sound_speed_m_s": 343
+  },
+  "scope": "Modeled delayed fundamental RX + same-phase sine reference; production signed mixer, CIC, Kaiser FFT, power, peak and fixed-point interpolation. Frame vectors retain all ADC samples but use compressed idle clocks. Distance is inferred offline from RTL frequency using R=c*f/(2*slope).",
+  "limitations": [
+    "Ideal single echo only.",
+    "No measured transducer response, analog group delay, noise, multipath or clipping.",
+    "Not proof of interference robustness or hardware accuracy.",
+    "Full real-cadence Main integration was separately verified at 50 cm; this 27-case sweep is the frame-level RTL chain."
+  ],
+  "selected_case": {
+    "case": 2,
+    "distance_cm": 15.0,
+    "ideal_hz": 174.9271137026239,
+    "measured_hz": 174.9208604451269,
+    "error_mm": -0.005362168303684171,
+    "bin": 5,
+    "delta_q16": 151
+  },
+  "selected_peak_power_raw": 37004778,
+  "max_abs_error_mm": 0.46374737285074447,
+  "rmse_mm": 0.22521920187347597,
+  "figure_contract": {
+    "claim": "The tested ideal single-echo inputs yield small distance errors in the current RTL signal-processing chain.",
+    "roles": [
+      "Distance sweep shows all 27 deterministic cases.",
+      "15 cm spectrum verifies raw frequency-bin selection and interpolated frequency."
+    ],
+    "archetype": "Two separate single-panel quantitative figures",
+    "backend": "Python Matplotlib, reused from this diagnostic workflow",
+    "export": "Two 9.2x5.3 inch slide/report panels, PNG/SVG/PDF, editable vector text",
+    "uncertainty": "One deterministic RTL result per distance; no measured repeats or statistical intervals."
+  },
+  "plot_range_notes": "FFT figure shows0-600Hz; source CSV preserves all513 bins; selected peak verified over bins1-57. Lines connect discrete RTL FFT bins; no spectrum smoothing or extra zero padding.",
+  "current_rtl_source_hashes_match_archived_run": true,
+  "current_sof_hash_matches": true,
+  "current_source_file_count_checked": 92
+}

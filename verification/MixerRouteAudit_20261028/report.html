@@ -1,0 +1,18 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>新版数字混频与前端Mixer误接对照</title>
+<style>body{font:16px/1.8 system-ui,'Microsoft YaHei',sans-serif;max-width:1100px;margin:32px auto;padding:0 24px;color:#193a51}table{border-collapse:collapse;width:100%}td,th{padding:8px;border-bottom:1px solid #ccd5df;text-align:left}pre{background:#edf3f6;padding:16px;white-space:pre-wrap}.note{background:#fff1cf;padding:15px}</style>
+<h1>前端Mixer输出再次送入新版数字混频：为何可能看似正常</h1><p>2026-10-28。读取当前保存的01_Elec原理图，重新运行当前RTL的六组输入对照。未修改生产RTL、上位机或SOF，未操作板上硬件。当前源码和SOF与此前通过验证的版本一致。</p>
+<h2>原理图连接已核对</h2><p>前端U11为AD835：X1接Rx_Amp，Y1接Tx_Buff，X2/Y2/Z接GND，W输出Rx_Mix。Tx_Buff为Tx_In的缓冲支路。P4-1=Rx_Mix，P4-2=Rx_Out通向前端P5，P4-3=Rx_Amp。因此1–2选择模拟乘法输出，2–3选择放大后的原始RX载波。</p>
+<p>依据当前保存的UsFrontEnd.SchDoc离线解析，5408条记录与此前提取一致。Altium当时未运行；这不是对实物针脚、飞线或跳线方向的测量。<a href="schematic_check.json">连接记录与文件校验</a></p>
+<h2>新版固件确实会进行第二次乘法</h2><p>顶层UsMimoTestBench.vhd的MainDigitalMixer输入为cFullValue及配对正弦参考cFullReference，输出cMixedValue直接接MainFftProcessor；不存在自动检测已混频输入并跳过乘法的模式。主板模拟低通默认旁路，不能把前端Rx_Mix理解为必然只含低频。</p>
+<pre>正确新版：RX → Rx_Amp → ADC → FPGA × 正弦参考 → CIC低通 → FFT
+错误组合：RX → 前端 × TX → Rx_Mix → ADC → FPGA再次 × 正弦参考 → CIC低通 → FFT</pre>
+<p>理想双极、零均值方波q与同源正弦s满足q·s与|cos(phi)|成比例。将已混频信号q·r再次乘s，主要仍是载波及高频项，低通后不会保留预期的目标拍频。纯低频IF再次乘40kHz参考，也会被搬回高频。</p>
+<h2>当前RTL对照结果</h2><p>所有案例的假设真实距离均为175mm；输入模型包含全部21770个采样字，压缩空闲时钟。当前数字乘法、CIC、Kaiser4、FFT、功率和插值RTL实际参与仿真。</p>
+<table><tr><th>输入模型</th><th>界面功率/mixed-code²</th><th>状态</th><th>按RTL频率换算距离</th></tr><tr><td>正确：原始RX载波</td><td>241488.453</td><td>OK</td><td>174.738 mm</td></tr><tr><td>错误：仅模拟混频后低频</td><td>0.062</td><td>NO_STRONG_PEAK</td><td>无有效距离</td></tr><tr><td>错误：理想双极方波模拟乘积</td><td>0.078</td><td>NO_STRONG_PEAK</td><td>无有效距离</td></tr><tr><td>模拟乘积 + 假设5%原始RX残留</td><td>606.250</td><td>OK</td><td>174.486 mm</td></tr><tr><td>同一残留模型，RX减弱5倍</td><td>25.391</td><td>NO_STRONG_PEAK</td><td>无有效距离</td></tr><tr><td>模拟乘积使用假设单极方波</td><td>15093.703</td><td>OK</td><td>174.706 mm</td></tr></table>
+<p>有效功率门限为100 mixed-code²。逐点核对130620个整数乘积；CIC采样值及全部FFT复数/功率与独立定点参考一致。测试通过表示RTL行为与参考一致，不表示每个错误输入都能测距。</p>
+<div class="note"><b>5%载波残留、RX减弱5倍、单极方波都是人为假设，未测得实板这些参数。</b>本测试证明：即使误接Mixer，只要其中仍有原始RX载波分量，新版就可能通过这部分信号得到接近正确的距离；残留信号变弱后可能跌破门限。这不是实板原因已经确认。</div>
+<h2>为什么会有残留载波</h2><p>AD835并非理想零串扰乘法器，数据手册给出了输入失调及X/Y馈通规格。如果实际参考方波带直流分量，(q+b)r中会包含b·r，即原始RX载波。有限馈通也能形成类似项。再次数字混频时，这部分r可产生正常拍频。实际残留量需测量。</p>
+<p>项目调试记录写过“乘法器会引入偏置”。这不能直接证明存在上述RX残留：单纯输出端常量DC不是目标载波，乘40kHz参考后主要产生40kHz项；需要区分输入偏置、参考直流分量和载波馈通。<a href="https://www.analog.com/media/en/technical-documentation/data-sheets/ad835.pdf">AD835官方数据手册</a></p>
+<h2>上板核对顺序</h2><ol><li>断电后按板上丝印核对前端P4，把输出选择为Amplifier / Rx_Amp（原理图2–3），再上电。</li><li>重新通过JTAG下载multiFPGA目录中的Main SOF，确认100%Successful，再开始比较。只加载SOF后的断电重上电不保证仍运行该版；还取决于非易失配置存储中的内容。</li><li>在主板RX_IN看约38–42kHz原始载波，并用配套上位机保存波形。比较相同位置在Mixer和Amplifier模式下的载波幅度、低频分量和结果。</li><li>若正确Amplifier路径仍有NO_STRONG_PEAK，再评估实际增益、噪声底和门限。暂不通过降低门限来补偿错误路由。</li></ol>
+<p>本地固件校验不等于已读回确认板上正在执行哪个版本。本次未操作JTAG，也未验证实物输出频谱。</p>
+<p><a href="checks.json">六组结果与模型假设</a> · <a href="evidence.zip">RTL输出、向量和日志</a> · <a href="run_route_test.py">复现脚本</a></p></html>

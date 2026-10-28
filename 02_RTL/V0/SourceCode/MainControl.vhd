@@ -260,7 +260,8 @@ entity MainRxController is
 		oBusy : out std_logic := '0';
 		
 		--FFT full-rate tap and capture diagnostics
-        oFftValid:out std_logic;oFftValue:out std_logic_vector(15 downto 0);
+        iReference:in std_logic_vector(15 downto 0):=(others=>'0');
+            oFftValid:out std_logic;oFftValue,oFftReference:out std_logic_vector(15 downto 0);
         oCaptureActive:out std_logic;oRawOverflow,oRawClipped:out std_logic;
         --data output
 		oDataCnt : out integer range 0 to 16777215 := 0;
@@ -305,9 +306,9 @@ architecture Beh of MainRxController is
  component MainAdcBridge is
   generic(RAW_CAPACITY:integer:=131072);
   port(iClk,iRst,iSamplingEn:in std_logic;iDownSampleRate:in std_logic_vector(15 downto 0);
-   iADSDO,iADDRdy:in std_logic;oADRstz,oADCSz,oADSClk,oADSDI,oADStart,oADClk:out std_logic;
+   iADSDO,iADDRdy:in std_logic;iReference:in std_logic_vector(15 downto 0);oADRstz,oADCSz,oADSClk,oADSDI,oADStart,oADClk:out std_logic;
    oDataCnt:out std_logic_vector(23 downto 0);oNewData:out std_logic;oValue:out std_logic_vector(15 downto 0);
-   oFftValid:out std_logic;oFftValue:out std_logic_vector(15 downto 0);oOverflow,oClipped:out std_logic);
+   oFftValid:out std_logic;oFftValue,oFftReference:out std_logic_vector(15 downto 0);oOverflow,oClipped:out std_logic);
  end component;
  signal count_bits:std_logic_vector(23 downto 0);
 
@@ -386,13 +387,13 @@ begin
 	--this AD IP uses synchronized low freq clk according to sampling en signal
 	uAD : MainAdcBridge port map (iClk => iClk, iRst => cRst, 
 		--control
-		iDownSampleRate => conv_std_logic_vector(cDownSampleRate,16), iSamplingEn => cSamplingEn,
+		iDownSampleRate => conv_std_logic_vector(cDownSampleRate,16), iSamplingEn => cSamplingEn,iReference=>iReference,
 		--AD port
 		oADRstz => oAD_RST, oADCSz => oAD_CS, oADSClk => oAD_SCLK, oADSDI => oAD_SDI, iADSDO => iAD_SDO,
 		oADStart => oAD_START, iADDRdy => iAD_DRDY, oADClk => oAD_CLK, 
 		--data port
 		oDataCnt => count_bits, oNewData => cNewData, oValue => cValue,
-  oFftValid=>oFftValid,oFftValue=>oFftValue,oOverflow=>oRawOverflow,oClipped=>oRawClipped);
+  oFftValid=>oFftValid,oFftValue=>oFftValue,oFftReference=>oFftReference,oOverflow=>oRawOverflow,oClipped=>oRawClipped);
  cDataCnt<=conv_integer(count_bits);oCaptureActive<=cSamplingEn;
 		
 	
@@ -766,6 +767,7 @@ entity MainTMP117Controller is
 		iAddr : in std_logic_vector(7 downto 0) := x"48";
 		
 		oDataValid : out std_logic := '0';
+        oUpdated : out std_logic := '0';
 		oTempData : out std_logic_vector(15 downto 0) := x"0000";
 		
 		
@@ -795,6 +797,7 @@ begin
 	
 		--update at falling edge
 		if iClk'event and iClk = '1' then
+            oUpdated <= '0';
 
 		
 			if iRst = '1' then
@@ -808,7 +811,7 @@ begin
 				oDataValid <= '0';
 			else
 			
-				if vClkCnt = 63 then
+				if vClkCnt = 127 then --165MHz /128 /4 = 322.266kHz; TMP117 max 400kHz
 					vClkCnt := 0;
 					--quad SCL freq
 					
@@ -849,14 +852,14 @@ begin
 							case vPeriod is
 							
 								--slave address
-								when 0 	=> ioTmp_SDA <= vAddr(6);
-								when 1 	=> ioTmp_SDA <= vAddr(5);
-								when 2 	=> ioTmp_SDA <= vAddr(4);
-								when 3 	=> ioTmp_SDA <= vAddr(3);
-								when 4 	=> ioTmp_SDA <= vAddr(2);
-								when 5 	=> ioTmp_SDA <= vAddr(1);
-								when 6 	=> ioTmp_SDA <= vAddr(0);
-								when 7 	=> ioTmp_SDA <= '1'; --read
+								when 0 	=> if vAddr(6)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 1 	=> if vAddr(5)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 2 	=> if vAddr(4)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 3 	=> if vAddr(3)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 4 	=> if vAddr(2)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 5 	=> if vAddr(1)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 6 	=> if vAddr(0)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 7 	=> ioTmp_SDA <= 'Z'; --read, open drain
 								when 8 	=> ioTmp_SDA <= 'Z'; --slave ack
 								
 								--data H
@@ -879,7 +882,7 @@ begin
 								when 23 	=> ioTmp_SDA <= 'Z';
 								when 24 	=> ioTmp_SDA <= 'Z';
 								when 25 	=> ioTmp_SDA <= 'Z';
-								when 26 	=> ioTmp_SDA <= '0'; --master ack
+								when 26 	=> ioTmp_SDA <= 'Z'; --master NACK ends the two-byte read
 								
 								--stop
 								when 27 	=> ioTmp_SDA <= '0'; --master ack
@@ -933,7 +936,8 @@ begin
 						oTmp_SCL <= '1';
 						ioTmp_SDA <= 'Z';
 						
-						oDataValid <= vDataValid;
+						oUpdated <= '1';
+                        oDataValid <= vDataValid;
 						oTempData <= vTempData;
 						
 						vState := 0;

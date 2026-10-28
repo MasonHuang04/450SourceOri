@@ -1,0 +1,11 @@
+{
+  "visual_review": "Both figures inspected; all titles, axes and legends readable without overlap. Final FFT legend is outside plot area.",
+  "source_warnings_reviewed": {
+    "EXPORT-RASTER": "PNG300dpi plus editable SVG/PDF requested for slides; TIFF submission file not required.",
+    "FINAL-WIDTH": "233.7mm wide intentionally targets presentation/report use, not a specified journal column.",
+    "LOG-GUARD": "Explicit positive=power>0 mask used before log10; all zero powers remainNaN in full CSV rather than inventing finite power."
+  },
+  "data_selection": "All27 distances retained. One15cm case selected by user. FFT plot shows0-600Hz; all513 bins retained in CSV; peak tested over fullsearchbins1-57.",
+  "alignment": "Separate single-panel figures; comparable multi-panel alignment not applicable.",
+  "statistical_scope": "Deterministic model cases, no measured repetitions; no uncertainty bars or p-values claimed."
+}

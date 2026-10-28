@@ -1,0 +1,7 @@
+{
+  "all_27_adc_input_streams_identical": true,
+  "all_cic_captures_identical": true,
+  "all_fft_and_power_spectra_identical": true,
+  "first_14_frequency_outputs_identical": true,
+  "only_peak_search_configuration_changed": true
+}

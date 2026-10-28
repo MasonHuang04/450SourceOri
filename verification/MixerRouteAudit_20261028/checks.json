@@ -1,0 +1,92 @@
+{
+  "pass": true,
+  "hardware_measured": false,
+  "production_rtl_changed": false,
+  "actual_rtl_multiply_cic_fft_power_interpolator": true,
+  "all_integer_products_verified": 130620,
+  "all_cic_capture_and_fft_powers_exact": true,
+  "scope": "Frame-level current RTL with complete ADC input words and compressed idle cycles; inputs model alternate routing. Analog AD835 nonidealities are hypothetical, not a device-level model or physical measurement.",
+  "hypothesis_parameters": "Nominal 17.5cm; Rx=20000code peak. Analog balanced multiplier reference=+/-0.5, feedthrough coefficient0.05; weakcase Rx/5; unipolar reference=0 or0.5. These are illustrative values, not measured board parameters.",
+  "results": [
+    {
+      "case": 0,
+      "model": "Raw RX, correct bypass path",
+      "distance_cm": 17.5,
+      "raw_bin": 6,
+      "raw_bin_hz": 209.808349609375,
+      "power_raw": 15455261,
+      "power_display": 241488.453125,
+      "status": "OK",
+      "frequency_hz": 203.77580464507142,
+      "inferred_distance_mm": 174.7377524831487,
+      "flags": 0
+    },
+    {
+      "case": 1,
+      "model": "Already low-pass IF, wrong input",
+      "distance_cm": 17.5,
+      "raw_bin": 1,
+      "raw_bin_hz": 34.968058268229164,
+      "power_raw": 4,
+      "power_display": 0.0625,
+      "status": "NO_STRONG_PEAK",
+      "frequency_hz": null,
+      "inferred_distance_mm": null,
+      "flags": 16
+    },
+    {
+      "case": 2,
+      "model": "Balanced square analog product, no feedthrough",
+      "distance_cm": 17.5,
+      "raw_bin": 6,
+      "raw_bin_hz": 209.808349609375,
+      "power_raw": 5,
+      "power_display": 0.078125,
+      "status": "NO_STRONG_PEAK",
+      "frequency_hz": null,
+      "inferred_distance_mm": null,
+      "flags": 16
+    },
+    {
+      "case": 3,
+      "model": "Analog product + 5% RX feedthrough",
+      "distance_cm": 17.5,
+      "raw_bin": 6,
+      "raw_bin_hz": 209.808349609375,
+      "power_raw": 38800,
+      "power_display": 606.25,
+      "status": "OK",
+      "frequency_hz": 203.4818074510743,
+      "inferred_distance_mm": 174.4856498892962,
+      "flags": 0
+    },
+    {
+      "case": 4,
+      "model": "Same feedthrough model, 5x weaker RX",
+      "distance_cm": 17.5,
+      "raw_bin": 6,
+      "raw_bin_hz": 209.808349609375,
+      "power_raw": 1625,
+      "power_display": 25.390625,
+      "status": "NO_STRONG_PEAK",
+      "frequency_hz": null,
+      "inferred_distance_mm": null,
+      "flags": 16
+    },
+    {
+      "case": 5,
+      "model": "Unipolar square analog product",
+      "distance_cm": 17.5,
+      "raw_bin": 6,
+      "raw_bin_hz": 209.808349609375,
+      "power_raw": 965997,
+      "power_display": 15093.703125,
+      "status": "OK",
+      "frequency_hz": 203.73845472931862,
+      "inferred_distance_mm": 174.70572493039072,
+      "flags": 0
+    }
+  ],
+  "current_source_and_sof_match_verified_release": true,
+  "sof_sha256": "d83136b1530341af5195e5e8135eee4d34cfb9d772135106a8a81ba950cc96c1"
+}

@@ -1,0 +1,7 @@
+{
+  "date": "2026-10-21",
+  "baseline_commit": "3fdee11e2f1f06bf482793e7cf20eb2ef8d63972",
+  "no_production_source_or_configuration_change": true,
+  "sof_sha256": "9946270df8e13ae60e751a7cd27acd4d2b243d237c1af5af47421a4ba6b8529f",
+  "main_ui_sha256": "9c5e22c66a556731f5fcfe8454d6fe7882a7f63c59d5e37fd7c83bd6678137df"
+}

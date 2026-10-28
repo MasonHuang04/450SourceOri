@@ -1,0 +1,22 @@
+{
+  "updated_at_utc": "2026-10-26T09:32:41.442286+00:00",
+  "scope": "multiFPGA copy only",
+  "files": {
+    "02_RTL/V0/SourceCode/ChirpModules.vhd": "e80d034688db51cd8484ca5c655cbdbe322b460782fec1ddad3ea241014a664a",
+    "02_RTL/V0/SourceCode/MainControl.vhd": "55bed202c7b575dda28f46b3a0ca0a1e6af89af527c9884f7b19d50ff42814cb",
+    "02_RTL/V0/SourceCode/MainSettings.vhd": "093f80a62dfdf698ecc57c5a169c7df57a16c0ef802270591c108298a6c20a78",
+    "02_RTL/V0/SourceCode/MainTiming.sdc": "b5857803da5aa732f6a84805a0c1ca633e95ddffcb36ee24ce9f3a3b8facdb09",
+    "02_RTL/V0/SourceCode/RxAcquisition.sv": "76b3db0c6386244a0eb90f401b0f9e1a48041c84be74f0deeb98948b77c43daf",
+    "02_RTL/V0/SourceCode/UsMimoTestBench.vhd": "eb8540bdac2f62c8f9e61756293e99a0b63526c58a99d51312fe084a72ce587d",
+    "02_RTL/V0/Simulation/FFT/configure_main.py": "43395861fb4a5382b942c11b5dc4387ad1a5f566f049802881ad341cea44690a",
+    "02_RTL/V0/Simulation/FFT/main_settings.json": "6709674e70cb9a15bc03fc8b1a0a0ec0f7f7112d397e9734cfd94c46d20e73aa",
+    "02_RTL/V0/Simulation/FFT/run_digital_mixer.py": "04284b95607d631053917eb2edd2c3eb0136261d2a0bd4aee3544836fecaae0b",
+    "02_RTL/V0/Simulation/FFT/run_main_system.py": "135d94402e0773127cd581ffd2cc8c985567d2d55298c4e2f0d4f6263d929880",
+    "02_RTL/V0/Simulation/FFT/tb_digital_mixer.sv": "34538331daec7d287517013f70492d8cb2d6046a1aa594a762cce3a809b4c202",
+    "02_RTL/V0/Simulation/FFT/tb_fft_board.sv": "f28c690d5d6efc8de544859bd39703dfa3f6078a6c65858debc40313063ef66f",
+    "03_SW/UsMimoTestBench/MainFrm.cs": "36b261a7afbccd19dc442ba5c9179b2bc8ac59182b33627d0935b38729b92c9b",
+    "03_SW/UsMimoTestBench/MainProtocol.cs": "9c98267d71e580bb514343777a5bf59407c3bdb98d5006682a8dd3802aca0261",
+    "03_SW/UsMimoTestBench/SoftwareChecks.cs": "2f9cb75558f8d92e4c4b9183c4b93aa4488f6c24ffffa27e783e221d0fc63110"
+  },
+  "backup": "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench_multiFPGA\\verification\\DigitalMixer_20261026\\before_digital_mixer_20261026.zip"
+}

@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-26",
+  "source_project": "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench",
+  "copied_project": "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench_multiFPGA",
+  "stage": "awaiting_user_workflow_approval",
+  "rtl_changed": false,
+  "software_changed": false,
+  "sof_regenerated": false,
+  "lowpass_analysis": {
+    "raw_fs_hz": 1145833.3333333333,
+    "output_fs_hz": 35807.291666666664,
+    "cic_order": 3,
+    "decimation": 32,
+    "passband_max_hz": 2000,
+    "passband_max_droop_db": 0.13372838362217176,
+    "sum_band_hz": [
+      76000,
+      84000
+    ],
+    "sum_attenuation_db": [
+      54.99798485217503,
+      74.78545347141849
+    ],
+    "cutoff_3db_hz": 9367.979072506549,
+    "group_delay_us": 40.581818181818186,
+    "coefficients_equivalent_length": 94
+  },
+  "recommended_chain": "raw ADC 1.145833 MS/s -> coherent signed digital mixer -> existing CIC3 /32 -> Kaiser4 / 1024 FFT -> power / peak -> Q16 interpolation -> temperature-based range",
+  "why_no_pre_mix_decimation": "FPGA does not need the MCU-specific /4 optimization; retaining the ADC rate preserves the existing /32 FFT timing and avoids carrier folding.",
+  "parameters": {
+    "tx_center_hz": 40000,
+    "tx_bandwidth_hz": 4000,
+    "tx_ms": 20,
+    "amplitude": 0.25,
+    "rx_delay_ms": 1,
+    "rx_ms": 19,
+    "system_clock_hz": 165000000,
+    "adc_clock_hz": 27500000,
+    "adc_sinc_order": 4,
+    "adc_osr": 12,
+    "adc_fs_hz": 1145833.3333333333,
+    "mixer_fs_hz": 1145833.3333333333,
+    "post_mix_cic_factor": 32,
+    "fft_fs_hz": 35807.291666666664,
+    "fft_clock_hz": 50000000,
+    "valid_samples": 672,
+    "fft_length": 1024,
+    "kaiser_beta": 4,
+    "search_hz": [
+      25,
+      2000
+    ],
+    "bins": [
+      1,
+      57
+    ]
+  },
+  "required_changes": [
+    "raw RX front-end jumper P4 2-3",
+    "disable main RX 15 kHz LPF in both RTL default and SW packet",
+    "expose coherent sine reference and align to ADC sample epoch",
+    "insert signed multiplier before MainCicDecimator",
+    "define fixed-point scale/rounding/saturation and retain quality flags",
+    "validate ADC and chirp pipeline latency",
+    "if square TX is enabled later, separate chirp/range-valid flag from waveform shape"
+  ],
+  "constraints": [
+    "ADC is single-channel; use internal digital TX reference",
+    "raw packet /4 thinning is not the FFT sampling rate",
+    "preserve acoustic delay while calibrating electronics latency",
+    "19 ms window limits very-low-frequency accuracy",
+    "physical analog path/anti-aliasing still required"
+  ],
+  "sources": [
+    "02_RTL/V0/SourceCode/UsMimoTestBench.vhd",
+    "02_RTL/V0/SourceCode/ChirpModules.vhd",
+    "02_RTL/V0/SourceCode/RxAcquisition.sv",
+    "02_RTL/V0/SourceCode/FftPipeline.sv",
+    "03_SW/UsMimoTestBench/MainProtocol.cs",
+    "HARDWARE_WIRING_NOTES.txt",
+    "https://www.ti.com/lit/ds/symlink/ads127l21.pdf"
+  ],
+  "diagram_source_sha256": "7ce250f924e1fb5ce9dfa8af2147925147fda5aff391673e98445e50b0b61ae2",
+  "diagram_updated_sha256": "4a9a48f8e3fbea83cc503d1841d6cffccb672674adbd0fbe76f19d40d57ed712",
+  "diagram_pages": 2,
+  "dangling_edges": 0,
+  "geometry_bounds_checked": true
+}

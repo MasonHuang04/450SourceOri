@@ -4,5 +4,6 @@
   "fft_length": 1024,
   "fft_valid_samples": 672,
   "search_min_hz": 25,
-  "search_max_hz": 500
+  "search_max_hz": 2000,
+  "reference_extra_delay_cycles": 0
 }

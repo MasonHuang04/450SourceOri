@@ -1,0 +1,326 @@
+<mxfile host="Electron" modified="2026-10-28T04:33:09.198Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.1.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" version="23.1.5" etag="YEaKdunNX6yt5z7viHmT" type="device" pages="2">
+  <diagram id="workflow200k" name="FPGA Digital Mixing - 40 kHz">
+    <mxGraphModel dx="1500" dy="887" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1739" pageHeight="1030" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;Square TX / Sine Reference: FPGA Digital Mixing&lt;/b&gt;" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=32;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;spacing=0;fontColor=#0f172a;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="28" width="1650" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="status" value="&lt;b&gt;Square-TX RTL + timing verified | 26 Oct 2026 | Hardware calibration pending&lt;/b&gt;" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;spacing=0;fontColor=#334155;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="84" width="1650" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="legend0" value="FPGA logic" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=14;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="40" y="125" width="300" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="legend1" value="New integration" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#047857;fontColor=#064e3b;fontSize=14;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="370" y="125" width="300" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="legend2" value="Main-board analog" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e40af;fontSize=14;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="700" y="125" width="300" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="legend3" value="Front end" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;fontSize=14;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1030" y="125" width="300" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4" value="Acoustic path" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1360" y="125" width="300" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="pc" value="&lt;b&gt;PC configuration&lt;/b&gt;&lt;br&gt;UART commands + trigger&lt;br&gt;2 Mbaud / 8N1" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="40" y="180" width="180" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="control" value="&lt;b&gt;Frame control&lt;/b&gt;&lt;br&gt;Shared TX / RX epoch&lt;br&gt;TX 20 ms; RX starts +1 ms&lt;br&gt;RX window: 19 ms" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="260" y="180" width="200" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="chirp" value="&lt;b&gt;Square TX chirp&lt;/b&gt;&lt;br&gt;A x sign(cos(phase))&lt;br&gt;38-42 kHz / 20 ms / A=0.25&lt;br&gt;Shared phase and TX epoch" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="500" y="180" width="220" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="dac" value="&lt;b&gt;DAC + TX analog&lt;/b&gt;&lt;br&gt;14-bit square: 6144 / 10240&lt;br&gt;165 MHz update clock&lt;br&gt;Main P4: TX_OUT" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e40af;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="760" y="180" width="200" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="driver" value="&lt;b&gt;Front-end TX driver&lt;/b&gt;&lt;br&gt;Front P3 input&lt;br&gt;Power amplification&lt;br&gt;Front P2 differential out" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1000" y="180" width="220" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="tx_probe" value="&lt;b&gt;TX transducer&lt;/b&gt;&lt;br&gt;Electrical drive&lt;br&gt;to ultrasound" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontColor=#334155;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1260" y="180" width="190" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="target" value="&lt;b&gt;Target / echo&lt;/b&gt;&lt;br&gt;Delay + attenuation&lt;br&gt;Test sweep: 10-75 cm" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontColor=#334155;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1500" y="180" width="180" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="tx_pc" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="pc" target="control" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tx_control" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="control" target="chirp" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tx_chirp" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="chirp" target="dac" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tx_dac" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="dac" target="driver" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tx_driver" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="driver" target="tx_probe" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tx_tx_probe" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="tx_probe" target="target" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reference" value="&lt;b&gt;Coherent sine reference&lt;/b&gt;&lt;br&gt;A x cos(same phase) / Q1.15&lt;br&gt;Paired with ADC at DRDY&lt;br&gt;Internal digital reference" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#047857;fontColor=#064e3b;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="500" y="325" width="220" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="chirp_reference" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#059669;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="chirp" target="reference" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rx_probe" value="&lt;b&gt;RX transducer&lt;/b&gt;&lt;br&gt;Near-sine RX carrier&lt;br&gt;Propagation delay&lt;br&gt;Amplitude / phase effects" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontColor=#334155;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1500" y="490" width="180" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="rx_front" value="&lt;b&gt;Front-end RX gain&lt;/b&gt;&lt;br&gt;P6 -&amp;gt; RX amps -&amp;gt; P5&lt;br&gt;P4 2-3: raw Rx_Amp&lt;br&gt;AD835 bypassed" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1260" y="490" width="190" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="rx_afe" value="&lt;b&gt;Main-board RX analog&lt;/b&gt;&lt;br&gt;P5 / gain / THS4551&lt;br&gt;RX Filter OFF&lt;br&gt;Bypass ~15 kHz LPF" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e40af;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1000" y="490" width="220" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="adc" value="&lt;b&gt;ADS127L21 ADC&lt;/b&gt;&lt;br&gt;16-bit signed output&lt;br&gt;27.5 MHz; sinc4 OSR12&lt;br&gt;Fs = 1.145833 MS/s" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e40af;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="760" y="490" width="200" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="rx_spi" value="&lt;b&gt;ADC SPI + sample tag&lt;/b&gt;&lt;br&gt;SDO input IO register&lt;br&gt;One sample / 144 sys clocks&lt;br&gt;Reference captured at DRDY" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="500" y="490" width="220" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="mixer" value="&lt;b&gt;FPGA digital mixer&lt;/b&gt;&lt;br&gt;RX[n] x sine_ref[n]&lt;br&gt;Signed 16 x 16 -&amp;gt; 32 bit&lt;br&gt;Scale / round / clip -&amp;gt; 16" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#047857;fontColor=#064e3b;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="260" y="490" width="200" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="cic" value="&lt;b&gt;Digital low-pass: CIC3&lt;/b&gt;&lt;br&gt;Passband: 0-2 kHz&lt;br&gt;Droop &amp;lt;= 0.134 dB&lt;br&gt;76-84 kHz: ~55-75 dB" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="40" y="490" width="180" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="rx_rx_probe" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" parent="1" source="rx_probe" target="rx_front" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rx_rx_front" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" parent="1" source="rx_front" target="rx_afe" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rx_rx_afe" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" parent="1" source="rx_afe" target="adc" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rx_adc" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" parent="1" source="adc" target="rx_spi" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rx_rx_spi" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" parent="1" source="rx_spi" target="mixer" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rx_mixer" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#475569;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" parent="1" source="mixer" target="cic" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="echo" value="Unknown propagation delay" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#64748b;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="target" target="rx_probe" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reference_mixer" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#059669;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=0.5;entryY=0;" parent="1" source="reference" target="mixer" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="360" y="377" />
+              <mxPoint x="360" y="455" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sample_tag_ref" value="sample epoch" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#059669;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=0.75;exitY=0;entryX=0.75;entryY=1;dashed=1;dashPattern=5 4;" parent="1" source="rx_spi" target="reference" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="latency_note" value="Reference time follows the TX epoch; the +1 ms RX start does not restart the chirp phase." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;spacing=0;fontColor=#334155;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry x="760" y="350" width="680" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="frame" value="&lt;b&gt;FFT frame&lt;/b&gt;&lt;br&gt;Discard 2 CIC start-up outputs&lt;br&gt;672 samples / 18.767 ms&lt;br&gt;Remove frame DC" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="40" y="745" width="220" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="fft" value="&lt;b&gt;Kaiser4 + real FFT&lt;/b&gt;&lt;br&gt;672 windowed + 352 zeros&lt;br&gt;1024-point / 20-bit arithmetic&lt;br&gt;FFT engine: 50 MHz" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="300" y="745" width="220" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="peak" value="&lt;b&gt;Power + peak search&lt;/b&gt;&lt;br&gt;P[k] = Re[k]^2 + Im[k]^2&lt;br&gt;25-2000 Hz; bins 1-57&lt;br&gt;Bin spacing: 34.968 Hz" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="560" y="745" width="220" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="interp" value="&lt;b&gt;FPGA interpolation&lt;/b&gt;&lt;br&gt;Three log-power neighbors&lt;br&gt;Q16 offset: +/-0.5 bin&lt;br&gt;f = (k + delta) Fs / N" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="820" y="745" width="220" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="range" value="&lt;b&gt;FPGA distance&lt;/b&gt;&lt;br&gt;R = c(T) fb Tc / (2 B)&lt;br&gt;TMP117 temperature&lt;br&gt;Calibrate fixed path offset" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1080" y="745" width="240" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="report" value="&lt;b&gt;UART -&amp;gt; PC display&lt;/b&gt;&lt;br&gt;2 Mbaud / 8N1; M4 report&lt;br&gt;Frequency / distance / quality flags&lt;br&gt;Optional raw carrier waveform" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1360" y="745" width="320" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="dsp_frame" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#059669;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="frame" target="fft" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dsp_fft" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#059669;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="fft" target="peak" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dsp_peak" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#059669;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="peak" target="interp" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dsp_interp" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#059669;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="interp" target="range" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dsp_range" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#059669;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="range" target="report" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="decimator" value="&lt;b&gt;Downsample /32&lt;/b&gt;&lt;br&gt;Fs = 35.807292 kS/s" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=15;spacing=9;strokeWidth=1.5;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="40" y="662" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cic_decimator" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#059669;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="cic" target="decimator" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="decimator_frame" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#059669;fontFamily=Arial;fontSize=13;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="decimator" target="frame" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="frame_note" value="Clock frequency is not the sampling rate.&#xa;165 MHz logic clocks; 1.145833 MS/s raw samples; 35.807292 kS/s FFT input." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=17;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;spacing=0;fontColor=#334155;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry x="300" y="650" width="1350" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="note_existing" value="&lt;b&gt;Square TX + sine reference verified&lt;/b&gt;&lt;br&gt;Same phase sweep; quarter amplitude preserved.&lt;br&gt;RX propagation delay is retained for beat estimation." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#d97706;fontColor=#78350f;fontSize=15;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="40" y="915" width="520" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="note_rate" value="&lt;b&gt;Low-pass and /32 are both inside the FPGA&lt;/b&gt;&lt;br&gt;Drawn separately; the existing CIC decimator combines them.&lt;br&gt;Keep the full ADC rate until AFTER digital multiplication." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#d97706;fontColor=#78350f;fontSize=15;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="600" y="915" width="520" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="note_filter" value="&lt;b&gt;Raw-RX mode implemented&lt;/b&gt;&lt;br&gt;Front P4 jumper: 2-3; main RX Filter forced OFF.&lt;br&gt;Updated PC settings send RxMuxSel = 0." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#d97706;fontColor=#78350f;fontSize=15;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1160" y="915" width="520" height="82" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="boards200k" name="Low-pass, Rates and Integration">
+    <mxGraphModel dx="1050" dy="621" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1739" pageHeight="1420" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Digital Mixing: Connections, Rates and Integration" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=30;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;spacing=0;fontColor=#0f172a;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="28" width="1650" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="status" value="&lt;b&gt;Square-TX digital-mixer build | 84 timing scenarios passed | Hardware calibration pending&lt;/b&gt;" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;spacing=0;fontColor=#334155;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="84" width="1650" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="wire" value="&lt;b&gt;Analog connections&lt;/b&gt;&lt;br&gt;Main P4 TX_OUT -&amp;gt; front P3 Tx_In&lt;br&gt;Front P2 -&amp;gt; TX transducer; RX transducer -&amp;gt; front P6&lt;br&gt;Front P5 Rx_Out -&amp;gt; main P5 RX_IN&lt;br&gt;Front jumper P4 2-3 selects raw Rx_Amp; AD835 is bypassed." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#9a3412;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="40" y="135" width="520" height="175" as="geometry" />
+        </mxCell>
+        <mxCell id="rx_settings" value="&lt;b&gt;Raw carrier path&lt;/b&gt;&lt;br&gt;Keep RX gain, differential drive and input protection.&lt;br&gt;Bypass the main-board ~15 kHz low-pass path.&lt;br&gt;Set RX mux filter bit 2 = 0 (e.g. RxMuxSel = 0).&lt;br&gt;PC settings and RTL defaults must agree." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e40af;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="600" y="135" width="520" height="175" as="geometry" />
+        </mxCell>
+        <mxCell id="adc_settings" value="&lt;b&gt;Verified ADC register interpretation&lt;/b&gt;&lt;br&gt;CONFIG1 0x87: 16-bit data, input buffers enabled&lt;br&gt;CONFIG2 0x0C: max-speed mode&lt;br&gt;CONFIG3 0x80: external clock /1&lt;br&gt;FILTER1 0x08: sinc4, OSR12; Fs = 27.5 MHz /24" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e40af;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1160" y="135" width="520" height="175" as="geometry" />
+        </mxCell>
+        <mxCell id="rate_title" value="DEFAULT PARAMETERS" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=19;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;spacing=0;fontColor=#0f172a;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="344" width="1000" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="th0" value="Item" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e40af;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="385" width="290" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="th1" value="Setting" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e40af;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="330" y="385" width="275" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="th2" value="Meaning / constraint" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#1e40af;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="605" y="385" width="475" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="t0_0" value="TX chirp" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="427" width="290" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t0_1" value="38-42 kHz / 20 ms" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="330" y="427" width="275" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t0_2" value="40 kHz center; 4 kHz BW; square TX amplitude 0.25" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="605" y="427" width="475" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t1_0" value="RX window" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="470" width="290" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t1_1" value="1 ms delay + 19 ms" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="330" y="470" width="275" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t1_2" value="Shared TX time origin; RX ends at 20 ms" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="605" y="470" width="475" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_0" value="FPGA / DAC clock" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="513" width="290" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_1" value="165 MHz" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="330" y="513" width="275" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_2" value="Keep the existing 100 MHz -&amp;gt; PLL clock plan" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="605" y="513" width="475" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t3_0" value="ADC clock / mode" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="556" width="290" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t3_1" value="27.5 MHz / sinc4 OSR12" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="330" y="556" width="275" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t3_2" value="Max-speed mode; signed 16-bit output" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="605" y="556" width="475" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t4_0" value="Raw ADC + mixer" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="599" width="290" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t4_1" value="1.145833 MS/s" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="330" y="599" width="275" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t4_2" value="Nyquist 572.917 kHz &amp;gt; 42 kHz and sum &amp;lt;=84 kHz" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="605" y="599" width="475" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t5_0" value="Post-mix CIC3" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="642" width="290" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t5_1" value="/32 -&amp;gt; 35.807292 kS/s" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="330" y="642" width="275" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t5_2" value="Low-pass first; retained beat band 25-2000 Hz" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="605" y="642" width="475" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t6_0" value="Window / FFT frame" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="685" width="290" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t6_1" value="Kaiser beta=4 / 1024 FFT" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="330" y="685" width="275" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t6_2" value="672 effective samples + 352 zeros; 18.767 ms" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="605" y="685" width="475" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t7_0" value="FFT engine / search" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="728" width="290" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t7_1" value="50 MHz / bins 1-57" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="330" y="728" width="275" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t7_2" value="Bin spacing 34.968058 Hz; Q16 interpolation" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="605" y="728" width="475" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t8_0" value="Distance calculation" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="771" width="290" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t8_1" value="c(T) = 331.3 + 0.606 T" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="330" y="771" width="275" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="t8_2" value="R = c(T) fb Tc / (2B); calibrate fixed path delay" style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=14;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="605" y="771" width="475" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="format" value="&lt;b&gt;Numeric format contract&lt;/b&gt;&lt;br&gt;ADC path: signed16; do not mix unsigned UART codes.&lt;br&gt;Reference: signed Q1.15 from the same TX phase.&lt;br&gt;Mixer: full 32-bit product; specified scale / rounding / saturation.&lt;br&gt;Feed signed16 to the existing 40-bit CIC integrators.&lt;br&gt;Keep ADC-clip and mixer-clip flags distinct." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=15;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1120" y="385" width="560" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="code_map" value="&lt;b&gt;Integration implemented&lt;/b&gt;&lt;br&gt;ChirpModules.vhd: amplitude-scaled square + coherent sine tap.&lt;br&gt;RxAcquisition.sv: paired ADC/reference + signed mixer.&lt;br&gt;Existing CIC / FFT / peak / interpolation / range reused.&lt;br&gt;UsMimoTestBench.vhd: Main square TX enabled; chirp validity retained.&lt;br&gt;MainProtocol.cs: square TX flag; raw RX configuration." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#047857;fontColor=#064e3b;fontSize=15;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1120" y="620" width="560" height="194" as="geometry" />
+        </mxCell>
+        <mxCell id="lpf_design" value="&lt;b&gt;Digital low-pass: existing CIC3 /32&lt;/b&gt;&lt;br&gt;Equivalent response: three length-32 moving averages (94-tap FIR response).&lt;br&gt;0-2 kHz maximum droop: 0.134 dB.&lt;br&gt;76-84 kHz sum-band attenuation: 55.00-74.79 dB.&lt;br&gt;-3 dB frequency: 9.368 kHz; group delay: 40.582 us.&lt;br&gt;Implement efficiently with integrators, a /32 rate change and comb stages." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#059669;fontColor=#065f46;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="40" y="850" width="800" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="lpf_scope" value="&lt;b&gt;What the low-pass does&lt;/b&gt;&lt;br&gt;Retain the beat signal; suppress the sum term before output-rate reduction.&lt;br&gt;No external post-mixer IF low-pass is needed for this digital path.&lt;br&gt;Analog RX conditioning and ADC-input band limiting still remain.&lt;br&gt;25-2000 Hz is the PEAK SEARCH range, not a sharp filter cutoff.&lt;br&gt;Add a sharper FIR only if later measurements require more rejection." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#d97706;fontColor=#78350f;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="880" y="850" width="800" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="timing" value="&lt;b&gt;Reference timing and calibration&lt;/b&gt;&lt;br&gt;Reference travels with its ADC word; SPI readout does not retime the pair.&lt;br&gt;Configured history: 18 + reference_extra_delay_cycles at 165 MHz.&lt;br&gt;Extra delay defaults to 0; ADC / analog group delay is not yet calibrated.&lt;br&gt;Calibrate electronics separately; preserve the acoustic propagation delay." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#d97706;fontColor=#78350f;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="40" y="1050" width="800" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="square" value="&lt;b&gt;Square TX and sine reference: implemented&lt;/b&gt;&lt;br&gt;One phase sweep creates A sign(cos phase) for TX and A cos(phase) for mixing.&lt;br&gt;TX amplitude remains configurable; A=0.25 gives DAC codes 6144 / 10240.&lt;br&gt;A square chirp remains valid for distance; zero bandwidth remains invalid.&lt;br&gt;RX follows the delayed fundamental; no second reference ADC is required." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#d97706;fontColor=#78350f;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="880" y="1050" width="800" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="scope" value="&lt;b&gt;RTL and timing verified; hardware calibration pending&lt;/b&gt;&lt;br&gt;27 ideal distances: max |error| 0.464 mm; 84 timing scenarios passed.&lt;br&gt;Full Main RF/SPI/M4: 50 cm model -&amp;gt; 500.093 mm; analog delay not modeled.&lt;br&gt;The 25 Hz search setting does not guarantee accurate 25 Hz measurement in a 19 ms window." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=16;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="40" y="1245" width="1640" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="source" value="Sources: current RTL / MainProtocol.cs / HARDWARE_WIRING_NOTES.txt; TI ADS127L21 datasheet. Altium was not running; physical rework was not re-inspected." style="fontFamily=Arial;rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;fontSize=12;spacing=9;strokeWidth=1.5;align=left;verticalAlign=middle;fillColor=none;strokeColor=none;spacing=0;fontColor=#334155;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="1373" width="1640" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-22",
+  "arithmetic_checks_pass": true,
+  "source_sof_hash_verified": true,
+  "matlab_code_analyzer_issues": 0,
+  "no_mcu_benchmark_performed": true,
+  "no_production_files_modified": true,
+  "sha256": {
+    "estimate_mcu_budget.m": "509baa93a7135c6f980f050a186aef2e6683b125019add9889b52958cd80fe64",
+    "fpga_resources.json": "2cb58c102ae0d5c764f538195d90364b3aab2c8666df6b736212d569d0a63195",
+    "results\\budget_data.mat": "e830210c65763691f66c07fb9f0fe13e8a7401b20eca1f8b36a3cab487dc0afd",
+    "results\\checks.json": "339339eb326c6bd8ef799b70a67ff4681421e5b1b0e67bb4d8f282f4cc839323",
+    "results\\cpu_scenarios.csv": "576581b6c95ecd635a592d1b35d409c2f78b33cfe3c21f8b0109d078b9cdec90",
+    "results\\fpga_entities.csv": "4b2d64e3d8a2a68eee1a81b3c3eaa0f9175cf9b52a6d53d7ad9b3bb7b14c9620",
+    "results\\memory_budget.csv": "9475a3b24de9c53f4aded1d5159bfe8ba28b94c01cd5266b84489e13798e30a4",
+    "results\\operations_per_frame.csv": "3810fc056936ec5876faa57033a65e71cfd24811b5873b89aac5c7a2d876f5b7",
+    "results\\report.html": "09f2ae18b5255cc7bb9ffc7ddf3e6c4a97fbe4288e20a75952d9c7083c821858"
+  }
+}

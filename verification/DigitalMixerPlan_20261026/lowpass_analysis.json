@@ -1,0 +1,19 @@
+{
+  "raw_fs_hz": 1.1458333333333333E+6,
+  "output_fs_hz": 35807.291666666664,
+  "cic_order": 3,
+  "decimation": 32,
+  "passband_max_hz": 2000,
+  "passband_max_droop_db": 0.13372838362217176,
+  "sum_band_hz": [
+    76000,
+    84000
+  ],
+  "sum_attenuation_db": [
+    54.99798485217503,
+    74.785453471418492
+  ],
+  "cutoff_3db_hz": 9367.9790725065486,
+  "group_delay_us": 40.581818181818186,
+  "coefficients_equivalent_length": 94
+}

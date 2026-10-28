@@ -1,0 +1,26 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>Square-TX RTL: Distance Sweep and 15 cm FFT</title>
+<style>body{font:16px/1.8 system-ui,'Microsoft YaHei',sans-serif;max-width:1120px;margin:32px auto;padding:0 24px;color:#193a51}img{max-width:100%}table{border-collapse:collapse;width:100%}td,th{padding:8px;border-bottom:1px solid #ccd5df;text-align:left}.note{background:#fff2d9;padding:14px}pre{background:#edf3f6;padding:16px;white-space:pre-wrap}a{color:#126f9b}</style>
+<h1>新版FPGA数字混频：距离误差与15 cm频谱</h1>
+<p>图表整理：2026-10-28。数据来自2026-10-26保存的新版RTL仿真器输出，本次重新提取及核对，未重复运行仿真。当前源码与SOF哈希均与归档验证版本一致。</p>
+<p><b>这是multiFPGA新版，所用链路不经过AD835模拟乘法器。</b>顶层和测试平台都将MainDigitalMixer输出接入MainFftProcessor。上板仍需前端P4跳线2–3旁路AD835，接收原始载波。</p>
+<pre>方波TX + 同源数字正弦参考
+模拟的延迟RX基波采样 → FPGA有符号数字乘法 → CIC3低通/32
+→ 去均值 → Kaiser4 → 1024点FFT → 功率/最大峰 → FPGA三点对数插值</pre>
+<p>参数：38–42kHz、20ms、幅度0.25；ADC1.145833MS/s，FFT输入35.807292kS/s；672有效点+352零，搜索25–2000Hz。距离扫描模型声速为343m/s。</p>
+<h2>1. 10–75 cm距离误差</h2>
+<p>每2.5cm一个点，全部27点保留。最大绝对误差<b>0.463747mm</b>，RMSE<b>0.225219mm</b>。误差=估计距离−真实距离。</p>
+<p><a href="rtl_distance_error_EN.png">PNG</a> · <a href="rtl_distance_error_EN.svg">可编辑SVG</a> · <a href="rtl_distance_error_EN.pdf">PDF</a> · <a href="distance_sweep_source.csv">27点数据CSV</a></p>
+<img src="rtl_distance_error_EN.png" alt="RTL distance sweep">
+<h2>2. 15 cm FFT频谱</h2>
+<p>理想拍频<b>174.927114Hz</b>；原始峰bin5，对应174.840291Hz；FPGA插值后<b>174.920860Hz</b>，距离误差<b>-0.005362mm</b>。峰及相邻点功率来自RTL，不是用浮点正弦重新生成。</p>
+<p><a href="rtl_fft_15cm_EN.png">PNG</a> · <a href="rtl_fft_15cm_EN.svg">可编辑SVG</a> · <a href="rtl_fft_15cm_EN.pdf">PDF</a> · <a href="fft_15cm_source.csv">完整513频点CSV</a></p>
+<img src="rtl_fft_15cm_EN.png" alt="RTL FFT at15cm">
+<p>图中显示0–600Hz，功率相对该帧峰值归一化。已对完整25–2000Hz搜峰范围检查，最大值仍为bin5；全部513点均满足power=real²+imag²。CSV保留完整单边频谱、原始复数及功率。图中连线仅连接离散FFT格点，没有平滑或额外补零。</p>
+<h2>结果能说明什么</h2>
+<p><b>可支持：</b>当前数字混频、CIC、FFT、功率及插值链路，在测试的理想单回波输入下数值一致，12.5、15、17.5cm没有出现实测中的大跳变。</p>
+<div class="note"><b>不能据此断言算法在所有条件下都没有问题。</b>仿真没有真实换能器频响、模拟群延迟、噪声、多径或过载。最大峰策略在多分量输入下仍可能选错峰；实际异常是否由干扰导致，需要对应实测波形/频谱确认。</div>
+<p>本27点测试是生产数字乘法/CIC/FFT/插值的帧级RTL仿真；每帧保留21770个原始输入点，但压缩了空闲时钟。RX是延迟的方波基波模型，数字参考来自同源相位。距离误差由RTL频率用R=cf/(2S)离线换算；完整Main的真实ADC/SPI节拍及温度距离报文另在50cm测试过。图表不能宣称为27个距离的完整物理声学链路验证。</p>
+<h2>PPT旁的英文说明</h2>
+<blockquote>The current FPGA digital-mixing RTL chain correctly estimates the beat frequency in an ideal single-echo model. Across 27 distances from 10 to 75 cm, the maximum absolute distance error is 0.464 mm. At 15 cm, the interpolated frequency is 174.921 Hz versus 174.927 Hz expected. These results support numerical correctness for the tested inputs; they do not exclude peak-selection errors under real interference.</blockquote>
+<details><summary>全部距离结果</summary><table><tr><th>Distance/cm</th><th>Expected/Hz</th><th>RTL/Hz</th><th>Error/mm</th></tr><tr><td>10</td><td>116.618076</td><td>116.729158</td><td>+0.095253</td></tr><tr><td>12.5</td><td>145.772595</td><td>146.126743</td><td>+0.303682</td></tr><tr><td>15</td><td>174.927114</td><td>174.920860</td><td>-0.005362</td></tr><tr><td>17.5</td><td>204.081633</td><td>203.784342</td><td>-0.254927</td></tr><tr><td>20</td><td>233.236152</td><td>232.865520</td><td>-0.317817</td></tr><tr><td>22.5</td><td>262.390671</td><td>262.554434</td><td>+0.140427</td></tr><tr><td>25</td><td>291.545190</td><td>291.994705</td><td>+0.385459</td></tr><tr><td>27.5</td><td>320.699708</td><td>320.958497</td><td>+0.221912</td></tr><tr><td>30</td><td>349.854227</td><td>349.752081</td><td>-0.087590</td></tr><tr><td>32.5</td><td>379.008746</td><td>378.741485</td><td>-0.229177</td></tr><tr><td>35</td><td>408.163265</td><td>407.921907</td><td>-0.206965</td></tr><tr><td>37.5</td><td>437.317784</td><td>437.313089</td><td>-0.004026</td></tr><tr><td>40</td><td>466.472303</td><td>466.594356</td><td>+0.104660</td></tr><tr><td>42.5</td><td>495.626822</td><td>495.707015</td><td>+0.068765</td></tr><tr><td>45</td><td>524.781341</td><td>524.874631</td><td>+0.079996</td></tr><tr><td>47.5</td><td>553.935860</td><td>553.941403</td><td>+0.004753</td></tr><tr><td>50</td><td>583.090379</td><td>582.762732</td><td>-0.280957</td></tr><tr><td>52.5</td><td>612.244898</td><td>612.063207</td><td>-0.155800</td></tr><tr><td>55</td><td>641.399417</td><td>641.849765</td><td>+0.386174</td></tr><tr><td>57.5</td><td>670.553936</td><td>671.094749</td><td>+0.463747</td></tr><tr><td>60</td><td>699.708455</td><td>699.608208</td><td>-0.085961</td></tr><tr><td>62.5</td><td>728.862974</td><td>728.466354</td><td>-0.340101</td></tr><tr><td>65</td><td>758.017493</td><td>757.948243</td><td>-0.059381</td></tr><tr><td>67.5</td><td>787.172012</td><td>787.184157</td><td>+0.010414</td></tr><tr><td>70</td><td>816.326531</td><td>816.394992</td><td>+0.058706</td></tr><tr><td>72.5</td><td>845.481050</td><td>845.922768</td><td>+0.378774</td></tr><tr><td>75</td><td>874.635569</td><td>874.794253</td><td>+0.136072</td></tr></table></details>
+<p><a href="provenance.json">数据来源及模型边界</a> · <a href="make_figures.py">绘图代码</a> · <a href="../report.html">完整新版验证记录</a></p></html>

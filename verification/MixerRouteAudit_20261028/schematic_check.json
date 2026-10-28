@@ -1,0 +1,19 @@
+{
+  "schematic_sha256": "1453e033cede0a717ecf6062e3e6cfb307c67feff98a43ae9caad9d2d2d8179d",
+  "parsed_records": 5408,
+  "current_matches_previous_extraction": true,
+  "P4": {
+    "1": "Rx_Mix",
+    "2": "Rx_Out -> P5",
+    "3": "Rx_Amp"
+  },
+  "U11_AD835": {
+    "8_X1": "Rx_Amp",
+    "7_X2": "GND",
+    "1_Y1": "Tx_Buff",
+    "2_Y2": "GND",
+    "4_Z": "GND",
+    "5_W": "Rx_Mix"
+  },
+  "interpretation": "P4 1-2 sends multiplier output to main board. P4 2-3 bypasses multiplier. Tx_Buff is buffered Tx_In. Hardware jumpers/voltage waveforms not observed."
+}

@@ -1,0 +1,29 @@
+{
+  "installed_at_utc": "2026-10-23T08:23:29.152322+00:00",
+  "version_date": "2026-10-23",
+  "scope": "MATLAB simulation only",
+  "main_flow": "RF /4 at 286458.333 S/s -> multiply -> CIC3 LPF /8 -> 672 Kaiser4 samples -> 352 zeros -> original 1024 FFT and interpolation",
+  "static_analysis_issues": 0,
+  "prior_six_cases_metrics_identical": true,
+  "rtl_baseline_all_27_bit_exact": true,
+  "main_valid_cases": 27,
+  "rf_nyquist_exceeds_42k_input_and_84k_product": true,
+  "cic8_matches_direct_fir_convolution": true,
+  "plot_visually_reviewed": true,
+  "backup": "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench\\verification\\MATLAB\\SquareChirp_20261022\\before_nyquist_sampling_20261023.zip",
+  "backup_sha256": "39e714d319299d5f682748cd8d089689b689d12d0ad814fc9e684efca1928727",
+  "installed_sha256": {
+    "square_chirp_demo.m": "91b8d91acc1e50c26373d0ce5d2e0655b7b5a39aed9cfab53270183b6db22020",
+    "results/assumed_resonator_results.csv": "2a6a8baa10ad5ca11da5b2c8b3d6a3980937413fb3226f6031004f7ab588018a",
+    "results/checks.json": "5a9302eb0a29d86394fddd643b8154d5bc033c66d6def845f4789a1f1eaaf2b7",
+    "results/distance_error_EN.png": "fc27938bcce5029e01d9cae60199f27dd072a29706e9dda455c6fe13c4ba71e7",
+    "results/distance_results.csv": "43a6739770e020744b48b23f5d9c05d46685a5a4fb991bc16042f378e416dac5",
+    "results/example_75cm_rf_samples.csv": "ee843935184441f4506a4f7967d00f8ae888248f25f76478175be5cd9cb726f6",
+    "results/example_75cm_selected_samples.csv": "98d9aa1514016a84aa0fe1da2096bc80008b179325f5a5572edce06b6b36616a",
+    "results/metrics.csv": "6d9969657264c7c41b9fc33139eb6d92ab04c78407b6803d8ce7f7517f79f61f",
+    "results/report.html": "038e2f6a98cc62eff10919e739524bf67fea74316f7069bb47eee11e4928fd91",
+    "results/sampling_rates.csv": "798648d9d4401d968b4c5e3adede00de24f88155f76d2da3c90ca4b9272c43c9",
+    "results/simulation_data.mat": "3d78e3bf2f58517f0d652abf56ee486c68484d9f41c57362b6f323e5cf7bae0b"
+  },
+  "production_fpga_sw_original_modified": false
+}
