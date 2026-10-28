@@ -29,3 +29,9 @@ set_false_path -from [get_registers {uFFT|report_count[*] uFFT|report_span[*] uF
 # external receiver requirement. ADC and DAC signal timing remains constrained.
 set_false_path -to [get_ports {oLED_* oUART_* oTMP_SCL ioTMP_SDA oDA_PD oTX_MUX_* oRX_MUX_* oAD_RST}]
 set_false_path -from [get_ports {iUART_RTS ioTMP_SDA}]
+
+# M4 mailbox: args/held are immutable until the request/ack round trip ends.
+# Only synchronizer first stages and the explicitly held payload crossings are exempt.
+set_false_path -to [get_registers {uPeakReport|g_range.request_sync[0] uPeakReport|result_sync[0]}]
+set_false_path -from [get_registers {uPeakReport|bin[*] uPeakReport|flags[*] uPeakReport|delta_q16[*] uPeakReport|interp_status[*] uPeakReport|fft_length[*] uPeakReport|temp_raw[*] uPeakReport|temp_status[*] uPeakReport|bw_bits[*] uPeakReport|time_bits[*] uPeakReport|waveform_ok}] -to [get_registers {uPeakReport|g_range.args_cap[*]}]
+set_false_path -from [get_registers {uPeakReport|g_range.held[*]}] -to [get_registers {uPeakReport|frequency_millihz[*] uPeakReport|distance_um[*] uPeakReport|range_status[*]}]

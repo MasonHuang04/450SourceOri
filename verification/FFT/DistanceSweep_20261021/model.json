@@ -1,0 +1,207 @@
+{
+  "tx_defaults_binary32": {
+    "cTx_Fc": 40000.0,
+    "cTx_BW": 4000.0,
+    "cTx_Tc": 0.019999999552965164,
+    "cTx_A": 0.25,
+    "cRx_Td": 0.0010000000474974513
+  },
+  "nominal_chirp": {
+    "center_hz": 40000.0,
+    "bandwidth_hz": 4000.0,
+    "duration_s": 0.02,
+    "amplitude": 0.25
+  },
+  "rx_start_s": 0.001,
+  "rx_window_s": 0.019,
+  "raw_fs_hz": 1145833.3333333333,
+  "fft_fs_hz": 35807.291666666664,
+  "valid_samples": 672,
+  "nfft": 1024,
+  "search_hz": [
+    25,
+    500
+  ],
+  "search_bins": [
+    1,
+    14
+  ],
+  "c_m_s": 343.0,
+  "if_peak_adc_codes": 7000,
+  "adc_dc_codes": 111,
+  "phase": "2*pi*(f_start*tau + slope*tau*t - slope*tau^2/2); reflection phase 0",
+  "gating": "RX echo exists after tau; reference TX exists during [0,20ms); acquisition starts at 1ms",
+  "analog_model": "Analytical difference term of ideal multiplier/LPF; no analog filter transient, transducer response, noise, multipath, clipping or amplitude-distance loss",
+  "rtl_scope": "Unchanged production CIC3 /32, RAM, mean, Kaiser4, FFT, power, argmax, interpolation, M3 byte report; Intel altsyncram models; idle clocks compressed",
+  "not_simulated": [
+    "Chirp generator RTL and DAC analog output",
+    "ADC SPI physical timing",
+    "full Main top",
+    "physical UART bits",
+    "physical propagation and transducer transfer response"
+  ],
+  "cases": [
+    {
+      "case": 0,
+      "distance_cm": 10.0,
+      "delay_s": 0.0005830903790087463,
+      "ideal_beat_hz": 116.61807580174927
+    },
+    {
+      "case": 1,
+      "distance_cm": 12.5,
+      "delay_s": 0.0007288629737609329,
+      "ideal_beat_hz": 145.7725947521866
+    },
+    {
+      "case": 2,
+      "distance_cm": 15.0,
+      "delay_s": 0.0008746355685131195,
+      "ideal_beat_hz": 174.9271137026239
+    },
+    {
+      "case": 3,
+      "distance_cm": 17.5,
+      "delay_s": 0.001020408163265306,
+      "ideal_beat_hz": 204.0816326530612
+    },
+    {
+      "case": 4,
+      "distance_cm": 20.0,
+      "delay_s": 0.0011661807580174927,
+      "ideal_beat_hz": 233.23615160349854
+    },
+    {
+      "case": 5,
+      "distance_cm": 22.5,
+      "delay_s": 0.0013119533527696794,
+      "ideal_beat_hz": 262.3906705539359
+    },
+    {
+      "case": 6,
+      "distance_cm": 25.0,
+      "delay_s": 0.0014577259475218659,
+      "ideal_beat_hz": 291.5451895043732
+    },
+    {
+      "case": 7,
+      "distance_cm": 27.5,
+      "delay_s": 0.0016034985422740526,
+      "ideal_beat_hz": 320.6997084548105
+    },
+    {
+      "case": 8,
+      "distance_cm": 30.0,
+      "delay_s": 0.001749271137026239,
+      "ideal_beat_hz": 349.8542274052478
+    },
+    {
+      "case": 9,
+      "distance_cm": 32.5,
+      "delay_s": 0.0018950437317784257,
+      "ideal_beat_hz": 379.00874635568516
+    },
+    {
+      "case": 10,
+      "distance_cm": 35.0,
+      "delay_s": 0.002040816326530612,
+      "ideal_beat_hz": 408.1632653061224
+    },
+    {
+      "case": 11,
+      "distance_cm": 37.5,
+      "delay_s": 0.002186588921282799,
+      "ideal_beat_hz": 437.3177842565598
+    },
+    {
+      "case": 12,
+      "distance_cm": 40.0,
+      "delay_s": 0.0023323615160349854,
+      "ideal_beat_hz": 466.4723032069971
+    },
+    {
+      "case": 13,
+      "distance_cm": 42.5,
+      "delay_s": 0.002478134110787172,
+      "ideal_beat_hz": 495.6268221574344
+    },
+    {
+      "case": 14,
+      "distance_cm": 45.0,
+      "delay_s": 0.0026239067055393588,
+      "ideal_beat_hz": 524.7813411078718
+    },
+    {
+      "case": 15,
+      "distance_cm": 47.5,
+      "delay_s": 0.0027696793002915453,
+      "ideal_beat_hz": 553.935860058309
+    },
+    {
+      "case": 16,
+      "distance_cm": 50.0,
+      "delay_s": 0.0029154518950437317,
+      "ideal_beat_hz": 583.0903790087464
+    },
+    {
+      "case": 17,
+      "distance_cm": 52.5,
+      "delay_s": 0.0030612244897959186,
+      "ideal_beat_hz": 612.2448979591837
+    },
+    {
+      "case": 18,
+      "distance_cm": 55.0,
+      "delay_s": 0.003206997084548105,
+      "ideal_beat_hz": 641.399416909621
+    },
+    {
+      "case": 19,
+      "distance_cm": 57.5,
+      "delay_s": 0.003352769679300291,
+      "ideal_beat_hz": 670.5539358600582
+    },
+    {
+      "case": 20,
+      "distance_cm": 60.0,
+      "delay_s": 0.003498542274052478,
+      "ideal_beat_hz": 699.7084548104956
+    },
+    {
+      "case": 21,
+      "distance_cm": 62.5,
+      "delay_s": 0.0036443148688046646,
+      "ideal_beat_hz": 728.862973760933
+    },
+    {
+      "case": 22,
+      "distance_cm": 65.0,
+      "delay_s": 0.0037900874635568515,
+      "ideal_beat_hz": 758.0174927113703
+    },
+    {
+      "case": 23,
+      "distance_cm": 67.5,
+      "delay_s": 0.003935860058309038,
+      "ideal_beat_hz": 787.1720116618077
+    },
+    {
+      "case": 24,
+      "distance_cm": 70.0,
+      "delay_s": 0.004081632653061224,
+      "ideal_beat_hz": 816.3265306122448
+    },
+    {
+      "case": 25,
+      "distance_cm": 72.5,
+      "delay_s": 0.004227405247813411,
+      "ideal_beat_hz": 845.4810495626823
+    },
+    {
+      "case": 26,
+      "distance_cm": 75.0,
+      "delay_s": 0.004373177842565598,
+      "ideal_beat_hz": 874.6355685131196
+    }
+  ]
+}

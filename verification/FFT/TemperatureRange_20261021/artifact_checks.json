@@ -1,0 +1,23 @@
+{
+  "local_links_valid": true,
+  "archives_crc_valid": true,
+  "ui_normal_and_compact_visually_reviewed": true,
+  "cdc_collections_matched": [
+    1,
+    1,
+    172,
+    72
+  ],
+  "sha256": {
+    "checks.json": "e62a2c9dd92487d3373800e9024b13471435ee114ae0d50628ff2caee99b2c6c",
+    "evidence.zip": "a7101fe133edbcf0db1ffb1d507b0d57e831f90d9c805cb0d6a5ea5163fec96b",
+    "m4_examples.txt": "5562705795eaf48786513db14035655f77126e5ac3e2e6a7cec752bb4f053099",
+    "range_results.csv": "e8b98ad1d44c99cdbb4f81b0813e102c738dd60f8a5edd8a1d40b3fd2443fffc",
+    "range_vectors.json": "97f18fc1dce9ad1b680501d1bb278fd815db416fa0979a95fdc513e754b43d25",
+    "report.html": "1aff70dc47cd2b7d899cc28f4c0b95ffff5144ead34cf92769330918e1fed780",
+    "rollback_before_install.zip": "970f7e8e8263a39a3f430037c15646fab722b1a15054df41ecfff62e6e2e5347",
+    "uart_m4.txt": "b605502ba3bd983e4c2d48f8b577126453fa1b590e4ae8a0dbd067349ae1b1cb",
+    "ui.png": "00a9d22fc5140018d57c752b0ca603af66dcf31786a17c375a6ab27d9a48db8f",
+    "ui_compact.png": "8b60fda0e57f2c25b5fe8ebf1fcb9ff32f7a009a49681d980f12c83650172ac4"
+  }
+}

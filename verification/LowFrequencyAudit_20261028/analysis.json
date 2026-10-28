@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-28",
+  "scope": "Read-only audit of original project; new floating-point diagnostic models only, not a new RTL or hardware test.",
+  "original_project": "15_UsMimoTestBench",
+  "sampling_hz": 35807.291666666664,
+  "effective_samples": 672,
+  "fft_length": 1024,
+  "window": "Kaiser beta=4",
+  "search_bins": [
+    1,
+    57
+  ],
+  "assumed_sound_speed_m_s": 343.0,
+  "chirp_slope_hz_s": 200000.0,
+  "model_notes": [
+    "Input is synthesized after decimation; full ADC/CIC is not simulated.",
+    "Floating point, frame mean removal and existing peak/interpolation rule.",
+    "+84 Hz chosen to illustrate measured trend offset; it does not establish its physical cause.",
+    "380 Hz interference is an illustrative competing component, not measured spectrum."
+  ],
+  "models": [
+    {
+      "model": "Ideal 10 cm",
+      "bin": 3,
+      "delta": 0.35106000140794374,
+      "estimated_hz": 117.18006138956508,
+      "estimated_mm": 100.48190264155205
+    },
+    {
+      "model": "Frequency shift: +84 Hz",
+      "bin": 6,
+      "delta": -0.27289745087326056,
+      "estimated_hz": 200.2656556459876,
+      "estimated_mm": 171.72779971643436
+    },
+    {
+      "model": "Competing peak: 380 Hz",
+      "bin": 11,
+      "delta": -0.12556205847647908,
+      "estimated_hz": 380.2579795734365,
+      "estimated_mm": 326.0712174842218
+    }
+  ],
+  "fit_17p5_to_50cm": {
+    "slope_mm_per_mm": 0.9824794725274721,
+    "offset_mm": 71.85732087912112,
+    "r_squared": 0.9991291922375469,
+    "equivalent_offset_hz": 83.79862493191968
+  },
+  "measured_spectrum_available": false,
+  "transcribed_measurements": [
+    {
+      "actual_cm": 10.0,
+      "measured_mm": 171.862,
+      "inferred_hz_at_343m_s": 200.4221574344023
+    },
+    {
+      "actual_cm": 12.5,
+      "measured_mm": 300.795,
+      "inferred_hz_at_343m_s": 350.78134110787175
+    },
+    {
+      "actual_cm": 15.0,
+      "measured_mm": 366.32,
+      "inferred_hz_at_343m_s": 427.1953352769679
+    },
+    {
+      "actual_cm": 17.5,
+      "measured_mm": 245.312,
+      "inferred_hz_at_343m_s": 286.07813411078723
+    },
+    {
+      "actual_cm": 20.0,
+      "measured_mm": 268.46,
+      "inferred_hz_at_343m_s": 313.07288629737604
+    },
+    {
+      "actual_cm": 22.5,
+      "measured_mm": 292.558,
+      "inferred_hz_at_343m_s": 341.1755102040816
+    },
+    {
+      "actual_cm": 25.0,
+      "measured_mm": 317.109,
+      "inferred_hz_at_343m_s": 369.8064139941691
+    },
+    {
+      "actual_cm": 27.5,
+      "measured_mm": 340.549,
+      "inferred_hz_at_343m_s": 397.1416909620991
+    },
+    {
+      "actual_cm": 30.0,
+      "measured_mm": 368.341,
+      "inferred_hz_at_343m_s": 429.55218658892136
+    },
+    {
+      "actual_cm": 32.5,
+      "measured_mm": 392.001,
+      "inferred_hz_at_343m_s": 457.14402332361516
+    },
+    {
+      "actual_cm": 35.0,
+      "measured_mm": 416.42,
+      "inferred_hz_at_343m_s": 485.6209912536443
+    },
+    {
+      "actual_cm": 37.5,
+      "measured_mm": 439.76,
+      "inferred_hz_at_343m_s": 512.8396501457726
+    },
+    {
+      "actual_cm": 40.0,
+      "measured_mm": 465.443,
+      "inferred_hz_at_343m_s": 542.7906705539359
+    },
+    {
+      "actual_cm": 42.5,
+      "measured_mm": 479.952,
+      "inferred_hz_at_343m_s": 559.7107871720116
+    },
+    {
+      "actual_cm": 45.0,
+      "measured_mm": 515.935,
+      "inferred_hz_at_343m_s": 601.6734693877551
+    },
+    {
+      "actual_cm": 47.5,
+      "measured_mm": 539.267,
+      "inferred_hz_at_343m_s": 628.8827988338193
+    },
+    {
+      "actual_cm": 50.0,
+      "measured_mm": 567.111,
+      "inferred_hz_at_343m_s": 661.3539358600584
+    }
+  ]
+}

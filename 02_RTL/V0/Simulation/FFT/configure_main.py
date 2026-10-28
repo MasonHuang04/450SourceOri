@@ -45,6 +45,14 @@ print('Recompile revision UsMimoTestBench and rebuild 03_SW after profile change
 import re
 sw=A.parents[3]/'03_SW/UsMimoTestBench/MainProtocol.cs'
 text=sw.read_text(encoding='utf-8')
-profile=f"// BEGIN_MAIN_PROFILE\n        public const float MainRxSeconds = {c['rx_capture_ms']/1000:.9f}f;\n        public const int MainValidSamples = {n}, MainFftLength = {nfft};\n        // END_MAIN_PROFILE"
+profile=f"// BEGIN_MAIN_PROFILE\n        public const float MainRxSeconds = {c['rx_capture_ms']/1000:.9f}f;\n        public const int MainValidSamples = {n}, MainFftLength = {nfft};\n        public const double MainSearchMinHz = {c['search_min_hz']:g}, MainSearchMaxHz = {c['search_max_hz']:g};\n        // END_MAIN_PROFILE"
 text,count=re.subn(r'// BEGIN_MAIN_PROFILE.*?// END_MAIN_PROFILE',profile,text,flags=re.S);assert count==1
 sw.write_text(text,encoding='utf-8')
+
+# The retained Main console monitor shares the same generated search defaults.
+monitor=A.parents[1]/'Tools/MainFftMonitor/MainFftMonitor.cs'
+if monitor.exists():
+ text=monitor.read_text(encoding='utf-8')
+ search=f"// BEGIN_MAIN_SEARCH_PROFILE\n        public const double SearchMinHz = {c['search_min_hz']:g}, SearchMaxHz = {c['search_max_hz']:g};\n        // END_MAIN_SEARCH_PROFILE"
+ text,count=re.subn(r'// BEGIN_MAIN_SEARCH_PROFILE.*?// END_MAIN_SEARCH_PROFILE',search,text,flags=re.S);assert count==1
+ monitor.write_text(text,encoding='utf-8')

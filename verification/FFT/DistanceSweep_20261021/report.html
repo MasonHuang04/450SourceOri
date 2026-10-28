@@ -1,0 +1,49 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>Main 距离扫描 · 2026-10-21</title>
+<style>body{font:16px/1.8 system-ui,"Microsoft YaHei",sans-serif;background:#edf3f7;color:#193347;margin:0}main{max-width:1200px;margin:24px auto;padding:32px;background:white;border-radius:12px}h1{font-size:29px}h2{font-size:22px;margin-top:30px;color:#176a91}a{color:#1679b0}img{width:100%}.note{background:#fff3e1;border-left:5px solid #cb8535;padding:15px 20px}.ok{background:#edf8f4;padding:15px 20px}table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:8px;border-bottom:1px solid #d7e2ea;text-align:right}th{background:#edf5fa}.outside{background:#fff7ec}code{background:#edf2f5;padding:2px 5px}li{margin:7px 0}</style><main>
+<h1>当前 Main：10–75 cm 距离—误差扫描</h1><p>2026-10-21 · 27 点，间隔 2.5 cm · 沿用当前已上板版本的生产 RTL 与参数。</p>
+<div class="note"><b>当前配置不能正确覆盖全部 75 cm。</b> 25–500 Hz 搜峰范围对应理想反射距离约 2.14–42.88 cm。
+本次保留限制：10–42.5 cm 的 14 点在范围内；45–75 cm 的 13 点在范围外。范围外的读数仍画出，但不能解释为有效测距。</div>
+<img src="distance_error_10_75cm.png" alt="当前Main RTL距离误差点图与正常范围放大图">
+<p><a href="distance_error_10_75cm.png">PNG 图片</a> · <a href="distance_error_10_75cm.svg">SVG 矢量图</a> ·
+<a href="distance_results.csv">27 点原始结果 CSV</a> · <a href="evidence.zip">测试证据与源码快照</a></p>
+<h2>这次模拟了哪些部分？</h2>
+<p>与当前主板测试相同的默认设置：40 kHz 中心、4 kHz 带宽、20 ms 发射、幅度 0.25；RX 延迟 1 ms、接收 19 ms；
+ADC 原始采样率 165 MHz /144，FFT 前 CIC3 /32 后约 35.807 kS/s，672 个有效点补零到 1024 点；Kaiser β=4，搜索第 1–14 格，FPGA 三点对数功率插值。</p>
+<p><b>真正运行生产 RTL 的部分：</b>ADC 数字样本进入 MainCicDecimator → MainFftProcessor → 帧缓存/整帧去均值 →
+Kaiser4 / FFT → 功率 → 最大峰 → FPGA 插值 → MainPeakReport 的 M3 字节报告。使用真实 Intel altsyncram 仿真模型；
+仅在 testbench 压缩了采样间空闲时钟，物理采样率仍按当前 Main 的数值换算。
+生产 HDL、ROM、上位机、SOF 和原有 testbench 文件未修改，源文件 SHA-256 可核对。</p>
+<p><b>由数学模型提供的部分：</b>Chirp 及其延迟回波、模拟乘法器和理想低通。
+设 <code>τ=2R/343</code>，<code>S=4000/0.020=200000 Hz/s</code>，理想拍频 <code>f_b=Sτ</code>。
+不是直接给 FPGA 填入期望峰值：逐点生成两条 chirp 相乘后的差频波形，量化成 16 位 ADC 输入，再交给实际 RTL 运算。</p>
+<p>采用差频相位 <code>2π(f_start τ + Sτt − Sτ²/2)</code>，反射附加相位取 0；考虑回波到达前输入为空、
+20 ms TX 参考结束后的截断。到较远目标时，回波会在 RX 窗口开始后才到达。
+混频后幅度固定为 7000 ADC codes、直流偏置 111 codes，仅用于隔离算法误差，未套用未知的距离衰减或接收增益。</p>
+<p>未模拟本次 TX 生成器 RTL/DAC、ADC SPI 引脚时序、完整 Main 顶层、UART 逐位传输、换能器频响、
+模拟低通起止瞬态、噪声、多径、串扰和系统距离零点。不能把理想模型误差当成实板精度。
+当前 FPGA/上位机报告频率；本报告用 <code>R_est=c·f_est/(2S)</code> 离线换算距离，未给产品新增距离显示。</p>
+<h2>结果与检查</h2>
+<div class="ok">27 帧的 CIC 数据、整帧均值、窗输入、全部 FFT 实虚部和功率逐点通过参考检查；峰值索引、插值公式、
+M3 校验与连续帧通过。通过的是计算与协议检查，<b>不是全部 27 个距离均能正确测量</b>。</div>
+<ul><li>10–42.5 cm：最大绝对误差 <b>0.383 mm</b>，RMSE <b>0.207 mm</b>。
+同组数据只使用整数 FFT 格时，最大误差约 14.881 mm；当前插值改善了这组理想单峰的频率估计。</li>
+<li>12.5 cm 理想拍频约 145.773 Hz，本次 RTL 为 146.131 Hz，没有出现 380 Hz 突跃。
+这与理想单回波条件一致；不能排除真实环境中的多峰竞争。</li>
+<li>75 cm 理想拍频约 874.636 Hz，超出当前 500 Hz 搜索上限。RTL 选择到范围内的谱泄漏/旁瓣，显示约
+463.523 Hz，离线换算为 39.747 cm，误差 -352.529 mm。</li>
+<li>范围外帧也可能具有 flags=0，部分还能成功插值；这不代表物理目标正确。当前状态位并未判断真实主峰是否在搜索区外。</li>
+<li>未做距离拟合、固定偏移校准或误差平滑。图中相邻点连线只用于观察趋势。</li></ul>
+<p>Questa 日志记录 0 errors、62 warnings，涉及 Intel 库未用端口和复位前未知值；有效帧无未知结果，数值检查全部通过。
+完整日志保存在 evidence.zip。</p>
+<h2>每个距离点的结果</h2><table><tr><th>真实距离 cm</th><th>理想拍频 Hz</th><th>当前流程输出 Hz</th><th>换算距离 cm</th><th>误差 mm</th><th>峰格</th><th>插值状态</th><th>范围判断</th></tr><tr><td>10</td><td>116.618</td><td>116.720</td><td>10.0087</td><td>+0.087</td><td>3</td><td>0</td><td>范围内</td></tr><tr><td>12.5</td><td>145.773</td><td>146.131</td><td>12.5307</td><td>+0.307</td><td>4</td><td>0</td><td>范围内</td></tr><tr><td>15</td><td>174.927</td><td>174.913</td><td>14.9988</td><td>-0.012</td><td>5</td><td>0</td><td>范围内</td></tr><tr><td>17.5</td><td>204.082</td><td>203.784</td><td>17.4745</td><td>-0.255</td><td>6</td><td>0</td><td>范围内</td></tr><tr><td>20</td><td>233.236</td><td>232.867</td><td>19.9684</td><td>-0.316</td><td>7</td><td>0</td><td>范围内</td></tr><tr><td>22.5</td><td>262.391</td><td>262.547</td><td>22.5134</td><td>+0.134</td><td>8</td><td>0</td><td>范围内</td></tr><tr><td>25</td><td>291.545</td><td>291.992</td><td>25.0383</td><td>+0.383</td><td>8</td><td>0</td><td>范围内</td></tr><tr><td>27.5</td><td>320.700</td><td>320.959</td><td>27.5222</td><td>+0.222</td><td>9</td><td>0</td><td>范围内</td></tr><tr><td>30</td><td>349.854</td><td>349.760</td><td>29.9919</td><td>-0.081</td><td>10</td><td>0</td><td>范围内</td></tr><tr><td>32.5</td><td>379.009</td><td>378.743</td><td>32.4772</td><td>-0.228</td><td>11</td><td>0</td><td>范围内</td></tr><tr><td>35</td><td>408.163</td><td>407.924</td><td>34.9794</td><td>-0.206</td><td>12</td><td>0</td><td>范围内</td></tr><tr><td>37.5</td><td>437.318</td><td>437.313</td><td>37.4996</td><td>-0.004</td><td>13</td><td>0</td><td>范围内</td></tr><tr><td>40</td><td>466.472</td><td>466.606</td><td>40.0114</td><td>+0.114</td><td>13</td><td>0</td><td>范围内</td></tr><tr><td>42.5</td><td>495.627</td><td>495.708</td><td>42.5070</td><td>+0.070</td><td>14</td><td>0</td><td>范围内</td></tr><tr class="outside"><td>45</td><td>524.781</td><td>489.553</td><td>41.9792</td><td>-30.208</td><td>14</td><td>4</td><td>超出搜峰范围</td></tr><tr class="outside"><td>47.5</td><td>553.936</td><td>489.553</td><td>41.9792</td><td>-55.208</td><td>14</td><td>4</td><td>超出搜峰范围</td></tr><tr class="outside"><td>50</td><td>583.090</td><td>489.553</td><td>41.9792</td><td>-80.208</td><td>14</td><td>4</td><td>超出搜峰范围</td></tr><tr class="outside"><td>52.5</td><td>612.245</td><td>477.924</td><td>40.9820</td><td>-115.180</td><td>14</td><td>0</td><td>超出搜峰范围</td></tr><tr class="outside"><td>55</td><td>641.399</td><td>489.553</td><td>41.9792</td><td>-130.208</td><td>14</td><td>4</td><td>超出搜峰范围</td></tr><tr class="outside"><td>57.5</td><td>670.554</td><td>489.553</td><td>41.9792</td><td>-155.208</td><td>14</td><td>4</td><td>超出搜峰范围</td></tr><tr class="outside"><td>60</td><td>699.708</td><td>489.553</td><td>41.9792</td><td>-180.208</td><td>14</td><td>4</td><td>超出搜峰范围</td></tr><tr class="outside"><td>62.5</td><td>728.863</td><td>471.436</td><td>40.4256</td><td>-220.744</td><td>13</td><td>0</td><td>超出搜峰范围</td></tr><tr class="outside"><td>65</td><td>758.017</td><td>489.553</td><td>41.9792</td><td>-230.208</td><td>14</td><td>4</td><td>超出搜峰范围</td></tr><tr class="outside"><td>67.5</td><td>787.172</td><td>493.036</td><td>42.2778</td><td>-252.222</td><td>14</td><td>0</td><td>超出搜峰范围</td></tr><tr class="outside"><td>70</td><td>816.327</td><td>456.112</td><td>39.1116</td><td>-308.884</td><td>13</td><td>0</td><td>超出搜峰范围</td></tr><tr class="outside"><td>72.5</td><td>845.481</td><td>494.559</td><td>42.4085</td><td>-300.915</td><td>14</td><td>0</td><td>超出搜峰范围</td></tr><tr class="outside"><td>75</td><td>874.636</td><td>463.523</td><td>39.7471</td><td>-352.529</td><td>13</td><td>0</td><td>超出搜峰范围</td></tr></table>
+<p>插值状态 0：插值算术有效；4：当前搜索区最大值不是包含左右邻点时的局部最大值，采用整数格回退。
+范围判断使用已知仿真真值，因此只用于本报告诊断；当前硬件不会直接知道目标真值。</p>
+<h2>复现</h2><ol><li>保留当前项目代码，运行 <code>python run_sweep.py --project 工作工程目录 --output 本地输出目录</code>。
+可用 <code>--vsim</code> 指定 Questa；默认使用当前安装路径。</li>
+<li>也可解压 evidence.zip，使用其中的 source_snapshot 作为 --project，可固定到本次测试源码。</li>
+<li>run_sweep.py 重新生成 27 组 ADC 输入并执行生产模块仿真；<code>--analyze-only</code> 只复核已完成的输出。</li>
+<li>在本报告目录执行 <code>python build_figure.py</code> 可从 CSV 重绘图片。依赖 numpy、matplotlib；未安装微软雅黑时需指定可用中文字体。</li></ol>
+<p><a href="checks.json">检查摘要</a> · <a href="model.json">完整模型与参数</a> · <a href="run_sweep.py">仿真脚本</a> · <a href="build_figure.py">绘图脚本</a></p>
+<p>若下一步需要正确覆盖 75 cm，应先把峰值搜索范围覆盖约 875 Hz 并留余量，再复测。
+875 Hz 已在当前采样率和 1024 点 FFT 的计算频带内，当前首要限制是搜峰范围，不是缺少采样点。
+本次按要求保留已上板流程，没有扩大搜索上限。</p></main></html>

@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-21",
+  "scope": "Main search maximum 500 to 2000 Hz; other signal parameters unchanged",
+  "files": {
+    "02_RTL\\V0\\output_files\\build_checks.json": "735519082273b28679940e689cf3c790884655244d3ab3a678e23fa35beaa3f2",
+    "02_RTL\\V0\\Tools\\MainFftMonitor\\MainFftMonitor.exe": "93f2024baf94ff8a20794c30666f1e9bc8944af989cfeebe0f75b2ead9b683fc",
+    "02_RTL\\V0\\output_files\\UsMimoTestBench.asm.rpt": "854bc8c3967650329bb1aee9fbc3788d3d2bbdc68d8ddc97815737d92a15e3c2",
+    "03_SW\\UsMimoTestBench\\bin\\Release\\UsMimoTestBench.exe": "04dd229b0a7f0407e2cd50ded9b98593294c0c4721249d55f77fda19f773bfce",
+    "02_RTL\\V0\\output_files\\UsMimoTestBench.fit.rpt": "585539f0a62d9b5423b28e5cd0904c5c5ea9bc06d879f7ce83b2ddc89d882b11",
+    "02_RTL\\V0\\output_files\\UsMimoTestBench.fit.summary": "202a931379d8da630cff4daf5f0b16ff825d05833a607a87863564350ef43e6b",
+    "02_RTL\\V0\\output_files\\UsMimoTestBench.flow.rpt": "1e41444b3105343ebbc4dd10c79b84c00b10b6cbceb11c8e440a328088e0bee5",
+    "02_RTL\\V0\\output_files\\UsMimoTestBench.map.rpt": "5101393b2b7f748c854ca5c99bb37fc9e94d815750ef7a4d3a948dd6e6dd149c",
+    "02_RTL\\V0\\output_files\\UsMimoTestBench.map.summary": "b65c00adb3e9157e95eba9cfcc9c1103554c4391762fa7c6df53b07fe47b7ff7",
+    "02_RTL\\V0\\output_files\\UsMimoTestBench.sof": "db5df073808d3e3154d6b2d0cb32f5507dba5da262a0279e893854d5386997e7",
+    "02_RTL\\V0\\output_files\\UsMimoTestBench.sta.rpt": "8f065ce2d7704ceddcf07a487756568e6c4e9f8690d03ccefabb24a5b8922669",
+    "02_RTL\\V0\\output_files\\UsMimoTestBench.sta.summary": "1c67660319e6d8b5b6912511c7bb30da2b8be11977a4dea0638787b381f62827",
+    "02_RTL\\V0\\README_main_2026-10-17.md": "34b18b0186ea10eff505a84395856ebcd0c608470f6e006c7b02cee14c235c2a",
+    "03_SW\\README_main_2026-10-17.md": "adbfab35777027c0e952de72578d2d69042c3feb3ddfdb79cdf3e2690148937f",
+    "02_RTL\\V0\\Simulation\\README.md": "1c7d83dc0aa36515538befa7a70d51348cd6163143d3ab4b18db87ff4cbef422",
+    "verification\\FFT\\README.md": "46693379eeb3ca25efc2539717159c746c148813c74870d3f84a18babd30bb7e",
+    "verification\\README.md": "f3ea86b09df36c6ebf3bcaef40a56be1e75b6f480b61d5fa2c3a67415f2ea4fb",
+    "readme_2026-10-21.md": "604a80bed7d0a5ab0d19c30116727fbbd5866bdf54980df34fc67c2f9010fe12"
+  },
+  "main_sof_sha256": "db5df073808d3e3154d6b2d0cb32f5507dba5da262a0279e893854d5386997e7",
+  "main_ui_sha256": "04dd229b0a7f0407e2cd50ded9b98593294c0c4721249d55f77fda19f773bfce",
+  "minimum_slack_ns": 0.009
+}

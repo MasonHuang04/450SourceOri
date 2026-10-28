@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-21",
+  "feature": "FPGA temperature-compensated range + M4 + GUI",
+  "files": {
+    "02_RTL/V0/SourceCode/MainControl.vhd": "b8b38eb2e85ed4329ac58ad3ffed2692c8660896aff0335d592f6aeb41b4a4c9",
+    "02_RTL/V0/SourceCode/UartBuffers.sv": "122ee397f184af422e813ba15db5e8fd92717e732ea00dea8db29a1cbfc46bc8",
+    "02_RTL/V0/SourceCode/UsMimoTestBench.vhd": "e113abeddfae02bd81aba0c1808f11cd871e7add22b9df93aeed42d7b0f5e06d",
+    "02_RTL/V0/SourceCode/MainTiming.sdc": "313efe7df94d6f0fd099f24c21dcec4f35c24cbef60258d2f952f7a0eb243f69",
+    "02_RTL/V0/Simulation/FFT/run_main_system.py": "6cfbf27adbbf464385820309862c635998955dda7fa25c8fc7b236311614c814",
+    "02_RTL/V0/Simulation/FFT/tb_fft_board.sv": "71650d310effbcd037ff23497acab29a6d9e5d42bc37a900f06ae4d6c4ccf33c",
+    "02_RTL/V0/Tools/MainFftMonitor/MainFftMonitor.cs": "4e26fa9d40c6183ff5da7030062c1d2fae9aa9be44f9301b69d28ea341d333d1",
+    "02_RTL/V0/Tools/MainFftMonitor/MainFftMonitor.exe": "49c78b0a41be064b9a084d72f79f267caa8b20c69ee41ae22851fec467b2bfe7",
+    "03_SW/UsMimoTestBench/MainProtocol.cs": "8daa29bf0f501b497997502f469956d12da6ae13731e29feb968ad2bdf45f051",
+    "03_SW/UsMimoTestBench/MainFrm.cs": "ead133674129d409669a78f3581e9b5a21ca0cbfbe74b958d0b57336c9cbeda1",
+    "03_SW/UsMimoTestBench/SoftwareChecks.cs": "301d6c2add8f3e9c03169431cb1c19f1753441a8bdd289adf0266639781a61b3",
+    "03_SW/UsMimoTestBench/bin/Release/UsMimoTestBench.exe": "ee1faa59fb74127ed86219f5c831cba0451e77830c9aa1f7ba08e5995317dc4d",
+    "02_RTL/V0/output_files/UsMimoTestBench.sof": "61b24e01651a4613714a20d99fe9d244f5d8a76c51c66f6b75716a3a0ff9be70",
+    "02_RTL/V0/output_files/UsMimoTestBench.sta.rpt": "7a3aa2e46b85c6538afc4741675ecf9f2459f3efa30e3795aa6a1ffe43cf73d5",
+    "02_RTL/V0/output_files/UsMimoTestBench.sta.summary": "a0f75232b8db5bf0ca44fcbaa4579d342fa8eb5c41def95da90193638f7d249c",
+    "02_RTL/V0/output_files/UsMimoTestBench.fit.summary": "b43bf4393d8ba1a221ff3f21150b9d4d904ac878efced6e39ce5148f326c35c2",
+    "02_RTL/V0/output_files/build_checks.json": "e62a2c9dd92487d3373800e9024b13471435ee114ae0d50628ff2caee99b2c6c",
+    "02_RTL/V0/README_main_2026-10-17.md": "e8cf9f1b7c6e8cedcc51e5bc25eb91540af8c3b4a26b2fee4c88849be69c697f",
+    "03_SW/README_main_2026-10-17.md": "44899984582fe56475240430444d29fdf869900bdfe0bc30b665f3dbd906b898",
+    "verification/FFT/README.md": "ecd3f2772cbe4dc9aa76a6f4747ab15f4f60cbeb1f628c0ae16f0261fbdc022a",
+    "readme_2026-10-21.md": "917f9e11bd6d7a9834501ec239ca8e35cb27791d825690a215c926675ad5b16d",
+    "verification/README.md": "1af4969874f592d1d37b7e6aadbbdd4e2764841532ca584e0db9f5aad985e435"
+  },
+  "sof_sha256": "61b24e01651a4613714a20d99fe9d244f5d8a76c51c66f6b75716a3a0ff9be70",
+  "ui_sha256": "ee1faa59fb74127ed86219f5c831cba0451e77830c9aa1f7ba08e5995317dc4d",
+  "hardware_tested": false,
+  "backup": "rollback_before_install.zip",
+  "git_state_changed_by_installer": false
+}

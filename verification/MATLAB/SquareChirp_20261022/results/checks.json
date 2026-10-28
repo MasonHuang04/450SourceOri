@@ -1,0 +1,200 @@
+{
+  "parameters": {
+    "rx_capture_ms": 19,
+    "rx_raw_downsample": 3,
+    "fft_length": 1024,
+    "fft_valid_samples": 672,
+    "search_min_hz": 25,
+    "search_max_hz": 2000
+  },
+  "tx_center_hz": 40000,
+  "bandwidth_hz": 4000,
+  "tx_duration_s": 0.02,
+  "tx_amplitude": 0.25,
+  "rx_delay_s": 0.001,
+  "raw_fs_hz": 1.1458333333333333E+6,
+  "fft_fs_hz": 35807.291666666664,
+  "sound_speed_m_s": 343,
+  "adc_bits": 16,
+  "reference_skew_s": 0,
+  "additional_reference_delay_s": 0,
+  "distances_cm": [
+    10,
+    12.5,
+    15,
+    17.5,
+    20,
+    22.5,
+    25,
+    27.5,
+    30,
+    32.5,
+    35,
+    37.5,
+    40,
+    42.5,
+    45,
+    47.5,
+    50,
+    52.5,
+    55,
+    57.5,
+    60,
+    62.5,
+    65,
+    67.5,
+    70,
+    72.5,
+    75
+  ],
+  "baseline_bit_exact_all_27": true,
+  "max_reference_sampling_difference_mm": 0.0032027552757796229,
+  "CIC_sum_band_worst_amplitude_dB": -54.99798485217503,
+  "CIC_sum_band_best_amplitude_dB": -74.785453471418492,
+  "sum_band_alias_hz": [
+    4385.4166666666715,
+    12385.416666666672
+  ],
+  "max_mixer_clipped_samples": 0,
+  "primary_model": "Ideal square-wave fundamental RX and sine reference are sampled synchronously at raw_fs/4, multiplied, low-pass filtered by CIC3 and decimated /8, then processed by the unchanged 672-point Kaiser4 / 1024 FFT / log interpolation. No carrier or sum-term folding at the mixer input rate.",
+  "version_date": "2026-10-23",
+  "main_case_index": 7,
+  "comparison_case_index": 5,
+  "nyquist_main": {
+    "rf_decimation": 4,
+    "rf_fs_hz": 286458.33333333331,
+    "rf_nyquist_hz": 143229.16666666666,
+    "rf_band_hz": [
+      38000,
+      42000
+    ],
+    "product_sum_band_upper_hz": 84000,
+    "if_decimation": 8,
+    "if_fs_hz": 35807.291666666664,
+    "if_nyquist_hz": 17903.645833333332,
+    "fft_length": 1024,
+    "effective_samples": 672,
+    "zero_padding": 352,
+    "rf_pairs_in_19ms": 5442,
+    "rf_pairs_needed_for_fft": 5392,
+    "valid_peaks": 27,
+    "cic_dc_gain": 512,
+    "cic_sum_gain_db": [
+      -71.88408620542225,
+      -51.432785980453637
+    ],
+    "cic_passband_0_to_2000Hz_max_droop_db": 0.13176953983744533,
+    "cic_group_delay_s": 3.6654545454545455E-5,
+    "cic_direct_convolution_exact": true,
+    "analog_model": "Ideal fundamental only. Hardware input must be band-limited before low-rate ADC or decimation; no real analog anti-alias circuit is modeled."
+  },
+  "previous_sample_selection": {
+    "factor": 32,
+    "first_raw_index_one_based": 96,
+    "last_raw_index_one_based": 21568,
+    "retained_pairs": 672,
+    "first_time_s": 0.001082909090909091,
+    "last_time_s": 0.019822109090909094,
+    "multiplications_per_frame": 672,
+    "old_raw_multiplications_per_frame": 21770
+  },
+  "rf_alias_band_hz": [
+    2192.7083333333358,
+    6192.7083333333358
+  ],
+  "observed_sum_alias_range_hz": [
+    4614.4986703772447,
+    12197.642227228556
+  ],
+  "previous_direct32_valid_peaks": 27,
+  "premix_cic_valid_peaks": 0,
+  "premix_cic_max_peak_power": 5,
+  "premix_cic_single_channel_gain_db": [
+    -74.44193560284485,
+    -59.312003945584237,
+    -51.119404842354712
+  ],
+  "point_selection_mixing_commutes_exactly": true,
+  "fpga_firmware_modified": false,
+  "old_mcu_budget_superseded_for_this_main_branch": true,
+  "backend": "Main: RF /4 -> multiply -> CIC3 /8 -> mean removal -> 672 Kaiser4 -> 352 zeros -> original 1024 FFT and Q16 log-parabolic interpolation. FPGA production settings are not changed.",
+  "extra_filter": "Main now has an explicitly restored post-mix CIC3 low-pass /8. It suppresses the sum band before IF decimation. It is not a brick-wall filter; finite residual sum aliasing is retained in the result.",
+  "assumed_resonator_model": {
+    "Q_per_probe": 8,
+    "resonance_hz": 40000,
+    "stages": 2,
+    "analog_oversampling": 32,
+    "measured_hardware_model": false,
+    "sine_error_range_mm": [
+      19.494647490985955,
+      20.739298533104975
+    ],
+    "square_error_range_mm": [
+      19.492359808646,
+      20.738840996637009
+    ],
+    "maximum_oversampling_change_mm": 0.00823565642349422
+  },
+  "mcu": {
+    "part": "STM32G431RBT6",
+    "max_cpu_hz": 1.7E+8,
+    "sram_bytes": 32768,
+    "native_adc_bits": 12,
+    "max_native_adc_rate_sps": 4.0E+6,
+    "raw_frame_samples": 21770,
+    "one_channel_frame_bytes": 43540,
+    "two_channel_frame_bytes": 87080,
+    "cpu_cycles_per_sample_pair": 148.36363636363637,
+    "rfft_input_output_float32_bytes": 8192,
+    "benchmark_measured": false
+  },
+  "source_urls": [
+    "https://www.st.com/resource/en/datasheet/stm32g431rb.pdf",
+    "https://www.st.com/content/ccc/resource/technical/document/application_note/group0/c1/ee/18/7a/f9/45/45/3b/DM00273990/files/DM00273990.pdf/jcr:content/translations/en.DM00273990.pdf",
+    "https://www.murata.com/~/media/webrenewal/products/sensor/ultrasonic/open/ma40s4s-e.ashx?la=en-us"
+  ],
+  "metrics": [
+    {
+      "Case": "Previous IF baseline",
+      "MaxAbsError_mm": 0.46740766459450356,
+      "RMSE_mm": 0.22554084335135435,
+      "ValidPeaks": 27
+    },
+    {
+      "Case": "Sine TX, sampled reference",
+      "MaxAbsError_mm": 0.46878027399841926,
+      "RMSE_mm": 0.22585701851321344,
+      "ValidPeaks": 27
+    },
+    {
+      "Case": "Square TX, fundamental RX",
+      "MaxAbsError_mm": 0.47015288340233496,
+      "RMSE_mm": 0.22577178305124776,
+      "ValidPeaks": 27
+    },
+    {
+      "Case": "Square TX, digital reference",
+      "MaxAbsError_mm": 0.47061041987035424,
+      "RMSE_mm": 0.22592183895120002,
+      "ValidPeaks": 27
+    },
+    {
+      "Case": "Downsample first, then mix",
+      "MaxAbsError_mm": 0.45917200817100934,
+      "RMSE_mm": 0.21811589102291498,
+      "ValidPeaks": 27
+    },
+    {
+      "Case": "CIC on both RF channels, then mix",
+      "MaxAbsError_mm": null,
+      "RMSE_mm": null,
+      "ValidPeaks": 0
+    },
+    {
+      "Case": "RF /4, mix, CIC /8",
+      "MaxAbsError_mm": 0.46420490931872394,
+      "RMSE_mm": 0.22551956139676382,
+      "ValidPeaks": 27
+    }
+  ]
+}

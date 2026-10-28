@@ -199,8 +199,8 @@ module tb_main_top;
   if(dut.cfftsenddone)begin
    if(raw_count!=full_count/4||dut.crx_datacnt!=raw_count)$fatal(1,"Raw count mismatch");
    if(dut.cfftcount!=fft_count||!dut.creportflags[0]||dut.cfftbin!=0||dut.cfftpower!=0)$fatal(1,"Short window must reject FFT");
-   if(byte_count!=raw_count*2+145)$fatal(1,"Raw+FFT record length mismatch");
-   $display("PASS MAIN SHORT TOP: ADC SPI/raw FIFO/full short packet/short-FFT rejection/M3; raw=%0d full=%0d bytes=%0d peak=%0d power=%0d",raw_count,full_count,byte_count,dut.cfftbin,dut.cfftpower);
+   if(byte_count!=raw_count*2+174)$fatal(1,"Raw+FFT record length mismatch");
+   $display("PASS MAIN SHORT TOP: ADC SPI/raw FIFO/full short packet/short-FFT rejection/M4; raw=%0d full=%0d bytes=%0d peak=%0d power=%0d",raw_count,full_count,byte_count,dut.cfftbin,dut.cfftpower);
    $fclose(rf);$fclose(ff);$fclose(bf);#100;$finish;
   end
  end
@@ -304,8 +304,8 @@ module tb_main_top;
    if(raw_count!=full_count/4||dut.crx_datacnt!=raw_count)$fatal(1,"Raw count mismatch");
    if(fft_count!=672||dut.cfftcount!=672||dut.cfftspan!=21472)$fatal(1,"FFT count/span");
    if(dut.cfftbin!=3||dut.creportflags!=0)$fatal(1,"FFT result bin=%0d flags=%h",dut.cfftbin,dut.creportflags);
-   if(byte_count!=raw_count*2+145)$fatal(1,"Raw+FFT record length mismatch");
-   $display("PASS MAIN LONG FRAME: 19ms-equivalent word count, compressed ADC timing, full raw buffer/672samples/1024FFT/packet/M3; raw=%0d full=%0d bytes=%0d peak=%0d power=%0d",raw_count,full_count,byte_count,dut.cfftbin,dut.cfftpower);
+   if(byte_count!=raw_count*2+174)$fatal(1,"Raw+FFT record length mismatch");
+   $display("PASS MAIN LONG FRAME: 19ms-equivalent word count, compressed ADC timing, full raw buffer/672samples/1024FFT/packet/M4; raw=%0d full=%0d bytes=%0d peak=%0d power=%0d",raw_count,full_count,byte_count,dut.cfftbin,dut.cfftpower);
    $fclose(rf);$fclose(ff);$fclose(bf);#100;$finish;
   end
  end

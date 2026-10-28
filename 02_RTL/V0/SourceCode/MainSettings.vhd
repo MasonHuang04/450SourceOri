@@ -8,5 +8,5 @@ package MainSettings is
  constant MF_VALID_SAMPLES:positive:=672;
  constant MF_DELTA_W:positive:=9;
  constant MF_MIN_BIN:natural:=1;
- constant MF_MAX_BIN:natural:=14;
+ constant MF_MAX_BIN:natural:=57;
 end package;

@@ -1,0 +1,17 @@
+{
+  "rtl_arithmetic_and_protocol_pass": true,
+  "all_distances_valid_ranging": false,
+  "cases": 27,
+  "intel_ram_model": true,
+  "full_main_top_simulated": false,
+  "exact_fft_and_power_reference_match": true,
+  "maximum_fft_difference_from_float": 0.388325707992621,
+  "maximum_interpolation_error_bins": 1.7056044481267296e-05,
+  "nominal_search_upper_distance_cm": 42.875,
+  "nominal_inband_cases": 14,
+  "nominal_out_of_band_cases": 13,
+  "inband_max_abs_error_mm": 0.38317180587910116,
+  "inband_rmse_mm": 0.20707860103523285,
+  "inband_raw_bin_max_abs_error_mm": 14.880879720052071,
+  "scope": "Error is inferred using ideal R=c*f/(2*slope); current FPGA/GUI do not implement distance conversion. Uncalibrated, deterministic single-reflector model, not hardware accuracy."
+}

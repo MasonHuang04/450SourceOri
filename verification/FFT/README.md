@@ -1,5 +1,17 @@
 # FFT 验证索引
 
+## 当前Main：25–2000 Hz（2026-10-21）
+
+- [更新报告与英文误差图](Search2k_20261021/report.html)：其他参数不变，10–75 cm、每2.5 cm一点，共27点。
+- 理想模型最大绝对距离误差0.467 mm、RMSE 0.226 mm；生产RTL、软件范围检查和生成配置已同步。尚未新增实板精度验证。
+- [原始CSV](Search2k_20261021/distance_results.csv) · [旧500 Hz与新2000 Hz对照](Search2k_20261021/comparison.csv)。
+
+## main：10–75 cm 距离扫描（2026-10-21）
+
+- [当前 Main RTL 距离—误差图与报告](DistanceSweep_20261021/report.html)：27 点，间隔 2.5 cm；保留 25–500 Hz 搜峰设置。
+- 理想单回波条件下，10–42.5 cm 范围内最大绝对误差 0.383 mm；45–75 cm 超出当前搜索范围，不能作为有效测距。非实板精度验证，生产 RTL、上位机和 SOF 未改。
+- [原始数据](DistanceSweep_20261021/distance_results.csv) · [仿真与绘图脚本](DistanceSweep_20261021/run_sweep.py)。
+
 ## main：当前短窗版本（2026-10-20）
 
 - [短窗报告](Short20ms_20261020/report.html)：19 ms RX、672有效点/1024 FFT、FPGA插值、M3协议。
@@ -27,3 +39,7 @@
 - [编译检查基线](results/build_checks.json)
 
 这里保留验证当时的参数与数据，再次运行会写入Simulation/FFT/results。删除的重复日志/状态文件可按 [清理索引](../Archive/cleanup_20261017_duplicates.json) 从历史或证据ZIP恢复。
+
+## Main 温度补偿距离（2026-10-21）
+
+[报告与界面](TemperatureRange_20261021/report.html)：FPGA 计算温度补偿距离、M4 回传；383 组数值、I²C模型、实际 UART、Main整帧、上位机与全部时序通过。未新增实板传感器或声学精度验证。

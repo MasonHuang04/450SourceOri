@@ -61,3 +61,8 @@ DataRecording/
 # Large local rollback archives and cleanup audit records are kept locally.
 /verification/Archive/*
 !/verification/Archive/README.md
+
+# Local rollback copies are not verification source data. Keep evidence.zip.
+/verification/**/before_*.zip
+/verification/**/rollback_*.zip
+/verification/**/copy_manifest.json

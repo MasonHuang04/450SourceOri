@@ -11,6 +11,7 @@ namespace UsMimoTestBench
         // BEGIN_MAIN_PROFILE
         public const float MainRxSeconds = 0.019000000f;
         public const int MainValidSamples = 672, MainFftLength = 1024;
+        public const double MainSearchMinHz = 25, MainSearchMaxHz = 2000;
         // END_MAIN_PROFILE
         public readonly float CenterHz, BandwidthHz, DurationSeconds, Amplitude;
         public static ChirpParameters Defaults { get { return new ChirpParameters(40000, 4000, 20, .25); } }
@@ -57,6 +58,26 @@ namespace UsMimoTestBench
         public int Bin, Minimum, Maximum, Flags;
         public ulong Power;
         public bool HasInterpolation, HasFftLength; public int DeltaQ16, InterpolationStatus, FftLength = 8192;
+        public bool HasMeasurement;
+        public int TemperatureRawQ7, TemperatureStatus, RangeStatus;
+        public uint ReportedFrequencyMilliHz, DistanceUm;
+        public double TemperatureC { get { return TemperatureRawQ7 / 128.0; } }
+        public bool TemperatureValid { get { return HasMeasurement && TemperatureStatus == 0; } }
+        public double SoundSpeed { get { return 331.3 + .606 * TemperatureC; } }
+        public double DistanceMm { get { return DistanceUm / 1000.0; } }
+        public bool RangeValid { get { return HasMeasurement && RangeStatus == 0 && TemperatureValid && Status == "OK" && InterpolationValid; } }
+        public string TemperatureText { get {
+            if (!HasMeasurement) return "旧固件未提供温度有效状态";
+            switch (TemperatureStatus) { case 0: return TemperatureC.ToString("F2", CultureInfo.InvariantCulture) + " °C";
+                case 1: return "温度未读取 / 传感器无应答"; case 2: return "温度数据已过期"; default: return "温度数值超范围"; }
+        } }
+        public string RangeText { get {
+            if (!HasMeasurement) return "旧固件未回传距离";
+            if (Status != "OK") return "峰值无效：" + StatusText;
+            switch (RangeStatus) { case 0: return RangeValid ? DistanceMm.ToString("F3", CultureInfo.InvariantCulture) + " mm" : "距离状态不一致";
+                case 1: return "采集 / FFT 无效"; case 2: return TemperatureText; case 3: return "Chirp 参数不能用于测距";
+                case 4: return "距离运算超范围"; default: return "插值无效，暂不估算距离"; }
+        } }
         public const double Fs = 165000000.0 / 144 / 32;
         public double BinHz { get { return Fs / FftLength; } }
         public double ObservationMs { get { return Count / Fs * 1000; } }
@@ -65,7 +86,7 @@ namespace UsMimoTestBench
         public double OffsetBins { get { return DeltaQ16 / 65536.0; } }
         public bool InterpolationValid { get { return HasInterpolation && InterpolationStatus == 0 && Status == "OK"; } }
         // FPGA already computed the parabolic offset. PC only converts bin units to Hz.
-        public double Frequency { get { return InterpolationValid ? (Bin + OffsetBins) * BinHz : RawFrequency; } }
+        public double Frequency { get { return HasMeasurement ? ReportedFrequencyMilliHz / 1000.0 : InterpolationValid ? (Bin + OffsetBins) * BinHz : RawFrequency; } }
         public string InterpolationText { get {
             if (!HasInterpolation) return "旧固件：未提供插值";
             if (InterpolationValid) return "FPGA 三点对数插值";
@@ -85,24 +106,37 @@ namespace UsMimoTestBench
         }
         public static MainReport Parse(string line)
         {
-            bool m3 = line.StartsWith("M3,"), m2 = line.StartsWith("M2,"); int total = m3 ? 81 : m2 ? 76 : 64, checkAt = total - 4;
-            if (line.Length != total || (!m3 && !m2 && !line.StartsWith("M1,")) || !line.EndsWith("\r\n")) throw new FormatException("Main 报告格式错误");
+            bool m4 = line.StartsWith("M4,"), m3 = line.StartsWith("M3,"), m2 = line.StartsWith("M2,"); int total = m4 ? 110 : m3 ? 81 : m2 ? 76 : 64, checkAt = total - 4;
+            if (line.Length != total || (!m4 && !m3 && !m2 && !line.StartsWith("M1,")) || !line.EndsWith("\r\n")) throw new FormatException("Main 报告格式错误");
             int checksum = 0; for (int i = 0; i < checkAt; i++) checksum ^= (byte)line[i];
             if (checksum != (int)Hex(line.Substring(checkAt, 2), 2)) throw new FormatException("Main 报告校验失败");
-            string[] f = line.Substring(0, total - 2).Split(','); if (f.Length != (m3 ? 13 : m2 ? 12 : 10)) throw new FormatException("Main 报告字段数错误");
+            string[] f = line.Substring(0, total - 2).Split(','); if (f.Length != (m4 ? 18 : m3 ? 13 : m2 ? 12 : 10)) throw new FormatException("Main 报告字段数错误");
             MainReport r = new MainReport();
             r.Sequence = (uint)Hex(f[1], 8); r.Count = (uint)Hex(f[2], 8); r.Bin = (int)Hex(f[3], 4);
             r.Power = Hex(f[4], 11); r.Minimum = unchecked((short)Hex(f[5], 4)); r.Maximum = unchecked((short)Hex(f[6], 4));
             r.Flags = (int)Hex(f[7], 2); r.Span = (uint)Hex(f[8], 8);
             if (r.Count > 8192 || r.Bin > 4096 || r.Power >= (1UL << 41)) throw new FormatException("Main 报告数值越界");
-            r.HasFftLength = m3;
-            if (m3) { r.FftLength = (int)Hex(f[11],4); if (r.FftLength!=1024 && r.FftLength!=2048 && r.FftLength!=4096 && r.FftLength!=8192) throw new FormatException("FFT长度无效"); }
+            r.HasFftLength = m3 || m4;
+            if (m3 || m4) { r.FftLength = (int)Hex(f[11],4); if (r.FftLength!=1024 && r.FftLength!=2048 && r.FftLength!=4096 && r.FftLength!=8192) throw new FormatException("FFT长度无效"); }
             if(r.Count>r.FftLength || r.Bin>r.FftLength/2)throw new FormatException("FFT数据越界");
-            r.HasInterpolation = m2 || m3;
+            r.HasInterpolation = m2 || m3 || m4;
             if (r.HasInterpolation) {
                 r.DeltaQ16 = unchecked((int)(uint)Hex(f[9], 8)); r.InterpolationStatus = (int)Hex(f[10], 2);
                 if (r.DeltaQ16 < -32768 || r.DeltaQ16 > 32768 || r.InterpolationStatus > 5 ||
                     (r.InterpolationStatus != 0 && r.DeltaQ16 != 0)) throw new FormatException("插值字段越界");
+            }
+            if (m4) {
+                r.HasMeasurement = true; r.TemperatureRawQ7 = unchecked((short)Hex(f[12], 4));
+                r.TemperatureStatus = (int)Hex(f[13], 2); r.ReportedFrequencyMilliHz = (uint)Hex(f[14], 8);
+                r.DistanceUm = (uint)Hex(f[15], 8); r.RangeStatus = (int)Hex(f[16], 2);
+                if (r.TemperatureStatus > 3 || r.RangeStatus > 5 ||
+                    (r.TemperatureStatus == 0 && (r.TemperatureRawQ7 < -7040 || r.TemperatureRawQ7 > 19200)) ||
+                    (r.RangeStatus != 0 && r.DistanceUm != 0) ||
+                    (r.RangeStatus == 0 && (!r.TemperatureValid || r.Flags != 0 || r.InterpolationStatus != 0)))
+                    throw new FormatException("温度或距离字段状态无效");
+                double expectedHz = r.InterpolationValid ? (r.Bin + r.OffsetBins) * r.BinHz : r.RawFrequency;
+                if (r.Status == "OK" && Math.Abs(r.ReportedFrequencyMilliHz / 1000.0 - expectedHz) > .000501)
+                    throw new FormatException("FPGA频率与峰格不一致");
             }
             return r;
         }
@@ -117,7 +151,7 @@ namespace UsMimoTestBench
                 if ((Flags & 16) != 0) return "NO_STRONG_PEAK";
                 if ((Flags & 128) != 0) return "RAW_BUFFER_CAPPED";
                 if (Flags != 0) return "UNKNOWN_FLAGS";
-                if (Bin < Math.Ceiling(25 / BinHz) || Bin > Math.Floor(500 / BinHz)) return "PEAK_OUTSIDE_MAIN_RANGE";
+                if (Bin < Math.Ceiling(ChirpParameters.MainSearchMinHz / BinHz) || Bin > Math.Floor(ChirpParameters.MainSearchMaxHz / BinHz)) return "PEAK_OUTSIDE_MAIN_RANGE";
                 return "OK";
             }
         }
@@ -174,8 +208,8 @@ namespace UsMimoTestBench
                     for (int i = 0; i < n; i++) words[i] = (ushort)(buffer[offset + 32 + 2*i] | buffer[offset + 33 + 2*i] << 8);
                     offset += total;
                     if (Raw != null) Raw(new ScopeDataFrame { DataLen = (int)n, Data = words, SamplingPeriod = dt, TempC = BitConverter.ToInt16(h, 26) / 128f });
-                } else if (buffer[offset] == 77 && (buffer[offset + 1] == 49 || buffer[offset + 1] == 50 || buffer[offset + 1] == 51) && buffer[offset + 2] == 44) {
-                    int length = buffer[offset + 1] == 51 ? 81 : buffer[offset + 1] == 50 ? 76 : 64;
+                } else if (buffer[offset] == 77 && (buffer[offset + 1] == 49 || buffer[offset + 1] == 50 || buffer[offset + 1] == 51 || buffer[offset + 1] == 52) && buffer[offset + 2] == 44) {
+                    int length = buffer[offset + 1] == 52 ? 110 : buffer[offset + 1] == 51 ? 81 : buffer[offset + 1] == 50 ? 76 : 64;
                     if (remaining < length) break;
                     MainReport r;
                     try { r = MainReport.Parse(Encoding.ASCII.GetString(buffer.GetRange(offset, length).ToArray())); }

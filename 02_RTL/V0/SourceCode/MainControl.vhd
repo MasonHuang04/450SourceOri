@@ -766,6 +766,7 @@ entity MainTMP117Controller is
 		iAddr : in std_logic_vector(7 downto 0) := x"48";
 		
 		oDataValid : out std_logic := '0';
+        oUpdated : out std_logic := '0';
 		oTempData : out std_logic_vector(15 downto 0) := x"0000";
 		
 		
@@ -795,6 +796,7 @@ begin
 	
 		--update at falling edge
 		if iClk'event and iClk = '1' then
+            oUpdated <= '0';
 
 		
 			if iRst = '1' then
@@ -808,7 +810,7 @@ begin
 				oDataValid <= '0';
 			else
 			
-				if vClkCnt = 63 then
+				if vClkCnt = 127 then --165MHz /128 /4 = 322.266kHz; TMP117 max 400kHz
 					vClkCnt := 0;
 					--quad SCL freq
 					
@@ -849,14 +851,14 @@ begin
 							case vPeriod is
 							
 								--slave address
-								when 0 	=> ioTmp_SDA <= vAddr(6);
-								when 1 	=> ioTmp_SDA <= vAddr(5);
-								when 2 	=> ioTmp_SDA <= vAddr(4);
-								when 3 	=> ioTmp_SDA <= vAddr(3);
-								when 4 	=> ioTmp_SDA <= vAddr(2);
-								when 5 	=> ioTmp_SDA <= vAddr(1);
-								when 6 	=> ioTmp_SDA <= vAddr(0);
-								when 7 	=> ioTmp_SDA <= '1'; --read
+								when 0 	=> if vAddr(6)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 1 	=> if vAddr(5)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 2 	=> if vAddr(4)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 3 	=> if vAddr(3)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 4 	=> if vAddr(2)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 5 	=> if vAddr(1)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 6 	=> if vAddr(0)='0' then ioTmp_SDA<='0';else ioTmp_SDA<='Z';end if;
+								when 7 	=> ioTmp_SDA <= 'Z'; --read, open drain
 								when 8 	=> ioTmp_SDA <= 'Z'; --slave ack
 								
 								--data H
@@ -879,7 +881,7 @@ begin
 								when 23 	=> ioTmp_SDA <= 'Z';
 								when 24 	=> ioTmp_SDA <= 'Z';
 								when 25 	=> ioTmp_SDA <= 'Z';
-								when 26 	=> ioTmp_SDA <= '0'; --master ack
+								when 26 	=> ioTmp_SDA <= 'Z'; --master NACK ends the two-byte read
 								
 								--stop
 								when 27 	=> ioTmp_SDA <= '0'; --master ack
@@ -933,7 +935,8 @@ begin
 						oTmp_SCL <= '1';
 						ioTmp_SDA <= 'Z';
 						
-						oDataValid <= vDataValid;
+						oUpdated <= '1';
+                        oDataValid <= vDataValid;
 						oTempData <= vTempData;
 						
 						vState := 0;

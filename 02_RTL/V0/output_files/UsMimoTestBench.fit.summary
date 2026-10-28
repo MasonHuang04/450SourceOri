@@ -1,17 +1,17 @@
-Fitter Status : Successful - Tue Oct 20 16:33:54 2026
+Fitter Status : Successful - Wed Oct 21 23:07:39 2026
 Quartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 Revision Name : UsMimoTestBench
 Top-level Entity Name : UsMimoTestBench
 Family : Cyclone V
 Device : 5CEFA7F23I7
 Timing Models : Final
-Logic utilization (in ALMs) : 7,067 / 56,480 ( 13 % )
-Total registers : 15928
+Logic utilization (in ALMs) : 8,507 / 56,480 ( 15 % )
+Total registers : 17561
 Total pins : 51 / 240 ( 21 % )
 Total virtual pins : 0
 Total block memory bits : 2,201,010 / 7,024,640 ( 31 % )
 Total RAM Blocks : 272 / 686 ( 40 % )
-Total DSP Blocks : 31 / 156 ( 20 % )
+Total DSP Blocks : 44 / 156 ( 28 % )
 Total HSSI RX PCSs : 0
 Total HSSI PMA RX Deserializers : 0
 Total HSSI TX PCSs : 0

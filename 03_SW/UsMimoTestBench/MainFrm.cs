@@ -14,7 +14,7 @@ namespace UsMimoTestBench
         readonly USSensor sensor = new USSensor();
         ComboBox ports; Button connect, refresh, apply, capture, defaults, demo, save;
         NumericUpDown center, bandwidth, duration, amplitude, target;
-        CheckBox continuous; Label connection, parameterInfo, peakLabel, peakDetail, rawInfo, footer;
+        CheckBox continuous; Label connection, parameterInfo, peakLabel, peakDetail, rawInfo, footer, temperatureLabel, distanceLabel;
         WaveformView waveform; DataGridView history; System.Windows.Forms.Timer timer;
         bool busy, failed, closing, opening, writing, hasFrame, isDemo;
         int generation; DateTime started, nextCapture; ScopeDataFrame latestFrame, pendingFrame;
@@ -75,9 +75,9 @@ namespace UsMimoTestBench
             Label txHint=LabelOf("正弦 Chirp · TX 滤波旁路 · 14 位");fields.Controls.Add(txHint,0,5);fields.SetColumnSpan(txHint,2);tx.Controls.Add(fields);left.Controls.Add(tx);
             foreach(NumericUpDown n in new[]{center,bandwidth,duration,amplitude})n.ValueChanged+=delegate{parameterInfo.Text="参数待发送；点击应用或采集。";};
             GroupBox rx=new GroupBox { Text="RX / FFT · 保持当前 main 配置",Width=292,Height=112,Padding=new Padding(12,24,8,6) };
-            rx.Controls.Add(LabelOf("RX 19 ms，延迟 1 ms，16 位\n672有效点 → 1024点FFT\n观察约18.77 ms · 35.807 kS/s\n25–500 Hz；低频精度受限"));left.Controls.Add(rx);
+            rx.Controls.Add(LabelOf(string.Format("RX 19 ms，延迟 1 ms，16 位\n672有效点 → 1024点FFT\n观察约18.77 ms · 35.807 kS/s\n{0:g}–{1:g} Hz；低频精度受限",ChirpParameters.MainSearchMinHz,ChirpParameters.MainSearchMaxHz)));left.Controls.Add(rx);
             TableLayoutPanel reference=new TableLayoutPanel { Width=292,Height=62,ColumnCount=2,RowCount=1 };
-            reference.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,57));reference.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,43));target=Number(25,500,3,1);target.Value=100;
+            reference.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,57));reference.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,43));target=Number((decimal)ChirpParameters.MainSearchMinHz,(decimal)ChirpParameters.MainSearchMaxHz,3,1);target.Value=100;
             Field(reference,0,"RX 参考频率 (Hz)\n仅用于计算误差",target);left.Controls.Add(reference);
             apply=ButtonOf("仅应用 TX 参数",ApplyClick);apply.Width=282;left.Controls.Add(apply);
             capture=ButtonOf("应用并采集一次",delegate{CaptureOnce();});capture.Width=282;capture.Height=38;capture.BackColor=Color.FromArgb(0,111,158);capture.ForeColor=Color.White;left.Controls.Add(capture);
@@ -89,17 +89,22 @@ namespace UsMimoTestBench
                 foreach(Control child in left.Controls) { int desired=width-child.Margin.Horizontal;if(child.Width!=desired)child.Width=desired; }
             };
             TableLayoutPanel right=new TableLayoutPanel { Dock=DockStyle.Fill,ColumnCount=1,RowCount=4,Padding=new Padding(8,0,0,0) };
-            right.RowStyles.Add(new RowStyle(SizeType.Absolute,126));right.RowStyles.Add(new RowStyle(SizeType.Absolute,42));right.RowStyles.Add(new RowStyle(SizeType.Percent,100));right.RowStyles.Add(new RowStyle(SizeType.Absolute,166));content.Controls.Add(right,1,0);
+            right.RowStyles.Add(new RowStyle(SizeType.Absolute,180));right.RowStyles.Add(new RowStyle(SizeType.Absolute,42));right.RowStyles.Add(new RowStyle(SizeType.Percent,100));right.RowStyles.Add(new RowStyle(SizeType.Absolute,166));content.Controls.Add(right,1,0);
             Panel result=new Panel { Dock=DockStyle.Fill,BackColor=Color.White,Padding=new Padding(12) };
             peakLabel=new Label { Text="FPGA 峰值：—",Dock=DockStyle.Top,Height=44,Font=new Font(Font.FontFamily,23F,FontStyle.Bold),ForeColor=Color.FromArgb(0,103,143) };
-            peakDetail=new Label { Text="等待主板回传 · 功率单位为 ADC code²",Dock=DockStyle.Fill,Padding=new Padding(2,4,0,0) };result.Controls.Add(peakDetail);result.Controls.Add(peakLabel);right.Controls.Add(result,0,0);
+            peakDetail=new Label { Text="等待主板回传 · 功率单位为 ADC code²",Dock=DockStyle.Fill,Padding=new Padding(2,4,0,0) };
+            FlowLayoutPanel measurement=new FlowLayoutPanel { Dock=DockStyle.Top,Height=32,WrapContents=false };
+            temperatureLabel=new Label { Text="温度：—",AutoSize=true,Margin=new Padding(0,4,18,0),Font=new Font(Font.FontFamily,11F) };
+            distanceLabel=new Label { Text="估算距离：—",AutoSize=true,Margin=new Padding(0,3,0,0),Font=new Font(Font.FontFamily,13F,FontStyle.Bold) };
+            measurement.Controls.Add(temperatureLabel);measurement.Controls.Add(distanceLabel);
+            result.Controls.Add(peakDetail);result.Controls.Add(measurement);result.Controls.Add(peakLabel);right.Controls.Add(result,0,0);
             FlowLayoutPanel waveBar=new FlowLayoutPanel { Dock=DockStyle.Fill,WrapContents=false };
             waveBar.Controls.Add(ButtonOf("完整波形",delegate{waveform.Fit();}));waveBar.Controls.Add(ButtonOf("前 10 ms",delegate{waveform.Detail();}));save=ButtonOf("导出波形 CSV",SaveClick);waveBar.Controls.Add(save);
             rawInfo=new Label { AutoSize=true,Margin=new Padding(8,12,0,0),Text="尚未采集" };waveBar.Controls.Add(rawInfo);right.Controls.Add(waveBar,0,1);
             waveform=new WaveformView { Dock=DockStyle.Fill,Font=Font };right.Controls.Add(waveform,0,2);
             history=new DataGridView { Dock=DockStyle.Fill,ReadOnly=true,AllowUserToAddRows=false,AllowUserToDeleteRows=false,RowHeadersVisible=false,BackgroundColor=Color.White,BorderStyle=BorderStyle.None,AutoSizeColumnsMode=DataGridViewAutoSizeColumnsMode.Fill,SelectionMode=DataGridViewSelectionMode.FullRowSelect };
-            foreach(string name in new[]{"时间 / 来源","帧号","峰值 Hz","原频点 Hz","参考 Hz","误差 Hz","功率 code²","状态"})history.Columns.Add(name,name);
-            history.Columns[0].FillWeight=140;history.Columns[7].FillWeight=170;right.Controls.Add(history,0,3);
+            foreach(string name in new[]{"时间 / 来源","帧号","峰值 Hz","原频点 Hz","参考 Hz","误差 Hz","功率 code²","温度 °C","距离 mm","状态"})history.Columns.Add(name,name);
+            history.Columns[0].FillWeight=140;history.Columns[9].FillWeight=170;right.Controls.Add(history,0,3);
             footer=LabelOf("请烧录新版 main 的 UsMimoTestBench.sof，再选择主板 COM 口。图中显示 RX 采集数据；当前固件只回传 FFT 峰值，不回传完整频谱。");footer.ForeColor=Color.FromArgb(65,84,103);root.Controls.Add(footer,0,2);
         }
         void SetDefaults() { center.Value=40;bandwidth.Value=4;duration.Value=20;amplitude.Value=.25m;parameterInfo.Text="默认：40 kHz / 4 kHz / 20 ms / 0.25。"; }
@@ -145,7 +150,7 @@ namespace UsMimoTestBench
             if(busy||writing||opening||failed||!sensor.IsConnected)return;
             ChirpParameters p;try{p=Parameters();}catch(Exception error){continuous.Checked=false;footer.Text=error.Message;return;}
             pendingParameters=p;pendingTarget=(double)target.Value;pendingFrame=new ScopeDataFrame();
-            isDemo=false;busy=true;started=DateTime.UtcNow;peakLabel.Text="FPGA 峰值：等待回传";peakDetail.Text="先接收完整 RX 波形，再接收 FPGA 的峰值报文。";UpdateControls();
+            isDemo=false;busy=true;started=DateTime.UtcNow;peakLabel.Text="FPGA 峰值：等待回传";peakDetail.Text="先接收完整 RX 波形，再接收 FPGA 的测量报文。";temperatureLabel.Text="温度：等待";distanceLabel.Text="估算距离：等待";UpdateControls();
             try{await Task.Run(()=>sensor.Send(p,true));if(closing)return;parameterInfo.Text="设置包及触发命令已发送。";footer.Text=p.Summary+"；正在采集 / 回传…";}
             catch(Exception error){if(!closing)Fault("发送失败："+error.Message);}
         }
@@ -168,8 +173,13 @@ namespace UsMimoTestBench
             peakLabel.ForeColor=valid?(r.LowCycleWarning?Color.DarkOrange:Color.FromArgb(0,103,143)):Color.Firebrick;
             peakDetail.Text=string.Format(Inv,"{0}  ·  原频点 {1:0.000} Hz  ·  偏移 {2:+0.0000;-0.0000;0.0000} bin\n{3}  ·  功率 {4:0.000} ADC code²  ·  有效点{5}  ·  参考 {6:0.###} Hz / 误差 {7:+0.000;-0.000;0.000} Hz{8}",
                 r.InterpolationText,r.RawFrequency,r.OffsetBins,r.StatusText,r.Power/64.0,r.Count,pendingTarget,r.Frequency-pendingTarget,isDemo?"  ·  合成演示":"");
+            temperatureLabel.Text=(isDemo?"演示温度：":"温度：")+r.TemperatureText;
+            temperatureLabel.ForeColor=r.TemperatureValid?Color.FromArgb(0,103,143):Color.DarkOrange;
+            distanceLabel.Text=(isDemo?"演示距离：":"估算距离：")+r.RangeText;
+            distanceLabel.ForeColor=r.RangeValid?(r.LowCycleWarning?Color.DarkOrange:Color.FromArgb(0,103,143)):Color.DarkOrange;
+            if(r.HasMeasurement&&r.TemperatureValid)peakDetail.Text+=string.Format(Inv,"\n声速 {0:0.000} m/s · FPGA 温度补偿距离 · 理想往返声程，未校准零点",r.SoundSpeed);
             string source=isDemo?"演示":"串口";
-            history.Rows.Insert(0,DateTime.Now.ToString("HH:mm:ss")+" / "+source,r.Sequence,r.Frequency.ToString("F3",Inv),r.RawFrequency.ToString("F3",Inv),pendingTarget.ToString("0.###",Inv),(r.Frequency-pendingTarget).ToString("+0.000;-0.000;0.000",Inv),(r.Power/64.0).ToString("F3",Inv),r.StatusText);
+            history.Rows.Insert(0,DateTime.Now.ToString("HH:mm:ss")+" / "+source,r.Sequence,r.Frequency.ToString("F3",Inv),r.RawFrequency.ToString("F3",Inv),pendingTarget.ToString("0.###",Inv),(r.Frequency-pendingTarget).ToString("+0.000;-0.000;0.000",Inv),(r.Power/64.0).ToString("F3",Inv),r.TemperatureValid?r.TemperatureC.ToString("F2",Inv):"—",r.RangeValid?r.DistanceMm.ToString("F3",Inv):"—",r.StatusText);
             if(history.Rows.Count>100)history.Rows.RemoveAt(100);
             footer.Text=isDemo?"离线演示：合成的 100 Hz 数据，非主板实测；未打开串口。":"本次采集完成。19 ms短窗：低频仅作参考；25 Hz可能产生很大误差。FFT与插值由FPGA计算。";
             try{WritePeakLog(source,r);}catch(Exception error){footer.Text+=" 日志保存失败："+error.Message;}
@@ -180,13 +190,17 @@ namespace UsMimoTestBench
             if(logFolder==null){logFolder=Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"DataSessions",DateTime.Now.ToString("yyyyMMdd_HHmmss")+"_"+Guid.NewGuid().ToString("N").Substring(0,6));Directory.CreateDirectory(logFolder);}
             string file=Path.Combine(logFolder,"peaks.csv");bool exists=File.Exists(file);
             using(StreamWriter writer=new StreamWriter(file,true,Encoding.UTF8)) {
-                if(!exists)writer.WriteLine("time,source,sequence,status,peak_hz,target_hz,error_hz,power_code_squared,bin,fft_count,flags,raw_count,raw_dt_s,tx_center_hz,tx_bandwidth_hz,tx_duration_s,tx_amplitude,raw_bin_hz,delta_q16,interpolation_status,interpolation_valid,fft_length,short_window_warning");
-                writer.WriteLine(string.Format(Inv,"{0},{1},{2},{3},{4:R},{5:R},{6:R},{7:R},{8},{9},{10},{11},{12:R},{13:R},{14:R},{15:R},{16:R},{17:R},{18},{19},{20},{21},{22}",DateTime.Now.ToString("o"),source,r.Sequence,r.Status,r.Frequency,pendingTarget,r.Frequency-pendingTarget,r.Power/64.0,r.Bin,r.Count,r.Flags,pendingFrame.DataLen,pendingFrame.SamplingPeriod,pendingParameters.CenterHz,pendingParameters.BandwidthHz,pendingParameters.DurationSeconds,pendingParameters.Amplitude,r.RawFrequency,r.DeltaQ16,r.HasInterpolation?r.InterpolationStatus:-1,r.InterpolationValid,r.FftLength,r.LowCycleWarning));
+                if(!exists)writer.WriteLine("time,source,sequence,status,peak_hz,target_hz,error_hz,power_code_squared,bin,fft_count,flags,raw_count,raw_dt_s,tx_center_hz,tx_bandwidth_hz,tx_duration_s,tx_amplitude,raw_bin_hz,delta_q16,interpolation_status,interpolation_valid,fft_length,short_window_warning,temperature_c,temperature_status,frequency_millihz,distance_um,distance_mm,range_status,sound_speed_m_s");
+                writer.WriteLine(string.Format(Inv,"{0},{1},{2},{3},{4:R},{5:R},{6:R},{7:R},{8},{9},{10},{11},{12:R},{13:R},{14:R},{15:R},{16:R},{17:R},{18},{19},{20},{21},{22}",DateTime.Now.ToString("o"),source,r.Sequence,r.Status,r.Frequency,pendingTarget,r.Frequency-pendingTarget,r.Power/64.0,r.Bin,r.Count,r.Flags,pendingFrame.DataLen,pendingFrame.SamplingPeriod,pendingParameters.CenterHz,pendingParameters.BandwidthHz,pendingParameters.DurationSeconds,pendingParameters.Amplitude,r.RawFrequency,r.DeltaQ16,r.HasInterpolation?r.InterpolationStatus:-1,r.InterpolationValid,r.FftLength,r.LowCycleWarning)+string.Format(Inv,",{0},{1},{2},{3},{4},{5},{6}",
+                    r.TemperatureValid?r.TemperatureC.ToString("R",Inv):"",r.HasMeasurement?r.TemperatureStatus:-1,
+                    r.HasMeasurement?r.ReportedFrequencyMilliHz.ToString(Inv):"",r.RangeValid?r.DistanceUm.ToString(Inv):"",
+                    r.RangeValid?r.DistanceMm.ToString("R",Inv):"",r.HasMeasurement?r.RangeStatus:-1,
+                    r.TemperatureValid?r.SoundSpeed.ToString("R",Inv):""));
             }
         }
         void Fault(string reason)
         {
-            failed=true;busy=false;continuous.Checked=false;peakLabel.Text="采集未完成";peakDetail.Text="本次结果不能用于测量，请检查连接后重连。";footer.Text=reason;UpdateControls();
+            failed=true;busy=false;continuous.Checked=false;peakLabel.Text="采集未完成";temperatureLabel.Text="温度：—";distanceLabel.Text="估算距离：无效";peakDetail.Text="本次结果不能用于测量，请检查连接后重连。";footer.Text=reason;UpdateControls();
         }
         public void LoadDemo()
         {

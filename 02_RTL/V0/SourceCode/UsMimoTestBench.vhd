@@ -292,6 +292,7 @@ architecture Beh of UsMimoTestBench is
 			iAddr : in std_logic_vector(7 downto 0) := x"48";
 			
 			oDataValid : out std_logic := '0';
+            oUpdated : out std_logic := '0';
 			oTempData : out std_logic_vector(15 downto 0) := x"0000";
 			
 			
@@ -300,7 +301,9 @@ architecture Beh of UsMimoTestBench is
 		);
 	end component MainTMP117Controller;
 	
-	signal cTmp_DataValid : std_logic := '0';
+	signal cTmp_DataValid,cTmp_Updated : std_logic := '0';
+ signal cFrameTemp:std_logic_vector(15 downto 0);signal cFrameTempStatus:std_logic_vector(7 downto 0);
+ signal cFrameBW,cFrameDuration:std_logic_vector(31 downto 0);signal cFrameChirp:std_logic;signal cFrameStartLast:std_logic:='0';
 	signal cTmp_TempData : std_logic_vector(15 downto 0) := x"0000";
 
  
@@ -310,6 +313,10 @@ architecture Beh of UsMimoTestBench is
  signal cFFTClk:std_logic:='0';signal cFFTRstSync:std_logic_vector(1 downto 0):="11";
  signal cFullValid,cCaptureActive,cRawOverflow,cRawClipped:std_logic:='0';signal cFullValue:std_logic_vector(15 downto 0);
  signal cAutoTriggerDue:boolean:=false;
+ -- Register the full millisecond-to-clock product before saturation.
+ -- This removes the clamp mux from the 165 MHz multiplier output path.
+ signal cAutoPeriodProduct:std_logic_vector(33 downto 0):=(others=>'0');
+ signal cAutoPeriodSaturated:boolean:=false;
  signal cFftDone,cFftSend,cFftSendBusy,cFftSendDone:std_logic:='0';
  signal cFftSeq,cFftCount,cFftSpan:std_logic_vector(31 downto 0);signal cFftBin:std_logic_vector(14 downto 0);
  signal cFftDelta:std_logic_vector(31 downto 0);signal cFftInterpStatus:std_logic_vector(7 downto 0);
@@ -326,9 +333,18 @@ architecture Beh of UsMimoTestBench is
    o_power:out std_logic_vector(40 downto 0);o_min,o_max:out std_logic_vector(15 downto 0);o_flags:out std_logic_vector(7 downto 0);o_delta_q16:out std_logic_vector(31 downto 0);o_interp_status:out std_logic_vector(7 downto 0));
  end component;
  component MainPeakReport is
+  generic(RANGE_REPORT:integer:=0);
   port(clk,rst,i_start,i_tx_busy:in std_logic;i_seq,i_count,i_span:in std_logic_vector(31 downto 0);
    i_bin:in std_logic_vector(14 downto 0);i_power:in std_logic_vector(40 downto 0);i_min,i_max:in std_logic_vector(15 downto 0);i_flags:in std_logic_vector(7 downto 0);i_fft_length:in std_logic_vector(15 downto 0);i_delta_q16:in std_logic_vector(31 downto 0);i_interp_status:in std_logic_vector(7 downto 0);
+   i_calc_clk,i_calc_rst:in std_logic;i_temp:in std_logic_vector(15 downto 0);i_temp_status:in std_logic_vector(7 downto 0);
+   i_bandwidth_fp,i_duration_fp:in std_logic_vector(31 downto 0);i_chirp:in std_logic;
    o_data:out std_logic_vector(7 downto 0);o_valid,o_busy,o_done:out std_logic);
+ end component;
+
+ component MainTempSnapshot is
+  generic(MAX_AGE:integer:=330000000);
+  port(clk,rst,i_updated,i_valid,i_capture:in std_logic;i_temp:in std_logic_vector(15 downto 0);
+   o_temp:out std_logic_vector(15 downto 0);o_status:out std_logic_vector(7 downto 0));
  end component;
 
 begin
@@ -372,9 +388,17 @@ begin
 		oLED_RX_DIV1 => oLED_RX_DIV1, oLED_RX_DIV2 => oLED_RX_DIV2, oLED_RX_DIV4 => oLED_RX_DIV4, oLED_RX_DIV8 => oLED_RX_DIV8);
 		
 	uTmp : MainTMP117Controller port map (iClk => cClkH, iRst => cRst, iAddr => x"48",
-		oDataValid => cTmp_DataValid, oTempData => cTmp_TempData, oTmp_SCL => oTmp_SCL, ioTmp_SDA => ioTmp_SDA);
+		oDataValid => cTmp_DataValid, oUpdated=>cTmp_Updated, oTempData => cTmp_TempData, oTmp_SCL => oTmp_SCL, ioTmp_SDA => ioTmp_SDA);
 	
 
+
+ uTempFrame:MainTempSnapshot port map(clk=>cClkH,rst=>cRst,i_updated=>cTmp_Updated,i_valid=>cTmp_DataValid,
+ i_capture=>cRx_Start,i_temp=>cTmp_TempData,o_temp=>cFrameTemp,o_status=>cFrameTempStatus);
+ process(cClkH)begin if rising_edge(cClkH)then
+  cFrameStartLast<=cRx_Start;
+  if cRst='1'then cFrameStartLast<='0';cFrameBW<=x"457a0000";cFrameDuration<=x"3ca3d70a";cFrameChirp<='1';
+  elsif cRx_Start='1' and cFrameStartLast='0'then cFrameBW<=cTx_BW;cFrameDuration<=cTx_Tc;cFrameChirp<=not cTx_SQWaveEn;end if;
+ end if;end process;
 
  -- Preserve two feedback cells so the /2 divider meets fast-corner hold.
  uFFTDivHold0:lcell port map(a_in=>not cFFTClk,a_out=>cFFTDivB);
@@ -390,8 +414,10 @@ begin
  port map(sys_clk=>cClkH,fft_clk=>cFFTClk,sys_rst=>cRst,fft_rst=>cFFTRstSync(1),i_start=>cRx_Start,
  i_capture_active=>cCaptureActive,i_raw_valid=>cFullValid,i_raw_sample=>cFullValue,
  o_done=>cFftDone,o_seq=>cFftSeq,o_count=>cFftCount,o_span=>cFftSpan,o_bin=>cFftBin,o_power=>cFftPower,o_min=>cFftMin,o_max=>cFftMax,o_flags=>cFftFlags,o_delta_q16=>cFftDelta,o_interp_status=>cFftInterpStatus);
- uPeakReport:MainPeakReport port map(clk=>cClkH,rst=>cRst,i_start=>cFftSend,i_tx_busy=>cUART_TxBusy,
+ uPeakReport:MainPeakReport generic map(RANGE_REPORT=>1) port map(clk=>cClkH,rst=>cRst,i_start=>cFftSend,i_tx_busy=>cUART_TxBusy,
  i_seq=>cFftSeq,i_count=>cFftCount,i_span=>cFftSpan,i_bin=>cFftBin,i_power=>cFftPower,i_min=>cFftMin,i_max=>cFftMax,i_flags=>cReportFlags,i_fft_length=>conv_std_logic_vector(MF_FFT_LENGTH,16),i_delta_q16=>cFftDelta,i_interp_status=>cFftInterpStatus,
+ i_calc_clk=>cFFTClk,i_calc_rst=>cFFTRstSync(1),i_temp=>cFrameTemp,i_temp_status=>cFrameTempStatus,
+ i_bandwidth_fp=>cFrameBW,i_duration_fp=>cFrameDuration,i_chirp=>cFrameChirp,
  o_data=>cFftTxData,o_valid=>cFftTxValid,o_busy=>cFftSendBusy,o_done=>cFftSendDone);
 
 	oLED_STATE <= cRx_Busy;
@@ -410,6 +436,8 @@ begin
 	
 		if cClkH'event and cClkH = '1' then
             cAutoTriggerDue<=vAutoTriggerCnt>=vAutoTriggerTh;
+            cAutoPeriodProduct<=conv_std_logic_vector(cSys_AutoTriggerPeriod,16)*conv_std_logic_vector(165000,18);
+            cAutoPeriodSaturated<=cSys_AutoTriggerPeriod>10000;
 
 			
 			if cLockSync(1)='0' then
@@ -496,8 +524,8 @@ begin
 			
 			
             if vAutoTriggerCnt<1650000000 then vAutoTriggerCnt := vAutoTriggerCnt + 1;end if;
-			if cSys_AutoTriggerPeriod <= 10000 then
-				vAutoTriggerTh := cSys_AutoTriggerPeriod * 165000;
+			if not cAutoPeriodSaturated then
+				vAutoTriggerTh := conv_integer(cAutoPeriodProduct(30 downto 0));
 			else
 				vAutoTriggerTh := 1650000000;
 			end if;

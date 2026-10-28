@@ -1,0 +1,13 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>Low-frequency offset audit — 2026-10-28</title>
+<style>body{font:16px/1.8 system-ui,'Microsoft YaHei',sans-serif;max-width:1120px;margin:32px auto;padding:0 24px;color:#193a51}img{max-width:100%}table{border-collapse:collapse;width:100%}td,th{padding:8px;border-bottom:1px solid #ccd5df}.note{background:#fff2d9;padding:14px}</style>
+<h1>原工程：低频频移与换峰排查</h1><p>检查对象为15_UsMimoTestBench，未修改RTL、SOF或上位机。实际距离单位cm，测量结果单位mm。原工程使用模拟混频后低频输入；本页不是multiFPGA方波固件验证报告。</p>
+<p><b>可能有固定频率偏移，但单一固定偏移不能解释全部异常点。</b>17.5–50cm拟合：测量mm = 0.982479 × 实际mm + 71.857；R²=0.999129。截距等效约83.80Hz，但不证明真实电路产生了恒定频偏。</p>
+<table><tr><th>实际/cm</th><th>测量/mm</th><th>理想拍频/Hz</th><th>由测量距离反推/Hz</th></tr><tr><td>10</td><td>171.862</td><td>116.62</td><td>200.42</td></tr><tr><td>12.5</td><td>300.795</td><td>145.77</td><td>350.78</td></tr><tr><td>15</td><td>366.320</td><td>174.93</td><td>427.20</td></tr><tr><td>17.5</td><td>245.312</td><td>204.08</td><td>286.08</td></tr><tr><td>20</td><td>268.460</td><td>233.24</td><td>313.07</td></tr></table>
+<p>以上使用c=343m/s、B=4kHz、T=20ms。实际温度与当次TX参数需用测量日志确认；反推值不是保存下来的实测频谱。</p>
+<h2>同参数浮点排查模型</h2><img src="spectrum_hypotheses_EN.png" alt="Illustrative frequency offset and peak-switching models">
+<div class="note">这张图是人为构造的三种输入，不是实测证据，也不是重新运行的RTL。使用当前FFT输入采样率35.807292kS/s、672点、去均值、Kaiser4、1024点FFT、bin1–57搜峰和三点对数插值。未重跑ADC/CIC、定点量化或声学模型。84Hz按观察到的整体偏移选取，380Hz用于展示另一个峰胜出的情况。</div>
+<p>添加一个低频分量与把目标拍频整体加上频偏是不同模型：前者产生额外峰或峰重叠，后者移动目标峰。单独选中100–120Hz干扰一般会报约86–103mm，不能直接解释300–366mm读数；这些读数对应约351–427Hz，必须检查更高的峰、谐波/旁瓣或其他畸变。</p>
+<h2>为什么10cm理想RTL仿真通过</h2><p><a href="../FFT/Search2k_20261021/distance_results.csv">原工程RTL扫描数据</a>中，10cm理想拍频116.618Hz，输出116.720Hz，误差+0.087mm；12.5cm输出146.131Hz，误差+0.307mm。它验证理想输入时的数字处理，不排除实际干扰、非线性、群延迟和多径。原代码去帧均值只能移除常量DC，不能移除100Hz等非零频率干扰。</p>
+<h2>下一次实测需要的证据</h2><ol><li>保存无反射目标及10、12.5、15、17.5cm的混频后波形，保持TX参数、增益和摆放不变；无目标仍有环境反射，不能把所有剩余峰直接定为电串扰。</li><li>用同一采样率/有效时间窗处理，显示完整0–2kHz功率谱、前三个局部峰、原始bin、插值频率与削顶状态。</li><li>目标移动时一直固定的峰是干扰候选；随距离平滑移动的是目标候选；两个峰高低交换支持换峰。固定的目标频偏需另做固定路径/频响标定。</li></ol>
+<p>原上位机UART波形为ADC每4点保留1点的IF支路，重算应先按实际波形采样间隔解释，不能直接当作35.807kS/s FFT输入。要精确对齐FPGA，应取得CIC后的672点或回传FFT频谱；PC重算近似谱需标明差异。</p>
+<p><a href="analysis.json">计算结果与模型假设</a> · <a href="analyze.py">复现脚本</a></p></html>

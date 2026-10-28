@@ -1,0 +1,9 @@
+Allocation,Bytes,KiB
+"RFFT input/work buffer",4096,4
+"RFFT output buffer",4096,4
+"Dual ADC DMA, 2 halves x 512 pairs",4096,4
+"Filter state, telemetry and scratch reserve",1024,1
+"Application/HAL/stack reserve",4096,4
+"Optional runtime PWM ARR/CCR table",3200,3.125
+"Optional current RX waveform buffer",10884,10.62890625
+"Optional sine-reference DAC ping-pong buffer",2048,2
