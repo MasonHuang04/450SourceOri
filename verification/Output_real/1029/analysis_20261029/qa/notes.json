@@ -1,0 +1,10 @@
+{
+  "source_warnings_reviewed": {
+    "EXPORT-RASTER": "300dpi PNG and editable SVG/PDF provided for diagnosis; TIFF not requested.",
+    "FINAL-WIDTH": "Report/slide diagnostic figures; no journal width specified.",
+    "RASTER-DPI": "300dpi is sufficient for this diagnostic report; editable SVG/PDF are also provided. No600dpi submission target was requested."
+  },
+  "data_integrity": "All5442 samples from each CSV included in full comparison. Zoom explicitly shows10.2-10.4ms from first CSV. No values modified or unclipped. Every source file SHA256 recorded.",
+  "visual_review": "Full comparison and positive-peak zoom inspected; axes and legends clear. Rendered text and collision checks passed. Multi-panel alignment gate passed.",
+  "limits": "CSV is ADC/4, cannot count full-rate clipping. Exact acquisition frame cannot be joined to log by export filename. Dataset distances are user estimates; no absolute calibration claimed."
+}

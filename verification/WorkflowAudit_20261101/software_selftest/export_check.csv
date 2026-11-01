@@ -1,0 +1,4 @@
+﻿index,time_s,adc_unsigned,adc_centered,source
+0,0,0,-32768,synthetic_test
+1,0.0010000000474974513,32768,0,synthetic_test
+2,0.0020000000949949026,65535,32767,synthetic_test

@@ -1,0 +1,121 @@
+{
+  "date": "2026-10-29",
+  "data_kind": "Measured UART ADC samples",
+  "user_confirmed_route": "Front-end Amplifier / Rx_Amp, P4 2-3",
+  "csv_sample_limit": "Exported UART waveform contains every fourth ADC sample, not all raw1.145833MS/s samples. CSV has no acquisition frame ID or TX settings.",
+  "units": "16-bit signed ADC code after unsigned transport centering; no voltage calibration applied.",
+  "files": [
+    {
+      "file": "rx_20261029_134125.csv",
+      "source_sha256": "084fbe0d762e39364390b3f590df98b51fb53fca8a66bd02012ff92ed56083a8",
+      "distance_label": "Approx.30-40cm, user estimate",
+      "points": 5442,
+      "sample_rate_hz": 286458.3248972314,
+      "sample_interval_s": 3.490909193715197e-06,
+      "window_ms": 18.997527832198102,
+      "min_code": -31201,
+      "max_code": 32767,
+      "mean_code": 5865.028298419698,
+      "median_code": 6020.0,
+      "first_1ms_median_code": 5964.0,
+      "ac_rms_code": 12786.435229244804,
+      "positive_rail_points": 248,
+      "negative_rail_points": 0,
+      "rail_percent": 4.557148107313488,
+      "positive_rail_time_extent_ms": [
+        8.992582083010348,
+        14.633891340054106
+      ],
+      "rail_windows_grouped_by_150us_gap": [
+        {
+          "start_ms": 8.992582083010348,
+          "end_ms": 11.198836693438352,
+          "positive_rail_points": 118
+        },
+        {
+          "start_ms": 12.48698218591926,
+          "end_ms": 14.633891340054106,
+          "positive_rail_points": 130
+        }
+      ],
+      "near_positive_rail_ge32000": 273,
+      "carrier_peak_in_35_to_45kHz_hz": 39794.6515292736
+    },
+    {
+      "file": "rx_20261029_134405.csv",
+      "source_sha256": "3c3ae03dc77716e8432fda1530533686d1f354a3dea4905b375c22e2e57b5712",
+      "distance_label": "Approx.50cm, user statement",
+      "points": 5442,
+      "sample_rate_hz": 286458.3248972314,
+      "sample_interval_s": 3.490909193715197e-06,
+      "window_ms": 18.997527832198102,
+      "min_code": -4508,
+      "max_code": 16914,
+      "mean_code": 6320.016354281514,
+      "median_code": 6346.0,
+      "first_1ms_median_code": 6366.0,
+      "ac_rms_code": 3754.3961642052936,
+      "positive_rail_points": 0,
+      "negative_rail_points": 0,
+      "rail_percent": 0.0,
+      "positive_rail_time_extent_ms": null,
+      "rail_windows_grouped_by_150us_gap": [],
+      "near_positive_rail_ge32000": 0,
+      "carrier_peak_in_35_to_45kHz_hz": 40005.2052410687
+    }
+  ],
+  "log_snapshot": {
+    "source_file_relative": "03_SW/UsMimoTestBench/bin/Release/DataSessions/20261029_133648_ec25e2/peaks.csv",
+    "cutoff_inclusive": "2026-10-29T13:44:32.4545300+08:00",
+    "frames": 310,
+    "statuses": {
+      "ADC_CLIPPED": 238,
+      "OK": 63,
+      "NO_STRONG_PEAK": 9
+    },
+    "percentages": {
+      "ADC_CLIPPED": 76.7741935483871,
+      "OK": 20.322580645161292,
+      "NO_STRONG_PEAK": 2.903225806451613
+    },
+    "export_neighborhoods": [
+      {
+        "start_clock": "13:41:15",
+        "end_clock": "13:41:35",
+        "frames": 17,
+        "statuses": {
+          "ADC_CLIPPED": 17
+        },
+        "tx_amplitudes": [
+          "0.1"
+        ],
+        "power_display_min": 24887.890625,
+        "power_display_max": 25532.40625,
+        "valid_distance_mm_min": null,
+        "valid_distance_mm_max": null
+      },
+      {
+        "start_clock": "13:43:55",
+        "end_clock": "13:44:15",
+        "frames": 17,
+        "statuses": {
+          "OK": 17
+        },
+        "tx_amplitudes": [
+          "0.1"
+        ],
+        "power_display_min": 1840.515625,
+        "power_display_max": 1881.828125,
+        "valid_distance_mm_min": 508.233,
+        "valid_distance_mm_max": 508.734
+      }
+    ],
+    "association_limit": "Neighborhood timestamps only. CSV names are export times and contain no frame ID, so an exact waveform-to-log-row match is not claimed."
+  },
+  "interpretation": {
+    "confirmed": "First CSV hits positive ADC rail248times; second CSV has no rail hits. Receive-path digital samples are clipped in the first frame.",
+    "not_confirmed": "Physical RX gain, TX output volts, ADC reference volts and exact stage creating DC/overload cannot be determined from these CSVs alone.",
+    "dc_headroom": "Both records have about6000positive codes. This reduces positive headroom; subtracting mean after ADC does not recover clipped samples.",
+    "limitation": "Clipping percentage applies to exported samples only; true full-rate rail count is not available. No valid distance is inferred from the clipped frame."
+  }
+}

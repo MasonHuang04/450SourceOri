@@ -1,0 +1,6 @@
+{
+  "pass": true,
+  "mode": "pair",
+  "scope": "PASS ADC REFERENCE PAIRS",
+  "hardware_measured": false
+}

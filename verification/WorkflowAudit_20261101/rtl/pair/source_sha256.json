@@ -1,0 +1,9 @@
+{
+  "C:\\Users\\admin\\.codex\\visualizations\\2026\\10\\09\\01a120ee-8376-76a1-b902-05acd791be04\\workflow_audit_20261101\\fpga-mixer\\rtl\\pair\\units\\MainAdcBridge.sv": "5aaad6f634544174414869ed9b4176465f92312851929eeff3035a5da9de8bb9",
+  "C:\\Users\\admin\\.codex\\visualizations\\2026\\10\\09\\01a120ee-8376-76a1-b902-05acd791be04\\workflow_audit_20261101\\fpga-mixer\\rtl\\pair\\units\\MainDigitalMixer.sv": "ec7b57f96c58b4e5e39520030208be4919332ef80ef13e3a9c80f03d3a32d7c3",
+  "C:\\Users\\admin\\.codex\\visualizations\\2026\\10\\09\\01a120ee-8376-76a1-b902-05acd791be04\\workflow_audit_20261101\\fpga-mixer\\rtl\\pair\\units\\MainReferenceDelay.sv": "34db8cad85c89d8a260d8cef018790a7ad598ba9a25623328fe0c5bcdd142f78",
+  "C:\\Users\\admin\\.codex\\visualizations\\2026\\10\\09\\01a120ee-8376-76a1-b902-05acd791be04\\workflow_audit_20261101\\fpga-mixer\\rtl\\pair\\units\\ScopeAdc27m5.sv": "7d0fa7c7910d770ce69f931e4d876419c42b6f1abf7bf3b59226e1da424a404c",
+  "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench_multiFPGA\\02_RTL\\V0\\Simulation\\FFT\\tb_digital_mixer.sv": "34538331daec7d287517013f70492d8cb2d6046a1aa594a762cce3a809b4c202",
+  "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench_multiFPGA\\02_RTL\\V0\\Simulation\\source_units.py": "8ac0dfe4ab02afaa090526a59309cd752cc033ec2a88c1f3391e0cab4ea843d1",
+  "E:\\Document_HH\\Course\\26FA\\450code\\15_UsMimoTestBench_multiFPGA\\02_RTL\\V0\\SourceCode\\RxAcquisition.sv": "7e3cd9da336212e6123404b5edfb758a3f12d163539b93f8f75bc3dd054c26c4"
+}

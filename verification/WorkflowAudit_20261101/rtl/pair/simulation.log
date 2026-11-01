@@ -1,0 +1,54 @@
+Reading pref.tcl
+
+# 2025.2
+
+# do run.do
+# Questa Altera Starter FPGA Edition-64 vmap 2025.2 Lib Mapping Utility 2025.05 May 31 2025
+# vmap work work 
+# ** Note: (vmap-220) 'E:/Downloads/Questa/questa_fse/win64/../modelsim.ini' is used as the ini file.
+# Copying E:/Downloads/Questa/questa_fse/win64/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+# Start time: 22:54:14 on Nov 01,2026
+# vlog -sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/workflow_audit_20261101/fpga-mixer/rtl/pair/units/ScopeAdc27m5.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/workflow_audit_20261101/fpga-mixer/rtl/pair/units/MainAdcBridge.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/workflow_audit_20261101/fpga-mixer/rtl/pair/units/MainReferenceDelay.sv C:/Users/admin/.codex/visualizations/2026/10/09/01a120ee-8376-76a1-b902-05acd791be04/workflow_audit_20261101/fpga-mixer/rtl/pair/units/MainDigitalMixer.sv E:/Document_HH/Course/26FA/450code/15_UsMimoTestBench_multiFPGA/02_RTL/V0/Simulation/FFT/tb_digital_mixer.sv 
+# ** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
+# -- Compiling module ScopeAdc27m5
+# -- Compiling module MainAdcBridge
+# -- Compiling module MainReferenceDelay
+# -- Compiling module MainDigitalMixer
+# -- Compiling module tb_mixer_arithmetic
+# -- Compiling module tb_mixer_frames
+# -- Compiling module tb_adc_reference_pair
+# 
+# Top level modules:
+# 	tb_mixer_arithmetic
+# 	tb_mixer_frames
+# 	tb_adc_reference_pair
+# End time: 22:54:14 on Nov 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
+# vsim -t 1ps -L altera_mf work.tb_adc_reference_pair 
+# Start time: 22:54:15 on Nov 01,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Note: (vopt-220) 'modelsim.ini' is used as the ini file.
+# //  Questa Altera Starter FPGA Edition-64
+# //  Version 2025.2 win64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.tb_adc_reference_pair(fast)
+# PASS ADC REFERENCE PAIRS: 200 real SPI words, changing references latched at DRDY, window restart
+# ** Note: $finish    : E:/Document_HH/Course/26FA/450code/15_UsMimoTestBench_multiFPGA/02_RTL/V0/Simulation/FFT/tb_digital_mixer.sv(167)
+#    Time: 561119640 ps  Iteration: 1  Instance: /tb_adc_reference_pair
+# End time: 22:54:20 on Nov 01,2026, Elapsed time: 0:00:05
+# Errors: 0, Warnings: 0
