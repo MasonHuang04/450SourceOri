@@ -64,3 +64,8 @@ Quartus/Questa/MSBuild缓存、DataSessions原始会话目录及本地回退ZIP�
 当前上位机EXE SHA256：`ee1faa59fb74127ed86219f5c831cba0451e77830c9aa1f7ba08e5995317dc4d`
 
 2026-10-28整理：仅分支/仓库配置、说明和打包元数据调整；保留已经验证的RTL、SOF和EXE原始字节。
+
+
+## 2026-11-01 workflow 复核
+
+[新旧混频、ADC 参考配对、帧处理顺序及验证记录](verification/WorkflowAudit_20261101/README.md)。当前处理顺序审查通过；真实模拟/ADC 群延迟与绝对距离仍需标定。本次保留已验证的 RTL、SOF 和 EXE，更新说明与证据。

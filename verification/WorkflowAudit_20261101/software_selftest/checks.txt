@@ -1,0 +1,8 @@
+﻿PASS settings: independent golden bytes, custom TX, RX profile unchanged, limits, complete settings before trigger
+PASS receive: full archived RTL stream (5,442 exact samples), fragmented reads, real UART record, compressed-clock fixture flagged
+PASS robustness: 131,072-word capacity, two frames, noise, corrupt checksum/trailer, partial reset, oversized header, flags and range
+PASS FPGA interpolation receive: M2 signed Q16, Hz conversion only, original bin comparison, flags, bounds, M1 compatibility, fragmented mixed records, checksum recovery
+PASS configured Main search: first/last eligible bins, 75cm target bin, lower/upper rejection
+PASS short profile: RX19ms golden settings, M3 explicit 1024 FFT / 672 effective samples, Hz scaling, low-cycle warning, NFFT bounds, legacy formats
+PASS M4 temperature/range: units, negative temperature, invalid/stale suppression, legacy compatibility, fragmented streams, checksum recovery
+PASS waveform CSV: signed centering and explicit synthetic/live source
